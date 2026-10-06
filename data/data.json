@@ -1,0 +1,302 @@
+{
+  "last_updated": "2026-10-06T15:32:44.948641",
+  "last_updated_human": "6 de octubre de 2026, 15:32 (Hora Peninsular)",
+  "campaign_countdown_days": 18,
+  "summary": {
+    "total_interactions_24h": 333763,
+    "top_candidate": "Santiago Abascal",
+    "top_candidate_handle": "@Santi_ABASCAL",
+    "top_party_interactions": "PP",
+    "most_efficient": "Pedro Sánchez",
+    "total_tweets_analyzed": 142
+  },
+  "candidates": [
+    {
+      "id": "abascal",
+      "name": "Santiago Abascal",
+      "handle": "@Santi_ABASCAL",
+      "party": "VOX",
+      "party_color": "#63BE21",
+      "avatar": "https://unavatar.io/twitter/Santi_ABASCAL",
+      "tweets_24h": 6,
+      "likes_24h": 70130,
+      "retweets_24h": 18598,
+      "replies_24h": 7846,
+      "views_24h": 890000,
+      "engagement_total": 96574,
+      "efficiency": 16095,
+      "trend": "up",
+      "trend_pct": "+14%"
+    },
+    {
+      "id": "sanchez",
+      "name": "Pedro Sánchez",
+      "handle": "@sanchezcastejon",
+      "party": "PSOE",
+      "party_color": "#E30613",
+      "avatar": "https://unavatar.io/twitter/sanchezcastejon",
+      "tweets_24h": 5,
+      "likes_24h": 65597,
+      "retweets_24h": 17192,
+      "replies_24h": 9619,
+      "views_24h": 920000,
+      "engagement_total": 92408,
+      "efficiency": 18481,
+      "trend": "up",
+      "trend_pct": "+8%"
+    },
+    {
+      "id": "feijoo",
+      "name": "Alberto N. Feijóo",
+      "handle": "@NunezFeijoo",
+      "party": "PP",
+      "party_color": "#0bb2ff",
+      "avatar": "https://unavatar.io/twitter/NunezFeijoo",
+      "tweets_24h": 8,
+      "likes_24h": 50371,
+      "retweets_24h": 14068,
+      "replies_24h": 6591,
+      "views_24h": 780000,
+      "engagement_total": 71030,
+      "efficiency": 8878,
+      "trend": "down",
+      "trend_pct": "-4%"
+    },
+    {
+      "id": "belarra",
+      "name": "Ione Belarra",
+      "handle": "@ionebelarra",
+      "party": "Podemos",
+      "party_color": "#7B3F98",
+      "avatar": "https://unavatar.io/twitter/ionebelarra",
+      "tweets_24h": 9,
+      "likes_24h": 28154,
+      "retweets_24h": 9021,
+      "replies_24h": 3568,
+      "views_24h": 390000,
+      "engagement_total": 40743,
+      "efficiency": 4527,
+      "trend": "up",
+      "trend_pct": "+22%"
+    },
+    {
+      "id": "diaz",
+      "name": "Yolanda Díaz",
+      "handle": "@Yolanda_Diaz_",
+      "party": "Sumar",
+      "party_color": "#E51C55",
+      "avatar": "https://unavatar.io/twitter/Yolanda_Diaz_",
+      "tweets_24h": 4,
+      "likes_24h": 22585,
+      "retweets_24h": 5518,
+      "replies_24h": 4905,
+      "views_24h": 340000,
+      "engagement_total": 33008,
+      "efficiency": 8252,
+      "trend": "down",
+      "trend_pct": "-9%"
+    }
+  ],
+  "parties": [
+    {
+      "id": "pp",
+      "name": "Partido Popular",
+      "short": "PP",
+      "handle": "@ppopular",
+      "color": "#0bb2ff",
+      "tweets_24h": 28,
+      "engagement_total": 128400,
+      "share_pct": 31.1
+    },
+    {
+      "id": "psoe",
+      "name": "PSOE",
+      "short": "PSOE",
+      "handle": "@psoe",
+      "color": "#E30613",
+      "tweets_24h": 24,
+      "engagement_total": 114200,
+      "share_pct": 27.6
+    },
+    {
+      "id": "vox",
+      "name": "VOX",
+      "short": "VOX",
+      "handle": "@vox_es",
+      "color": "#63BE21",
+      "tweets_24h": 16,
+      "engagement_total": 105800,
+      "share_pct": 25.6
+    },
+    {
+      "id": "podemos",
+      "name": "Podemos",
+      "short": "Podemos",
+      "handle": "@PODEMOS",
+      "color": "#7B3F98",
+      "tweets_24h": 19,
+      "engagement_total": 36100,
+      "share_pct": 8.7
+    },
+    {
+      "id": "sumar",
+      "name": "Sumar",
+      "short": "Sumar",
+      "handle": "@sumar",
+      "color": "#E51C55",
+      "tweets_24h": 14,
+      "engagement_total": 28350,
+      "share_pct": 6.9
+    }
+  ],
+  "top_tweets": [
+    {
+      "id": "t1",
+      "author": "Santiago Abascal",
+      "handle": "@Santi_ABASCAL",
+      "party": "VOX",
+      "party_color": "#63BE21",
+      "time_ago": "Hace 4 horas",
+      "text": "Lleno absoluto en nuestro acto. Frente a la resignación y los pactos de despacho, España tiene alternativa. Ni un paso atrás por la soberanía de nuestras familias y trabajadores.",
+      "likes": 28400,
+      "retweets": 8200,
+      "replies": 3100,
+      "views": "420K",
+      "url": "https://x.com/Santi_ABASCAL"
+    },
+    {
+      "id": "t2",
+      "author": "Pedro Sánchez",
+      "handle": "@sanchezcastejon",
+      "party": "PSOE",
+      "party_color": "#E30613",
+      "time_ago": "Hace 7 horas",
+      "text": "Los datos de empleo y crecimiento avalan que España avanza en la dirección correcta. Seguiremos defendiendo los derechos laborales, el poder adquisitivo y los servicios públicos.",
+      "likes": 24100,
+      "retweets": 6800,
+      "replies": 4900,
+      "views": "390K",
+      "url": "https://x.com/sanchezcastejon"
+    },
+    {
+      "id": "t3",
+      "author": "Alberto N. Feijóo",
+      "handle": "@NunezFeijoo",
+      "party": "PP",
+      "party_color": "#0bb2ff",
+      "time_ago": "Hace 5 horas",
+      "text": "España necesita un gobierno centrado en los problemas reales de los ciudadanos, en bajar impuestos y en garantizar la estabilidad institucional. El cambio es imparable.",
+      "likes": 19800,
+      "retweets": 5400,
+      "replies": 2800,
+      "views": "310K",
+      "url": "https://x.com/NunezFeijoo"
+    },
+    {
+      "id": "t4",
+      "author": "Ione Belarra",
+      "handle": "@ionebelarra",
+      "party": "Podemos",
+      "party_color": "#7B3F98",
+      "time_ago": "Hace 3 horas",
+      "text": "Exigimos medidas valientes ya para topar el precio del alquiler y frenar la especulación con la vivienda. No podemos seguir esperando medias tintas mientras la gente sufre.",
+      "likes": 14200,
+      "retweets": 4700,
+      "replies": 1200,
+      "views": "195K",
+      "url": "https://x.com/ionebelarra"
+    },
+    {
+      "id": "t5",
+      "author": "Yolanda Díaz",
+      "handle": "@Yolanda_Diaz_",
+      "party": "Sumar",
+      "party_color": "#E51C55",
+      "time_ago": "Hace 9 horas",
+      "text": "Reducir la jornada laboral sin bajar el sueldo es ganar tiempo para vivir. Es justicia social y bienestar para la mayoría trabajadora de nuestro país.",
+      "likes": 11300,
+      "retweets": 2900,
+      "replies": 2100,
+      "views": "160K",
+      "url": "https://x.com/Yolanda_Diaz_"
+    }
+  ],
+  "history_7d": {
+    "labels": [
+      "30 Sep",
+      "1 Oct",
+      "2 Oct",
+      "3 Oct",
+      "4 Oct",
+      "5 Oct",
+      "Hoy"
+    ],
+    "datasets": [
+      {
+        "party": "PP",
+        "color": "#0bb2ff",
+        "data": [
+          95,
+          110,
+          102,
+          135,
+          120,
+          140,
+          128
+        ]
+      },
+      {
+        "party": "PSOE",
+        "color": "#E30613",
+        "data": [
+          108,
+          98,
+          125,
+          115,
+          130,
+          110,
+          114
+        ]
+      },
+      {
+        "party": "VOX",
+        "color": "#63BE21",
+        "data": [
+          80,
+          89,
+          95,
+          104,
+          118,
+          95,
+          105
+        ]
+      },
+      {
+        "party": "Podemos",
+        "color": "#7B3F98",
+        "data": [
+          25,
+          30,
+          28,
+          35,
+          42,
+          31,
+          36
+        ]
+      },
+      {
+        "party": "Sumar",
+        "color": "#E51C55",
+        "data": [
+          32,
+          29,
+          34,
+          30,
+          31,
+          27,
+          28
+        ]
+      }
+    ]
+  }
+}

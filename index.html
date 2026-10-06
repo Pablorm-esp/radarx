@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RadarX España 🇪🇸 | Monitor Electoral en X</title>
+  
+  <!-- Meta tags SEO / Social share -->
+  <meta name="description" content="Monitor en tiempo real del engagement, impacto y repercusión de los partidos y candidatos en X durante las Elecciones Generales en España.">
+  <meta property="og:title" content="RadarX España - Monitor Electoral en X">
+  <meta property="og:description" content="¿Quién lidera la batalla digital en X? Datos diarios de candidatos y partidos.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              500: '#10b981',
+              600: '#059669',
+            },
+            party: {
+              psoe: '#E30613',
+              pp: '#0bb2ff',
+              vox: '#63BE21',
+              podemos: '#7B3F98',
+              sumar: '#E51C55'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilos personalizados para gráficos y animaciones */
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+    .animate-pulse-slow {
+      animation: pulse-slow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- ================= TOP BANNER ANUNCIO / MONETIZACIÓN ================= -->
+  <div class="bg-gradient-to-r from-indigo-900/60 via-purple-900/40 to-slate-900 border-b border-indigo-500/20 px-4 py-2 text-xs text-slate-300">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded text-[10px] font-semibold border border-indigo-500/30">PATROCINIO</span>
+        <span>📢 ¿Quieres anunciar tu podcast, medio o newsletter aquí durante la campaña?</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="mailto:tuemail@ejemplo.com?subject=Patrocinio%20RadarX" class="text-indigo-400 hover:text-indigo-300 underline font-medium">Contratar espacio</a>
+        <span class="text-slate-600">•</span>
+        <a href="https://ko-fi.com" target="_blank" rel="noopener" class="text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1">
+          ☕ Donar 1€
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= HEADER PRINCIPAL ================= -->
+  <header class="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-40 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+          <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+              RadarX <span class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full border border-slate-700">Elecciones Generales España 🇪🇸</span>
+            </h1>
+          </div>
+          <p class="text-xs text-slate-400">Termómetro digital y análisis de repercusión en la red social X</p>
+        </div>
+      </div>
+
+      <!-- Estados y Botón compartir -->
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+        <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 text-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse-slow"></span>
+          <span class="text-slate-300" id="last-update-text">Actualizado: Cargando...</span>
+        </div>
+
+        <button id="btn-share-x" class="inline-flex items-center gap-2 bg-slate-100 hover:bg-white text-slate-900 font-semibold px-3 py-1.5 rounded-lg text-xs transition shadow-sm">
+          <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+          <span>Compartir en X</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-10">
+
+    <!-- ================= TARJETAS RESUMEN / KPIs ================= -->
+    <section>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- KPI 1 -->
+        <div class="glass-card p-5 rounded-2xl">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-xs font-medium uppercase tracking-wider">Interacciones 24h</span>
+            <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-white" id="kpi-interactions">-</div>
+          <div class="text-xs text-slate-400 mt-1">Likes + RTs + Respuestas</div>
+        </div>
+
+        <!-- KPI 2 -->
+        <div class="glass-card p-5 rounded-2xl">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-xs font-medium uppercase tracking-wider">Líder Engagement</span>
+            <i data-lucide="trophy" class="w-4 h-4 text-yellow-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-extrabold text-white truncate" id="kpi-top-candidate">-</div>
+          <div class="text-xs text-emerald-400 mt-1 flex items-center gap-1">
+            <i data-lucide="trending-up" class="w-3 h-3"></i> Mayor volumen de impacto
+          </div>
+        </div>
+
+        <!-- KPI 3 -->
+        <div class="glass-card p-5 rounded-2xl">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-xs font-medium uppercase tracking-wider">Partido Líder</span>
+            <i data-lucide="flag" class="w-4 h-4 text-indigo-400"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-white" id="kpi-top-party">-</div>
+          <div class="text-xs text-slate-400 mt-1">Más interacción acumulada</div>
+        </div>
+
+        <!-- KPI 4 -->
+        <div class="glass-card p-5 rounded-2xl">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-xs font-medium uppercase tracking-wider">Máxima Eficiencia</span>
+            <i data-lucide="zap" class="w-4 h-4 text-cyan-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-extrabold text-white truncate" id="kpi-most-efficient">-</div>
+          <div class="text-xs text-cyan-400 mt-1">Más interacciones por tweet</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PODIO DE CANDIDATOS (TOP 3) ================= -->
+    <section>
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <i data-lucide="award" class="w-5 h-5 text-amber-400"></i>
+            Podio de Candidatos (Últimas 24h)
+          </h2>
+          <p class="text-xs text-slate-400">Candidatos con mayor volumen de engagement en la jornada de hoy</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container">
+        <!-- Cargado dinámicamente con JS -->
+      </div>
+    </section>
+
+    <!-- ================= GRÁFICOS INTERACTIVOS ================= -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Gráfico 1: Tarta de cuota de interacción -->
+      <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Cuota de Interacción</h3>
+            <span class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Partidos</span>
+          </div>
+          <p class="text-xs text-slate-400 mb-4">Reparto del interés e impacto entre las siglas</p>
+        </div>
+        <div class="relative h-64 flex items-center justify-center">
+          <canvas id="chart-party-share"></canvas>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 text-center">
+          Suma de interacciones directas a las cuentas de cada partido
+        </div>
+      </div>
+
+      <!-- Gráfico 2: Evolución últimos 7 días -->
+      <div class="glass-card p-6 rounded-2xl lg:col-span-2 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Evolución de Campaña (Últimos 7 días)</h3>
+            <span class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Miles de Interacciones</span>
+          </div>
+          <p class="text-xs text-slate-400 mb-4">Tendencia del pulso político día tras día</p>
+        </div>
+        <div class="relative h-64">
+          <canvas id="chart-timeline"></canvas>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex justify-between items-center">
+          <span>Datos normalizados en miles (k)</span>
+          <span class="text-indigo-400">Pasa el ratón para ver detalles</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= TABLA COMPARATIVA COMPLETA ================= -->
+    <section>
+      <div class="glass-card rounded-2xl overflow-hidden">
+        <div class="p-5 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="font-bold text-white text-base">Tabla Comparativa de Candidatos</h3>
+            <p class="text-xs text-slate-400">Métricas detalladas de actividad y rendimiento</p>
+          </div>
+          <div class="text-xs text-slate-400 bg-slate-800/60 px-3 py-1.5 rounded-lg border border-slate-700/50">
+            💡 <strong>Eficiencia</strong> = Engagement total ÷ Número de tweets
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-300">
+            <thead class="text-xs uppercase bg-slate-900/80 text-slate-400 border-b border-slate-800">
+              <tr>
+                <th scope="col" class="px-5 py-3.5">Candidato / Partido</th>
+                <th scope="col" class="px-4 py-3.5 text-center">Tweets Hoy</th>
+                <th scope="col" class="px-4 py-3.5 text-right">Likes</th>
+                <th scope="col" class="px-4 py-3.5 text-right">Retweets</th>
+                <th scope="col" class="px-4 py-3.5 text-right">Engagement Total</th>
+                <th scope="col" class="px-4 py-3.5 text-right">Eficiencia (Por Tweet)</th>
+                <th scope="col" class="px-4 py-3.5 text-center">Tendencia</th>
+              </tr>
+            </thead>
+            <tbody id="candidates-table-body" class="divide-y divide-slate-800/60">
+              <!-- Cargado dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TWEETS MÁS VIRALES DE HOY ================= -->
+    <section>
+      <div class="mb-4">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-5 h-5 text-indigo-400"></i>
+          Tweets de Oro (Los Más Virales de las Últimas 24h)
+        </h2>
+        <p class="text-xs text-slate-400">Los mensajes con mayor impacto de cada formación política</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="top-tweets-container">
+        <!-- Cargado dinámicamente -->
+      </div>
+    </section>
+
+    <!-- ================= BANNER INFORMATIVO / PATROCINIO INLINE ================= -->
+    <section class="rounded-2xl border border-indigo-500/30 bg-gradient-to-r from-indigo-950/60 via-slate-900 to-slate-900 p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+      <div class="space-y-2 text-center md:text-left">
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-semibold">
+          <i data-lucide="coffee" class="w-3.5 h-3.5"></i> Proyecto Independiente y de Código Abierto
+        </div>
+        <h3 class="text-xl font-bold text-white">¿Te resulta útil este monitor de campaña?</h3>
+        <p class="text-xs text-slate-400 max-w-xl">
+          Este radar se actualiza automáticamente varias veces al día sin ningún tipo de subvención ni afiliación política. Puedes apoyar el coste de mantenimiento invitando a un café o patrocinando la cabecera.
+        </p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+        <a href="https://ko-fi.com" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition">
+          <i data-lucide="heart" class="w-4 h-4 fill-slate-950"></i>
+          Apoyar con 1€ (Ko-fi)
+        </a>
+        <a href="mailto:tuemail@ejemplo.com?subject=Propuesta%20de%20Patrocinio" class="inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-medium px-4 py-2.5 rounded-xl text-xs border border-slate-700 transition">
+          <i data-lucide="mail" class="w-4 h-4"></i>
+          Contactar para patrocinio
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-slate-800 bg-slate-950 py-10 text-xs text-slate-500 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-1 text-center md:text-left">
+        <p class="font-semibold text-slate-400">RadarX España 🇪🇸 — Proyecto Cívico Abierto</p>
+        <p>Datos obtenidos de perfiles públicos oficiales en la red social X. No representa una encuesta de intención de voto.</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-slate-300 flex items-center gap-1">
+          <i data-lucide="github" class="w-4 h-4"></i> Ver en GitHub
+        </a>
+        <span>•</span>
+        <a href="https://x.com" target="_blank" rel="noopener" class="hover:text-slate-300 flex items-center gap-1">
+          <i data-lucide="twitter" class="w-4 h-4"></i> Seguir en X
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPTS DE LÓGICA ================= -->
+  <script>
+    // Inicializar iconos
+    lucide.createIcons();
+
+    // Formatear números (ej: 12400 -> "12,4k")
+    function formatNumber(num) {
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+      }
+      if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'k';
+      }
+      return num.toLocaleString('es-ES');
+    }
+
+    // Cargar y renderizar datos
+    async function loadData() {
+      try {
+        const response = await fetch('data/data.json');
+        if (!response.ok) throw new Error('No se pudo cargar data.json');
+        const data = await response.json();
+        renderDashboard(data);
+      } catch (err) {
+        console.error("Error al cargar datos:", err);
+      }
+    }
+
+    function renderDashboard(data) {
+      // 1. Textos y KPIs
+      document.getElementById('last-update-text').innerText = 'Act.: ' + data.last_updated_human;
+      document.getElementById('kpi-interactions').innerText = formatNumber(data.summary.total_interactions_24h);
+      document.getElementById('kpi-top-candidate').innerText = data.summary.top_candidate;
+      document.getElementById('kpi-top-party').innerText = data.summary.top_party_interactions;
+      document.getElementById('kpi-most-efficient').innerText = data.summary.most_efficient;
+
+      // 2. Podio (Top 3)
+      const podium = document.getElementById('podium-container');
+      podium.innerHTML = '';
+      const top3 = data.candidates.slice(0, 3);
+      const medals = ['🥇 Oro', '🥈 Plata', '🥉 Bronce'];
+      const borderColors = ['border-yellow-500/40', 'border-slate-400/30', 'border-amber-700/40'];
+      const badgeBgs = ['bg-yellow-500/20 text-yellow-300', 'bg-slate-300/20 text-slate-200', 'bg-amber-600/20 text-amber-300'];
+
+      top3.forEach((cand, idx) => {
+        const card = document.createElement('div');
+        card.className = `glass-card p-5 rounded-2xl border ${borderColors[idx]} flex flex-col justify-between hover:scale-[1.01] transition-transform duration-200`;
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full ${badgeBgs[idx]}">${medals[idx]}</span>
+              <span class="text-xs font-bold px-2 py-0.5 rounded" style="background-color: ${cand.party_color}22; color: ${cand.party_color}; border: 1px solid ${cand.party_color}44">
+                ${cand.party}
+              </span>
+            </div>
+            <div class="flex items-center gap-3 mb-4">
+              <img src="${cand.avatar}" alt="${cand.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cand.name)}&background=random'" class="w-12 h-12 rounded-full border border-slate-700 object-cover">
+              <div>
+                <h4 class="font-bold text-white text-base">${cand.name}</h4>
+                <a href="https://x.com/${cand.handle.replace('@','')}" target="_blank" class="text-xs text-slate-400 hover:text-indigo-400 transition">${cand.handle}</a>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-800 text-xs">
+            <div>
+              <span class="text-slate-400 block text-[10px] uppercase">Engagement</span>
+              <span class="font-extrabold text-white text-base">${formatNumber(cand.engagement_total)}</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px] uppercase">Eficiencia</span>
+              <span class="font-semibold text-emerald-400 text-base">${formatNumber(cand.efficiency)} /tw</span>
+            </div>
+          </div>
+        `;
+        podium.appendChild(card);
+      });
+
+      // 3. Tabla completa
+      const tableBody = document.getElementById('candidates-table-body');
+      tableBody.innerHTML = '';
+      data.candidates.forEach(cand => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-900/60 transition';
+        tr.innerHTML = `
+          <td class="px-5 py-4 flex items-center gap-3">
+            <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${cand.party_color}"></span>
+            <img src="${cand.avatar}" alt="${cand.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cand.name)}&background=random'" class="w-8 h-8 rounded-full border border-slate-700">
+            <div>
+              <div class="font-semibold text-white">${cand.name}</div>
+              <div class="text-xs text-slate-400">${cand.handle} <span class="font-medium" style="color: ${cand.party_color}">(${cand.party})</span></div>
+            </div>
+          </td>
+          <td class="px-4 py-4 text-center font-mono font-medium">${cand.tweets_24h}</td>
+          <td class="px-4 py-4 text-right font-mono">${formatNumber(cand.likes_24h)}</td>
+          <td class="px-4 py-4 text-right font-mono">${formatNumber(cand.retweets_24h)}</td>
+          <td class="px-4 py-4 text-right font-mono font-bold text-white">${formatNumber(cand.engagement_total)}</td>
+          <td class="px-4 py-4 text-right font-mono text-cyan-400 font-semibold">${formatNumber(cand.efficiency)}</td>
+          <td class="px-4 py-4 text-center">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded ${cand.trend === 'up' ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'}">
+              ${cand.trend_pct}
+            </span>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      // 4. Tweets de Oro
+      const tweetsContainer = document.getElementById('top-tweets-container');
+      tweetsContainer.innerHTML = '';
+      data.top_tweets.forEach(tw => {
+        const twCard = document.createElement('div');
+        twCard.className = 'glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-slate-600 transition';
+        twCard.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded" style="background-color: ${tw.party_color}22; color: ${tw.party_color}; border: 1px solid ${tw.party_color}44">
+                ${tw.party}
+              </span>
+              <span class="text-[11px] text-slate-400">${tw.time_ago}</span>
+            </div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="font-bold text-white text-sm">${tw.author}</span>
+              <span class="text-xs text-slate-400">${tw.handle}</span>
+            </div>
+            <p class="text-xs text-slate-200 line-clamp-4 leading-relaxed mb-4">"${tw.text}"</p>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+            <div class="flex items-center gap-3">
+              <span class="flex items-center gap-1 text-rose-400">
+                <i data-lucide="heart" class="w-3.5 h-3.5"></i> ${formatNumber(tw.likes)}
+              </span>
+              <span class="flex items-center gap-1 text-emerald-400">
+                <i data-lucide="repeat" class="w-3.5 h-3.5"></i> ${formatNumber(tw.retweets)}
+              </span>
+            </div>
+            <a href="${tw.url}" target="_blank" rel="noopener" class="text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1">
+              Ver en X <i data-lucide="external-link" class="w-3 h-3"></i>
+            </a>
+          </div>
+        `;
+        tweetsContainer.appendChild(twCard);
+      });
+
+      // Reinicializar iconos dinámicos
+      lucide.createIcons();
+
+      // 5. Gráfico de Cuota de Partidos (Doughnut)
+      const ctxShare = document.getElementById('chart-party-share').getContext('2d');
+      new Chart(ctxShare, {
+        type: 'doughnut',
+        data: {
+          labels: data.parties.map(p => p.short),
+          datasets: [{
+            data: data.parties.map(p => p.engagement_total),
+            backgroundColor: data.parties.map(p => p.color),
+            borderColor: '#0f172a',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#94a3b8', font: { size: 11 } }
+            }
+          },
+          cutout: '70%'
+        }
+      });
+
+      // 6. Gráfico de Evolución 7 Días (Líneas)
+      const ctxTimeline = document.getElementById('chart-timeline').getContext('2d');
+      new Chart(ctxTimeline, {
+        type: 'line',
+        data: {
+          labels: data.history_7d.labels,
+          datasets: data.history_7d.datasets.map(d => ({
+            label: d.party,
+            data: d.data,
+            borderColor: d.color,
+            backgroundColor: d.color + '22',
+            tension: 0.35,
+            fill: false,
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { color: '#94a3b8', font: { size: 11 } }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: '#1e293b' },
+              ticks: { color: '#64748b' }
+            },
+            y: {
+              grid: { color: '#1e293b' },
+              ticks: { color: '#64748b' }
+            }
+          }
+        }
+      });
+
+      // 7. Botón compartir en X
+      document.getElementById('btn-share-x').addEventListener('click', () => {
+        const text = encodeURIComponent(`📊 Así va la batalla digital en X para las Elecciones Generales en España:\n\n🥇 Líder en Engagement: ${data.summary.top_candidate}\n⚡ Máxima Eficiencia: ${data.summary.most_efficient}\n\nConsulta el radar diario aquí:`);
+        const url = encodeURIComponent(window.location.href);
+        window.open(`https://x.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+      });
+    }
+
+    // Ejecutar al cargar
+    document.addEventListener('DOMContentLoaded', loadData);
+  </script>
+</body>
+</html>

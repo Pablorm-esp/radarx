@@ -1,0 +1,33 @@
+name: Actualizar Métricas de Campaña
+
+on:
+  schedule:
+    # Se ejecuta cada 6 horas automáticamente
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Permite ejecutarlo a mano desde el botón de GitHub cuando tú quieras
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Ejecutar actualizador de datos
+        run: |
+          python scripts/update_data.py
+
+      - name: Guardar cambios y subir
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "RadarX Bot"
+          git add data/data.json
+          git diff-index --quiet HEAD || (git commit -m "🤖 Actualización automática de métricas [skip ci]" && git push)
