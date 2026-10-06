@@ -1,10 +1,10 @@
-name: Actualizar Métricas de Campaña
+name: Actualizar Métricas de Campaña Cada Hora
 
 on:
   schedule:
-    # Se ejecuta cada 6 horas automáticamente
-    - cron: '0 */6 * * *'
-  workflow_dispatch: # Permite ejecutarlo a mano desde el botón de GitHub cuando tú quieras
+    # Se ejecuta cada hora en punto (24 veces al día)
+    - cron: '0 * * * *'
+  workflow_dispatch: # Permite pulsar un botón en GitHub para actualizar en cualquier momento
 
 jobs:
   update-data:
@@ -30,4 +30,4 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "RadarX Bot"
           git add data/data.json
-          git diff-index --quiet HEAD || (git commit -m "🤖 Actualización automática de métricas [skip ci]" && git push)
+          git diff-index --quiet HEAD || (git commit -m "🤖 Actualización automática horaria [skip ci]" && git push)

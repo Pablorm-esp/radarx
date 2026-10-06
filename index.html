@@ -2,15 +2,16 @@
 <html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>RadarX España 🇪🇸 | Monitor Electoral en X</title>
   
   <!-- Meta tags SEO / Social share -->
-  <meta name="description" content="Monitor en tiempo real del engagement, impacto y repercusión de los partidos y candidatos en X durante las Elecciones Generales en España.">
+  <meta name="description" content="Monitor en tiempo real del engagement, impacto y repercusión de los políticos en X durante las Elecciones Generales en España.">
   <meta property="og:title" content="RadarX España - Monitor Electoral en X">
-  <meta property="og:description" content="¿Quién lidera la batalla digital en X? Datos diarios de candidatos y partidos.">
+  <meta property="og:description" content="¿Quién gana la batalla del engagement en X hoy? Datos actualizados cada hora.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#090d16">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -26,16 +27,8 @@
         extend: {
           colors: {
             brand: {
-              50: '#f0fdf4',
-              500: '#10b981',
-              600: '#059669',
-            },
-            party: {
-              psoe: '#E30613',
-              pp: '#0bb2ff',
-              vox: '#63BE21',
-              podemos: '#7B3F98',
-              sumar: '#E51C55'
+              coffee: '#cfb38a',
+              coffeeDark: '#1c0604',
             }
           }
         }
@@ -44,289 +37,354 @@
   </script>
 
   <style>
-    /* Estilos personalizados para gráficos y animaciones */
-    @keyframes pulse-slow {
-      0%, 100% { opacity: 1; }
-      50% { opacity: .4; }
-    }
-    .animate-pulse-slow {
-      animation: pulse-slow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
+    /* Estilos Mobile-First y toques táctiles */
+    -webkit-tap-highlight-color: transparent;
+    
     .glass-card {
-      background: rgba(30, 41, 59, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(18, 24, 38, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .glass-card-accent {
+      background: rgba(28, 36, 56, 0.85);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+    }
+
+    /* Ocultar barra de scroll en contenedores deslizables horizontales */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Animación pulso sutil */
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+    .pulse-dot {
+      animation: pulse-dot 2s ease-in-out infinite;
     }
   </style>
 </head>
 
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#090d16] text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white pb-20 sm:pb-12">
 
-  <!-- ================= TOP BANNER ANUNCIO / MONETIZACIÓN ================= -->
-  <div class="bg-gradient-to-r from-indigo-900/60 via-purple-900/40 to-slate-900 border-b border-indigo-500/20 px-4 py-2 text-xs text-slate-300">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-      <div class="flex items-center gap-2">
-        <span class="bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded text-[10px] font-semibold border border-indigo-500/30">PATROCINIO</span>
-        <span>📢 ¿Quieres anunciar tu podcast, medio o newsletter aquí durante la campaña?</span>
+  <!-- ================= TOP BANNER PATROCINIO CAFFUTIO.COM ================= -->
+  <div class="bg-gradient-to-r from-[#1c0604] via-[#2a130f] to-[#1c0604] border-b border-[#cfb38a]/30 px-3 py-2 text-xs">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 overflow-hidden">
+        <span class="bg-[#cfb38a] text-[#1c0604] px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider shrink-0">
+          ☕ CAFFUTIO
+        </span>
+        <span class="text-amber-100/90 truncate text-[11px] sm:text-xs">
+          ¿Noches de debate y campaña? <strong>Sobrevive con café de verdad.</strong>
+        </span>
       </div>
-      <div class="flex items-center gap-3">
-        <a href="mailto:tuemail@ejemplo.com?subject=Patrocinio%20RadarX" class="text-indigo-400 hover:text-indigo-300 underline font-medium">Contratar espacio</a>
-        <span class="text-slate-600">•</span>
-        <a href="https://ko-fi.com" target="_blank" rel="noopener" class="text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1">
-          ☕ Donar 1€
-        </a>
-      </div>
+      <a href="https://caffutio.com/?utm_source=radarx&utm_medium=top_bar&utm_campaign=elecciones" 
+         target="_blank" 
+         rel="noopener" 
+         class="shrink-0 bg-[#cfb38a]/20 hover:bg-[#cfb38a]/30 text-[#cfb38a] font-bold px-2.5 py-1 rounded-full text-[11px] border border-[#cfb38a]/40 transition flex items-center gap-1">
+        <span>Ver cafeteras</span>
+        <i data-lucide="arrow-right" class="w-3 h-3"></i>
+      </a>
     </div>
   </div>
 
-  <!-- ================= HEADER PRINCIPAL ================= -->
-  <header class="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-40 backdrop-blur-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-          <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+  <!-- ================= HEADER MOBILE-OPTIMIZED ================= -->
+  <header class="border-b border-slate-800/80 bg-[#0c1220]/90 sticky top-0 z-40 backdrop-blur-md px-4 py-3">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Marca y Título -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 shrink-0">
+          <i data-lucide="flame" class="w-5 h-5 text-white"></i>
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-              RadarX <span class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full border border-slate-700">Elecciones Generales España 🇪🇸</span>
+          <div class="flex items-center gap-1.5">
+            <h1 class="text-base sm:text-lg font-black tracking-tight text-white leading-none">
+              RadarX
             </h1>
+            <span class="text-[10px] font-bold bg-indigo-500/15 text-indigo-300 px-1.5 py-0.5 rounded border border-indigo-500/25">
+              España 🇪🇸
+            </span>
           </div>
-          <p class="text-xs text-slate-400">Termómetro digital y análisis de repercusión en la red social X</p>
+          <p class="text-[10px] text-slate-400 mt-0.5 leading-none">Pulso y engagement en X cada hora</p>
         </div>
       </div>
 
-      <!-- Estados y Botón compartir -->
-      <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-        <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 text-xs">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse-slow"></span>
-          <span class="text-slate-300" id="last-update-text">Actualizado: Cargando...</span>
-        </div>
-
-        <button id="btn-share-x" class="inline-flex items-center gap-2 bg-slate-100 hover:bg-white text-slate-900 font-semibold px-3 py-1.5 rounded-lg text-xs transition shadow-sm">
-          <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
-          <span>Compartir en X</span>
-        </button>
+      <!-- Estado en vivo -->
+      <div class="flex items-center gap-1.5 bg-slate-900/90 px-2.5 py-1 rounded-full border border-slate-800 text-[11px]">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span>
+        <span class="text-slate-300 font-mono text-[10px]" id="live-time-pill">Actualizado</span>
       </div>
+
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-10">
+  <!-- ================= CONTENEDOR PRINCIPAL ================= -->
+  <main class="max-w-4xl mx-auto px-3.5 sm:px-6 py-5 space-y-6">
 
-    <!-- ================= TARJETAS RESUMEN / KPIs ================= -->
+    <!-- KPI STRIP (SLIDER MÓVIL / GRID DESKTOP) -->
     <section>
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
+        
         <!-- KPI 1 -->
-        <div class="glass-card p-5 rounded-2xl">
-          <div class="flex items-center justify-between text-slate-400 mb-2">
-            <span class="text-xs font-medium uppercase tracking-wider">Interacciones 24h</span>
-            <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
+        <div class="glass-card p-3.5 rounded-xl border border-slate-800">
+          <div class="flex items-center justify-between text-slate-400 mb-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Impacto 24h</span>
+            <i data-lucide="activity" class="w-3.5 h-3.5 text-indigo-400"></i>
           </div>
-          <div class="text-2xl sm:text-3xl font-extrabold text-white" id="kpi-interactions">-</div>
-          <div class="text-xs text-slate-400 mt-1">Likes + RTs + Respuestas</div>
+          <div class="text-xl sm:text-2xl font-black text-white" id="kpi-interactions">-</div>
+          <div class="text-[10px] text-slate-400 truncate mt-0.5">Likes + RTs + Comentarios</div>
         </div>
 
         <!-- KPI 2 -->
-        <div class="glass-card p-5 rounded-2xl">
-          <div class="flex items-center justify-between text-slate-400 mb-2">
-            <span class="text-xs font-medium uppercase tracking-wider">Líder Engagement</span>
-            <i data-lucide="trophy" class="w-4 h-4 text-yellow-400"></i>
+        <div class="glass-card p-3.5 rounded-xl border border-slate-800">
+          <div class="flex items-center justify-between text-slate-400 mb-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Líder Hoy</span>
+            <i data-lucide="crown" class="w-3.5 h-3.5 text-yellow-400"></i>
           </div>
-          <div class="text-xl sm:text-2xl font-extrabold text-white truncate" id="kpi-top-candidate">-</div>
-          <div class="text-xs text-emerald-400 mt-1 flex items-center gap-1">
-            <i data-lucide="trending-up" class="w-3 h-3"></i> Mayor volumen de impacto
-          </div>
+          <div class="text-base sm:text-lg font-black text-white truncate" id="kpi-top-candidate">-</div>
+          <div class="text-[10px] text-emerald-400 font-medium truncate mt-0.5">Nº 1 en engagement</div>
         </div>
 
         <!-- KPI 3 -->
-        <div class="glass-card p-5 rounded-2xl">
-          <div class="flex items-center justify-between text-slate-400 mb-2">
-            <span class="text-xs font-medium uppercase tracking-wider">Partido Líder</span>
-            <i data-lucide="flag" class="w-4 h-4 text-indigo-400"></i>
+        <div class="glass-card p-3.5 rounded-xl border border-slate-800">
+          <div class="flex items-center justify-between text-slate-400 mb-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Siglas Líder</span>
+            <i data-lucide="flag" class="w-3.5 h-3.5 text-blue-400"></i>
           </div>
-          <div class="text-2xl sm:text-3xl font-extrabold text-white" id="kpi-top-party">-</div>
-          <div class="text-xs text-slate-400 mt-1">Más interacción acumulada</div>
+          <div class="text-xl sm:text-2xl font-black text-white" id="kpi-top-party">-</div>
+          <div class="text-[10px] text-slate-400 truncate mt-0.5">Más repercusión</div>
         </div>
 
         <!-- KPI 4 -->
-        <div class="glass-card p-5 rounded-2xl">
-          <div class="flex items-center justify-between text-slate-400 mb-2">
-            <span class="text-xs font-medium uppercase tracking-wider">Máxima Eficiencia</span>
-            <i data-lucide="zap" class="w-4 h-4 text-cyan-400"></i>
+        <div class="glass-card p-3.5 rounded-xl border border-slate-800">
+          <div class="flex items-center justify-between text-slate-400 mb-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400">Más Eficiente</span>
+            <i data-lucide="zap" class="w-3.5 h-3.5 text-cyan-400"></i>
           </div>
-          <div class="text-xl sm:text-2xl font-extrabold text-white truncate" id="kpi-most-efficient">-</div>
-          <div class="text-xs text-cyan-400 mt-1">Más interacciones por tweet</div>
+          <div class="text-base sm:text-lg font-black text-white truncate" id="kpi-most-efficient">-</div>
+          <div class="text-[10px] text-cyan-400/90 truncate mt-0.5">Mayor media / tweet</div>
         </div>
+
       </div>
     </section>
 
-    <!-- ================= PODIO DE CANDIDATOS (TOP 3) ================= -->
-    <section>
-      <div class="flex items-center justify-between mb-4">
+    <!-- ================= BOTONES DE COMPARTIR VIRAL (WHATSAPP + X) ================= -->
+    <section class="bg-gradient-to-r from-slate-900 to-indigo-950/40 p-3 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="text-center sm:text-left">
+        <p class="text-xs font-bold text-white">¿Quién va ganando hoy el debate en redes?</p>
+        <p class="text-[11px] text-slate-400">Comparte los datos de hoy en tu grupo o seguidores</p>
+      </div>
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <!-- Compartir WhatsApp -->
+        <button id="btn-share-wa" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-bold px-3 py-2 rounded-lg text-xs transition">
+          <i data-lucide="message-circle" class="w-3.5 h-3.5 fill-slate-950"></i>
+          <span>WhatsApp</span>
+        </button>
+        <!-- Compartir X -->
+        <button id="btn-share-x" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 bg-white hover:bg-slate-100 text-slate-950 font-bold px-3 py-2 rounded-lg text-xs transition">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <span>Postear en X</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= PODIO MÓVIL DEL DÍA (TOP 3) ================= -->
+    <section class="space-y-3">
+      <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-lg font-bold text-white flex items-center gap-2">
-            <i data-lucide="award" class="w-5 h-5 text-amber-400"></i>
-            Podio de Candidatos (Últimas 24h)
+          <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
+            <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
+            Podio de Candidatos
           </h2>
-          <p class="text-xs text-slate-400">Candidatos con mayor volumen de engagement en la jornada de hoy</p>
+          <p class="text-[11px] text-slate-400">Top 3 con mayor volumen de engagement en la jornada</p>
         </div>
+        <span class="text-[10px] bg-slate-800 text-slate-300 font-medium px-2 py-0.5 rounded-full border border-slate-700">
+          Últimas 24h
+        </span>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container">
-        <!-- Cargado dinámicamente con JS -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="podium-container">
+        <!-- Renderizado dinámicamente -->
       </div>
     </section>
 
-    <!-- ================= GRÁFICOS INTERACTIVOS ================= -->
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- ================= CARD PUBLICITARIA DESTACADA: CAFFUTIO.COM ================= -->
+    <section class="rounded-2xl border border-[#cfb38a]/40 bg-gradient-to-br from-[#1c0604] via-[#240e0b] to-[#120403] p-4 sm:p-5 shadow-xl relative overflow-hidden">
+      <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-[#cfb38a]/10 rounded-full blur-3xl pointer-events-none"></div>
       
-      <!-- Gráfico 1: Tarta de cuota de interacción -->
-      <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Cuota de Interacción</h3>
-            <span class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Partidos</span>
+      <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4">
+        <div class="flex items-start gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-[#cfb38a]/20 border border-[#cfb38a]/30 flex items-center justify-center shrink-0 text-2xl shadow-inner">
+            ☕
           </div>
-          <p class="text-xs text-slate-400 mb-4">Reparto del interés e impacto entre las siglas</p>
-        </div>
-        <div class="relative h-64 flex items-center justify-center">
-          <canvas id="chart-party-share"></canvas>
-        </div>
-        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 text-center">
-          Suma de interacciones directas a las cuentas de cada partido
-        </div>
-      </div>
-
-      <!-- Gráfico 2: Evolución últimos 7 días -->
-      <div class="glass-card p-6 rounded-2xl lg:col-span-2 flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Evolución de Campaña (Últimos 7 días)</h3>
-            <span class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Miles de Interacciones</span>
-          </div>
-          <p class="text-xs text-slate-400 mb-4">Tendencia del pulso político día tras día</p>
-        </div>
-        <div class="relative h-64">
-          <canvas id="chart-timeline"></canvas>
-        </div>
-        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex justify-between items-center">
-          <span>Datos normalizados en miles (k)</span>
-          <span class="text-indigo-400">Pasa el ratón para ver detalles</span>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ================= TABLA COMPARATIVA COMPLETA ================= -->
-    <section>
-      <div class="glass-card rounded-2xl overflow-hidden">
-        <div class="p-5 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 class="font-bold text-white text-base">Tabla Comparativa de Candidatos</h3>
-            <p class="text-xs text-slate-400">Métricas detalladas de actividad y rendimiento</p>
-          </div>
-          <div class="text-xs text-slate-400 bg-slate-800/60 px-3 py-1.5 rounded-lg border border-slate-700/50">
-            💡 <strong>Eficiencia</strong> = Engagement total ÷ Número de tweets
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-[10px] font-black uppercase tracking-wider text-[#cfb38a] bg-[#cfb38a]/15 px-2 py-0.5 rounded border border-[#cfb38a]/30">
+                PROYECTO AMIGO
+              </span>
+              <span class="text-[11px] text-amber-200/70 font-medium">Caffutio.com</span>
+            </div>
+            <h3 class="text-sm sm:text-base font-extrabold text-white leading-snug">
+              ¿Sobreviviendo a la campaña electoral? El café importa.
+            </h3>
+            <p class="text-xs text-amber-100/80 mt-1 leading-relaxed max-w-xl">
+              Para las noches electorales, debates tensos y tertulias sin fin: descubre análisis independientes de las mejores <strong>cafeteras superautomáticas, espresso y café de especialidad</strong> en Caffutio.
+            </p>
           </div>
         </div>
 
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm text-slate-300">
-            <thead class="text-xs uppercase bg-slate-900/80 text-slate-400 border-b border-slate-800">
-              <tr>
-                <th scope="col" class="px-5 py-3.5">Candidato / Partido</th>
-                <th scope="col" class="px-4 py-3.5 text-center">Tweets Hoy</th>
-                <th scope="col" class="px-4 py-3.5 text-right">Likes</th>
-                <th scope="col" class="px-4 py-3.5 text-right">Retweets</th>
-                <th scope="col" class="px-4 py-3.5 text-right">Engagement Total</th>
-                <th scope="col" class="px-4 py-3.5 text-right">Eficiencia (Por Tweet)</th>
-                <th scope="col" class="px-4 py-3.5 text-center">Tendencia</th>
-              </tr>
-            </thead>
-            <tbody id="candidates-table-body" class="divide-y divide-slate-800/60">
-              <!-- Cargado dinámicamente -->
-            </tbody>
-          </table>
+        <div class="w-full sm:w-auto shrink-0 flex flex-col items-center sm:items-end gap-2">
+          <a href="https://caffutio.com/?utm_source=radarx&utm_medium=featured_box&utm_campaign=elecciones" 
+             target="_blank" 
+             rel="noopener"
+             class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#cfb38a] hover:bg-[#dfc49c] text-[#1c0604] font-black px-4 py-2.5 rounded-xl text-xs transition shadow-md shadow-amber-950/40">
+            <span>Explorar Caffutio</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+          <span class="text-[10px] text-amber-200/50">Guías y rankings de café premium</span>
         </div>
       </div>
     </section>
 
-    <!-- ================= TWEETS MÁS VIRALES DE HOY ================= -->
-    <section>
-      <div class="mb-4">
-        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-          <i data-lucide="sparkles" class="w-5 h-5 text-indigo-400"></i>
-          Tweets de Oro (Los Más Virales de las Últimas 24h)
-        </h2>
-        <p class="text-xs text-slate-400">Los mensajes con mayor impacto de cada formación política</p>
+    <!-- ================= GRÁFICOS MÓVILES (SLIDER O APILADOS) ================= -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
+            <i data-lucide="pie-chart" class="w-4 h-4 text-indigo-400"></i>
+            Gráficos del Pulso Electoral
+          </h2>
+          <p class="text-[11px] text-slate-400">Distribución de repercusión y evolución temporal</p>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="top-tweets-container">
-        <!-- Cargado dinámicamente -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        
+        <!-- Gráfico 1: Reparto de Repercusión -->
+        <div class="glass-card p-4 rounded-xl border border-slate-800">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Cuota de Interacción por Partido</h3>
+            <span class="text-[10px] text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded">Partidos</span>
+          </div>
+          <div class="relative h-56 flex items-center justify-center">
+            <canvas id="chart-party-share"></canvas>
+          </div>
+          <p class="text-[10px] text-slate-500 text-center mt-2">Porcentaje de likes, RTs y respuestas recibidas hoy</p>
+        </div>
+
+        <!-- Gráfico 2: Evolución de los últimos 7 días -->
+        <div class="glass-card p-4 rounded-xl border border-slate-800">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Evolución Semanal (k interacciones)</h3>
+            <span class="text-[10px] text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded">Tendencia</span>
+          </div>
+          <div class="relative h-56">
+            <canvas id="chart-timeline"></canvas>
+          </div>
+          <p class="text-[10px] text-slate-500 text-center mt-2">Seguimiento día a día durante la campaña</p>
+        </div>
+
       </div>
     </section>
 
-    <!-- ================= BANNER INFORMATIVO / PATROCINIO INLINE ================= -->
-    <section class="rounded-2xl border border-indigo-500/30 bg-gradient-to-r from-indigo-950/60 via-slate-900 to-slate-900 p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-      <div class="space-y-2 text-center md:text-left">
-        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-semibold">
-          <i data-lucide="coffee" class="w-3.5 h-3.5"></i> Proyecto Independiente y de Código Abierto
+    <!-- ================= LISTA DE CANDIDATOS (VISTA EN TARJETAS PARA MÓVIL) ================= -->
+    <section class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
+            <i data-lucide="users" class="w-4 h-4 text-purple-400"></i>
+            Ranking de Todos los Candidatos
+          </h2>
+          <p class="text-[11px] text-slate-400">Métricas detalladas de actividad y rendimiento</p>
         </div>
-        <h3 class="text-xl font-bold text-white">¿Te resulta útil este monitor de campaña?</h3>
-        <p class="text-xs text-slate-400 max-w-xl">
-          Este radar se actualiza automáticamente varias veces al día sin ningún tipo de subvención ni afiliación política. Puedes apoyar el coste de mantenimiento invitando a un café o patrocinando la cabecera.
-        </p>
       </div>
-      <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-        <a href="https://ko-fi.com" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition">
-          <i data-lucide="heart" class="w-4 h-4 fill-slate-950"></i>
-          Apoyar con 1€ (Ko-fi)
-        </a>
-        <a href="mailto:tuemail@ejemplo.com?subject=Propuesta%20de%20Patrocinio" class="inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-medium px-4 py-2.5 rounded-xl text-xs border border-slate-700 transition">
-          <i data-lucide="mail" class="w-4 h-4"></i>
-          Contactar para patrocinio
-        </a>
+
+      <!-- Contenedor de tarjetas (Optimizado para móvil en lugar de tabla horizontal) -->
+      <div class="space-y-2.5" id="candidates-list-container">
+        <!-- Renderizado dinámico -->
       </div>
+    </section>
+
+    <!-- ================= TWEETS DE ORO (LOS MÁS VIRALES) ================= -->
+    <section class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+            Tweets de Oro (Últimas 24h)
+          </h2>
+          <p class="text-[11px] text-slate-400">El mensaje con más impacto de cada formación política</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="top-tweets-container">
+        <!-- Renderizado dinámico -->
+      </div>
+    </section>
+
+    <!-- ================= CAJA DE APOYO / CAFÉ ================= -->
+    <section class="glass-card p-4 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
+          <i data-lucide="coffee" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white">Proyecto Cívico y Abierto</h4>
+          <p class="text-[11px] text-slate-400">Actualizado cada hora automáticamente sin subvenciones ni sesgo.</p>
+        </div>
+      </div>
+      <a href="https://caffutio.com/?utm_source=radarx&utm_medium=footer_cta&utm_campaign=elecciones" 
+         target="_blank" 
+         rel="noopener"
+         class="inline-flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-2 rounded-lg border border-slate-700 transition">
+        <span>Conoce Caffutio.com ☕</span>
+      </a>
     </section>
 
   </main>
 
   <!-- ================= FOOTER ================= -->
-  <footer class="border-t border-slate-800 bg-slate-950 py-10 text-xs text-slate-500 mt-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="space-y-1 text-center md:text-left">
-        <p class="font-semibold text-slate-400">RadarX España 🇪🇸 — Proyecto Cívico Abierto</p>
-        <p>Datos obtenidos de perfiles públicos oficiales en la red social X. No representa una encuesta de intención de voto.</p>
-      </div>
-      <div class="flex items-center gap-4">
-        <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-slate-300 flex items-center gap-1">
-          <i data-lucide="github" class="w-4 h-4"></i> Ver en GitHub
+  <footer class="border-t border-slate-800/80 bg-[#070a12] py-6 px-4 text-center text-[11px] text-slate-500 space-y-2">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="text-slate-400">
+        <strong>RadarX España</strong> — Creado por 
+        <a href="https://x.com/Pablorm_esp" target="_blank" class="text-indigo-400 hover:underline">@Pablorm_esp</a>
+      </p>
+      <div class="flex items-center gap-4 text-slate-400">
+        <a href="https://github.com/Pablorm-esp/radarx" target="_blank" class="hover:text-white flex items-center gap-1">
+          <i data-lucide="github" class="w-3.5 h-3.5"></i> Código en GitHub
         </a>
         <span>•</span>
-        <a href="https://x.com" target="_blank" rel="noopener" class="hover:text-slate-300 flex items-center gap-1">
-          <i data-lucide="twitter" class="w-4 h-4"></i> Seguir en X
+        <a href="https://caffutio.com" target="_blank" class="hover:text-amber-300 flex items-center gap-1 text-amber-200/70">
+          ☕ Caffutio
         </a>
       </div>
     </div>
+    <p class="text-[10px] text-slate-600">
+      Datos obtenidos de perfiles públicos oficiales en X. No representa intención de voto electoral.
+    </p>
   </footer>
 
-  <!-- ================= SCRIPTS DE LÓGICA ================= -->
+  <!-- ================= LÓGICA JAVASCRIPT ================= -->
   <script>
     // Inicializar iconos
     lucide.createIcons();
 
-    // Formatear números (ej: 12400 -> "12,4k")
     function formatNumber(num) {
-      if (num >= 1000000) {
-        return (num / 1000000).toFixed(1) + 'M';
-      }
-      if (num >= 1000) {
-        return (num / 1000).toFixed(1) + 'k';
-      }
+      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+      if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
       return num.toLocaleString('es-ES');
     }
 
-    // Cargar y renderizar datos
     async function loadData() {
       try {
         const response = await fetch('data/data.json');
@@ -339,8 +397,8 @@
     }
 
     function renderDashboard(data) {
-      // 1. Textos y KPIs
-      document.getElementById('last-update-text').innerText = 'Act.: ' + data.last_updated_human;
+      // 1. Textos e indicadores
+      document.getElementById('live-time-pill').innerText = 'Act: ' + (data.last_updated_human.split(',')[1] || data.last_updated_human);
       document.getElementById('kpi-interactions').innerText = formatNumber(data.summary.total_interactions_24h);
       document.getElementById('kpi-top-candidate').innerText = data.summary.top_candidate;
       document.getElementById('kpi-top-party').innerText = data.summary.top_party_interactions;
@@ -350,70 +408,93 @@
       const podium = document.getElementById('podium-container');
       podium.innerHTML = '';
       const top3 = data.candidates.slice(0, 3);
-      const medals = ['🥇 Oro', '🥈 Plata', '🥉 Bronce'];
+      const medals = ['🥇 1º Oro', '🥈 2º Plata', '🥉 3º Bronce'];
       const borderColors = ['border-yellow-500/40', 'border-slate-400/30', 'border-amber-700/40'];
-      const badgeBgs = ['bg-yellow-500/20 text-yellow-300', 'bg-slate-300/20 text-slate-200', 'bg-amber-600/20 text-amber-300'];
+      const badgeStyles = [
+        'bg-yellow-500/20 text-yellow-300 border border-yellow-500/40',
+        'bg-slate-300/20 text-slate-200 border border-slate-400/40',
+        'bg-amber-600/20 text-amber-300 border border-amber-600/40'
+      ];
 
       top3.forEach((cand, idx) => {
         const card = document.createElement('div');
-        card.className = `glass-card p-5 rounded-2xl border ${borderColors[idx]} flex flex-col justify-between hover:scale-[1.01] transition-transform duration-200`;
+        card.className = `glass-card p-4 rounded-xl border ${borderColors[idx]} flex flex-col justify-between`;
         card.innerHTML = `
           <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold px-2 py-0.5 rounded-full ${badgeBgs[idx]}">${medals[idx]}</span>
-              <span class="text-xs font-bold px-2 py-0.5 rounded" style="background-color: ${cand.party_color}22; color: ${cand.party_color}; border: 1px solid ${cand.party_color}44">
+            <div class="flex items-center justify-between mb-2.5">
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-md ${badgeStyles[idx]}">${medals[idx]}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded" style="background-color: ${cand.party_color}22; color: ${cand.party_color}; border: 1px solid ${cand.party_color}44">
                 ${cand.party}
               </span>
             </div>
-            <div class="flex items-center gap-3 mb-4">
-              <img src="${cand.avatar}" alt="${cand.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cand.name)}&background=random'" class="w-12 h-12 rounded-full border border-slate-700 object-cover">
-              <div>
-                <h4 class="font-bold text-white text-base">${cand.name}</h4>
-                <a href="https://x.com/${cand.handle.replace('@','')}" target="_blank" class="text-xs text-slate-400 hover:text-indigo-400 transition">${cand.handle}</a>
+            <div class="flex items-center gap-3 mb-3">
+              <img src="${cand.avatar}" alt="${cand.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cand.name)}&background=random'" class="w-11 h-11 rounded-full border border-slate-700 object-cover shrink-0">
+              <div class="min-w-0">
+                <h4 class="font-bold text-white text-sm truncate">${cand.name}</h4>
+                <a href="https://x.com/${cand.handle.replace('@','')}" target="_blank" class="text-xs text-slate-400 hover:text-indigo-400 transition block truncate">${cand.handle}</a>
               </div>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-800 text-xs">
+          <div class="grid grid-cols-2 gap-2 pt-2.5 border-t border-slate-800/80 text-xs">
             <div>
-              <span class="text-slate-400 block text-[10px] uppercase">Engagement</span>
-              <span class="font-extrabold text-white text-base">${formatNumber(cand.engagement_total)}</span>
+              <span class="text-slate-400 block text-[9px] uppercase font-bold">Engagement</span>
+              <span class="font-black text-white text-sm sm:text-base">${formatNumber(cand.engagement_total)}</span>
             </div>
             <div>
-              <span class="text-slate-400 block text-[10px] uppercase">Eficiencia</span>
-              <span class="font-semibold text-emerald-400 text-base">${formatNumber(cand.efficiency)} /tw</span>
+              <span class="text-slate-400 block text-[9px] uppercase font-bold">Eficiencia</span>
+              <span class="font-bold text-emerald-400 text-sm sm:text-base">${formatNumber(cand.efficiency)} <span class="text-[10px] font-normal text-slate-400">/tw</span></span>
             </div>
           </div>
         `;
         podium.appendChild(card);
       });
 
-      // 3. Tabla completa
-      const tableBody = document.getElementById('candidates-table-body');
-      tableBody.innerHTML = '';
-      data.candidates.forEach(cand => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-900/60 transition';
-        tr.innerHTML = `
-          <td class="px-5 py-4 flex items-center gap-3">
-            <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${cand.party_color}"></span>
-            <img src="${cand.avatar}" alt="${cand.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cand.name)}&background=random'" class="w-8 h-8 rounded-full border border-slate-700">
-            <div>
-              <div class="font-semibold text-white">${cand.name}</div>
-              <div class="text-xs text-slate-400">${cand.handle} <span class="font-medium" style="color: ${cand.party_color}">(${cand.party})</span></div>
+      // 3. Tarjetas completas de Candidatos (Mobile First)
+      const listContainer = document.getElementById('candidates-list-container');
+      listContainer.innerHTML = '';
+      
+      const maxEngagement = Math.max(...data.candidates.map(c => c.engagement_total));
+
+      data.candidates.forEach((cand, rank) => {
+        const item = document.createElement('div');
+        const pct = Math.round((cand.engagement_total / maxEngagement) * 100);
+        item.className = 'glass-card p-3.5 rounded-xl border border-slate-800 space-y-2.5';
+        item.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="text-xs font-black text-slate-400 w-4 text-center shrink-0">${rank + 1}</span>
+              <img src="${cand.avatar}" alt="${cand.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cand.name)}&background=random'" class="w-9 h-9 rounded-full border border-slate-700 shrink-0">
+              <div class="min-w-0">
+                <div class="font-bold text-white text-xs sm:text-sm truncate flex items-center gap-1.5">
+                  <span>${cand.name}</span>
+                  <span class="text-[10px] font-semibold px-1.5 py-0.2 rounded" style="background-color: ${cand.party_color}22; color: ${cand.party_color}">
+                    ${cand.party}
+                  </span>
+                </div>
+                <div class="text-[11px] text-slate-400">${cand.handle} • <span class="text-slate-300 font-mono">${cand.tweets_24h} tws</span></div>
+              </div>
             </div>
-          </td>
-          <td class="px-4 py-4 text-center font-mono font-medium">${cand.tweets_24h}</td>
-          <td class="px-4 py-4 text-right font-mono">${formatNumber(cand.likes_24h)}</td>
-          <td class="px-4 py-4 text-right font-mono">${formatNumber(cand.retweets_24h)}</td>
-          <td class="px-4 py-4 text-right font-mono font-bold text-white">${formatNumber(cand.engagement_total)}</td>
-          <td class="px-4 py-4 text-right font-mono text-cyan-400 font-semibold">${formatNumber(cand.efficiency)}</td>
-          <td class="px-4 py-4 text-center">
-            <span class="text-xs font-semibold px-2 py-0.5 rounded ${cand.trend === 'up' ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'}">
-              ${cand.trend_pct}
-            </span>
-          </td>
+
+            <div class="text-right shrink-0">
+              <div class="text-xs sm:text-sm font-black text-white font-mono">${formatNumber(cand.engagement_total)}</div>
+              <div class="text-[10px] text-cyan-400 font-semibold">${formatNumber(cand.efficiency)} /tw</div>
+            </div>
+          </div>
+
+          <!-- Barra de progreso visual del engagement -->
+          <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
+            <div class="h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%; background-color: ${cand.party_color}"></div>
+          </div>
+
+          <!-- Mini desglose: Likes / RTs / Respuestas -->
+          <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1">
+            <span>❤️ ${formatNumber(cand.likes_24h)} likes</span>
+            <span>🔁 ${formatNumber(cand.retweets_24h)} RTs</span>
+            <span>💬 ${formatNumber(cand.replies_24h)} resp.</span>
+            <span class="font-semibold ${cand.trend === 'up' ? 'text-emerald-400' : 'text-rose-400'}">${cand.trend_pct}</span>
+          </div>
         `;
-        tableBody.appendChild(tr);
+        listContainer.appendChild(item);
       });
 
       // 4. Tweets de Oro
@@ -421,31 +502,32 @@
       tweetsContainer.innerHTML = '';
       data.top_tweets.forEach(tw => {
         const twCard = document.createElement('div');
-        twCard.className = 'glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-slate-600 transition';
+        twCard.className = 'glass-card p-3.5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-3';
         twCard.innerHTML = `
           <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-semibold px-2 py-0.5 rounded" style="background-color: ${tw.party_color}22; color: ${tw.party_color}; border: 1px solid ${tw.party_color}44">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded" style="background-color: ${tw.party_color}22; color: ${tw.party_color}; border: 1px solid ${tw.party_color}44">
                 ${tw.party}
               </span>
-              <span class="text-[11px] text-slate-400">${tw.time_ago}</span>
+              <span class="text-[10px] text-slate-400 font-mono">${tw.time_ago}</span>
             </div>
-            <div class="flex items-center gap-2 mb-2">
-              <span class="font-bold text-white text-sm">${tw.author}</span>
-              <span class="text-xs text-slate-400">${tw.handle}</span>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="font-bold text-white text-xs">${tw.author}</span>
+              <span class="text-[11px] text-slate-400">${tw.handle}</span>
             </div>
-            <p class="text-xs text-slate-200 line-clamp-4 leading-relaxed mb-4">"${tw.text}"</p>
+            <p class="text-xs text-slate-200 line-clamp-3 leading-relaxed">"${tw.text}"</p>
           </div>
-          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-            <div class="flex items-center gap-3">
-              <span class="flex items-center gap-1 text-rose-400">
-                <i data-lucide="heart" class="w-3.5 h-3.5"></i> ${formatNumber(tw.likes)}
+
+          <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-3 text-[11px] text-slate-400">
+              <span class="flex items-center gap-1 text-rose-400 font-mono">
+                <i data-lucide="heart" class="w-3 h-3"></i> ${formatNumber(tw.likes)}
               </span>
-              <span class="flex items-center gap-1 text-emerald-400">
-                <i data-lucide="repeat" class="w-3.5 h-3.5"></i> ${formatNumber(tw.retweets)}
+              <span class="flex items-center gap-1 text-emerald-400 font-mono">
+                <i data-lucide="repeat" class="w-3 h-3"></i> ${formatNumber(tw.retweets)}
               </span>
             </div>
-            <a href="${tw.url}" target="_blank" rel="noopener" class="text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1">
+            <a href="${tw.url}" target="_blank" rel="noopener" class="text-indigo-400 hover:text-indigo-300 font-bold text-[11px] flex items-center gap-1">
               Ver en X <i data-lucide="external-link" class="w-3 h-3"></i>
             </a>
           </div>
@@ -453,10 +535,9 @@
         tweetsContainer.appendChild(twCard);
       });
 
-      // Reinicializar iconos dinámicos
       lucide.createIcons();
 
-      // 5. Gráfico de Cuota de Partidos (Doughnut)
+      // 5. Gráfico Dona
       const ctxShare = document.getElementById('chart-party-share').getContext('2d');
       new Chart(ctxShare, {
         type: 'doughnut',
@@ -465,8 +546,8 @@
           datasets: [{
             data: data.parties.map(p => p.engagement_total),
             backgroundColor: data.parties.map(p => p.color),
-            borderColor: '#0f172a',
-            borderWidth: 2
+            borderColor: '#090d16',
+            borderWidth: 3
           }]
         },
         options: {
@@ -475,14 +556,14 @@
           plugins: {
             legend: {
               position: 'bottom',
-              labels: { color: '#94a3b8', font: { size: 11 } }
+              labels: { color: '#94a3b8', font: { size: 10 }, boxWidth: 12 }
             }
           },
-          cutout: '70%'
+          cutout: '72%'
         }
       });
 
-      // 6. Gráfico de Evolución 7 Días (Líneas)
+      // 6. Gráfico Líneas
       const ctxTimeline = document.getElementById('chart-timeline').getContext('2d');
       new Chart(ctxTimeline, {
         type: 'line',
@@ -492,12 +573,11 @@
             label: d.party,
             data: d.data,
             borderColor: d.color,
-            backgroundColor: d.color + '22',
-            tension: 0.35,
-            fill: false,
-            borderWidth: 2.5,
-            pointRadius: 4,
-            pointHoverRadius: 6
+            backgroundColor: d.color + '15',
+            tension: 0.3,
+            borderWidth: 2,
+            pointRadius: 2.5,
+            pointHoverRadius: 5
           }))
         },
         options: {
@@ -506,31 +586,37 @@
           plugins: {
             legend: {
               position: 'top',
-              labels: { color: '#94a3b8', font: { size: 11 } }
+              labels: { color: '#94a3b8', font: { size: 9 }, boxWidth: 10 }
             }
           },
           scales: {
             x: {
-              grid: { color: '#1e293b' },
-              ticks: { color: '#64748b' }
+              grid: { color: '#131b2e' },
+              ticks: { color: '#64748b', font: { size: 9 } }
             },
             y: {
-              grid: { color: '#1e293b' },
-              ticks: { color: '#64748b' }
+              grid: { color: '#131b2e' },
+              ticks: { color: '#64748b', font: { size: 9 } }
             }
           }
         }
       });
 
-      // 7. Botón compartir en X
+      // 7. Botones de Compartir (WhatsApp + X)
+      const currentUrl = window.location.href;
+      const shareMessage = `📊 RadarX: Así va la batalla digital en X para las Elecciones Generales en España:\n\n🥇 Líder: ${data.summary.top_candidate}\n⚡ Más Eficiente: ${data.summary.most_efficient}\n\nDatos actualizados cada hora: ${currentUrl}`;
+
       document.getElementById('btn-share-x').addEventListener('click', () => {
-        const text = encodeURIComponent(`📊 Así va la batalla digital en X para las Elecciones Generales en España:\n\n🥇 Líder en Engagement: ${data.summary.top_candidate}\n⚡ Máxima Eficiencia: ${data.summary.most_efficient}\n\nConsulta el radar diario aquí:`);
-        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent(`📊 Así va hoy la batalla en X para las Elecciones Generales en España 🇪🇸:\n\n🥇 Líder: ${data.summary.top_candidate}\n⚡ Más Eficiente: ${data.summary.most_efficient}\n\nDatos en directo:`);
+        const url = encodeURIComponent(currentUrl);
         window.open(`https://x.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+      });
+
+      document.getElementById('btn-share-wa').addEventListener('click', () => {
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareMessage)}`, '_blank');
       });
     }
 
-    // Ejecutar al cargar
     document.addEventListener('DOMContentLoaded', loadData);
   </script>
 </body>
