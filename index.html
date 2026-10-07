@@ -4,819 +4,694 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Voto a Ciegas — Test Electoral España 2026</title>
-
   <meta name="description" content="10 propuestas electorales reales, sin logos ni partidos. Descubre con quién coincides de verdad.">
   <meta property="og:title" content="Voto a Ciegas — ¿Con quién coincides realmente?">
   <meta property="og:description" content="10 medidas reales sin siglas. El resultado te sorprenderá.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#FAFAF8">
-
-  <!-- Fonts: Inter for UI, Instrument Serif for editorial accent -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#FAFAF8;--card:#FFFFFF;
+      --t1:#1A1A1A;--t2:#6B6B6B;--t3:#A0A0A0;
+      --b:#E8E6E1;--bl:#F0EEEA;
+      --g:#22A06B;--gbg:#DCFFF1;--r:#DE350B;--rbg:#FFEDEB;
+      --sans:'Inter',system-ui,sans-serif;--serif:'Instrument Serif',Georgia,serif;
+      --psoe:#E30613;--pp:#1C8ADB;--vox:#63BE21;--sumar:#E51C55;--podemos:#7B3F98;
+    }
+    html{font-size:16px}
+    body{font-family:var(--sans);background:var(--bg);color:var(--t1);min-height:100dvh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overflow-x:hidden;user-select:none}
 
-    :root {
-      --bg: #FAFAF8;
-      --bg-card: #FFFFFF;
-      --text-primary: #1A1A1A;
-      --text-secondary: #6B6B6B;
-      --text-tertiary: #A0A0A0;
-      --border: #E8E6E1;
-      --border-light: #F0EEEA;
-      --accent: #1A1A1A;
-      --green: #22A06B;
-      --green-bg: #DCFFF1;
-      --red: #DE350B;
-      --red-bg: #FFEDEB;
-      --radius: 12px;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --font-serif: 'Instrument Serif', Georgia, serif;
+    /* ── Header ── */
+    .hd{position:sticky;top:0;z-index:100;background:rgba(250,250,248,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bl);padding:14px 20px}
+    .hd-in{max-width:440px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:15px;font-weight:700;letter-spacing:-.03em;color:var(--t1)}
+    .logo i{font-family:var(--serif);font-style:italic;font-weight:400}
+    .pill{font-size:11px;font-weight:600;color:var(--t2);background:var(--bg);border:1px solid var(--b);padding:3px 10px;border-radius:100px;letter-spacing:.02em;transition:all .2s}
 
-      /* Party colors */
-      --psoe: #E30613;
-      --pp: #1C8ADB;
-      --vox: #63BE21;
-      --sumar: #E51C55;
-      --podemos: #7B3F98;
-    }
+    /* ── Screens ── */
+    .scr{display:none;flex-direction:column;flex:1}
+    .scr.on{display:flex}
 
-    html { font-size: 16px; }
-    body {
-      font-family: var(--font-sans);
-      background: var(--bg);
-      color: var(--text-primary);
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      -webkit-tap-highlight-color: transparent;
-      overflow-x: hidden;
-      user-select: none;
-    }
+    /* ── Intro ── */
+    .intro{justify-content:center;align-items:center;padding:40px 20px;text-align:center}
+    .intro-ey{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:16px;opacity:0;animation:fu .5s .05s cubic-bezier(.16,1,.3,1) forwards}
+    .intro h1{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.15;max-width:340px;margin:0 auto 16px;opacity:0;animation:fu .5s .12s cubic-bezier(.16,1,.3,1) forwards}
+    .intro h1 em{font-style:italic}
+    .intro-bd{font-size:14px;line-height:1.6;color:var(--t2);max-width:300px;margin:0 auto 32px;opacity:0;animation:fu .5s .2s cubic-bezier(.16,1,.3,1) forwards}
+    .intro-st{display:flex;gap:28px;justify-content:center;margin-bottom:40px;text-align:center;font-size:12px;color:var(--t2);line-height:1.35;opacity:0;animation:fu .5s .28s cubic-bezier(.16,1,.3,1) forwards}
+    .intro-st b{display:block;font-family:var(--serif);font-size:22px;color:var(--t1);font-weight:400;margin-bottom:4px}
+    .btn-go{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--t1);color:#fff;border:none;cursor:pointer;font-family:var(--sans);font-size:14px;font-weight:600;padding:14px 32px;border-radius:100px;width:100%;max-width:280px;transition:transform .12s,opacity .12s;opacity:0;animation:fu .5s .35s cubic-bezier(.16,1,.3,1) forwards}
+    .btn-go:hover{opacity:.85}.btn-go:active{transform:scale(.96)}
+    .btn-go svg{width:16px;height:16px}
+    .intro-n{font-size:11px;color:var(--t3);margin-top:16px;opacity:0;animation:fu .5s .4s cubic-bezier(.16,1,.3,1) forwards}
 
-    /* --- Utility --- */
-    .container { max-width: 440px; width: 100%; margin: 0 auto; padding: 0 20px; }
+    /* ── Game ── */
+    .game{padding:0 0 20px;flex:1}
+    .game-in{display:flex;flex-direction:column;flex:1}
 
-    /* --- Header --- */
-    .header {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(250, 250, 248, 0.85);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border-light);
-      padding: 14px 0;
-    }
-    .header-inner { display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-size: 15px; font-weight: 700; letter-spacing: -0.03em; color: var(--text-primary); }
-    .logo span { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
-    .header-pill {
-      font-size: 11px; font-weight: 600; color: var(--text-secondary);
-      background: var(--bg); border: 1px solid var(--border);
-      padding: 4px 10px; border-radius: 100px;
-      letter-spacing: 0.02em;
-    }
+    /* Progress dots */
+    .prog{padding:16px 20px 8px}
+    .prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .prog-n{font-size:12px;font-weight:600;color:var(--t2)}
+    .prog-cat{font-size:11px;font-weight:500;color:var(--t3);letter-spacing:.02em}
+    .dots{display:flex;gap:6px;justify-content:center}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--bl);border:1.5px solid var(--b);transition:all .35s cubic-bezier(.16,1,.3,1)}
+    .dot.cur{background:var(--t1);border-color:var(--t1);transform:scale(1.25)}
+    .dot.yes{background:var(--g);border-color:var(--g)}.dot.no{background:var(--r);border-color:var(--r)}.dot.skip{background:var(--t3);border-color:var(--t3)}
 
-    /* --- Screen containers --- */
-    .screen { display: none; flex-direction: column; flex: 1; }
-    .screen.active { display: flex; }
+    /* Stack */
+    .stack{flex:1;display:flex;align-items:center;justify-content:center;padding:4px 20px 12px;position:relative;min-height:320px}
+    .deck{position:relative;width:100%;max-width:400px;height:0;padding-bottom:min(130%,440px)}
+    @media(min-height:700px){.deck{padding-bottom:min(130%,480px)}}
 
-    /* --- Intro screen --- */
-    .intro { justify-content: center; align-items: center; padding: 40px 20px; text-align: center; }
-    .intro-eyebrow {
-      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
-      color: var(--text-tertiary); margin-bottom: 16px;
-    }
-    .intro h1 {
-      font-family: var(--font-serif); font-weight: 400; font-size: 32px;
-      line-height: 1.15; color: var(--text-primary); max-width: 340px;
-      margin: 0 auto 16px;
-    }
-    .intro h1 em { font-style: italic; }
-    .intro-body { font-size: 14px; line-height: 1.6; color: var(--text-secondary); max-width: 300px; margin: 0 auto 32px; }
+    /* Card */
+    .cd{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--card);border:1px solid var(--b);border-radius:12px;padding:28px 24px;display:flex;flex-direction:column;justify-content:space-between;cursor:grab;touch-action:none;will-change:transform}
+    .cd:active{cursor:grabbing}
+    .cd.drag{transition:none}
+    .cd.ret{transition:transform .45s cubic-bezier(.175,.885,.32,1.075),box-shadow .3s}
+    .cd.exit{transition:transform .35s cubic-bezier(.4,0,1,1),opacity .25s ease;opacity:0;pointer-events:none}
+    .cd.enter{animation:cardIn .3s cubic-bezier(.16,1,.3,1) forwards}
 
-    .intro-steps {
-      display: flex; gap: 24px; justify-content: center; margin-bottom: 40px;
-      text-align: center; font-size: 12px; color: var(--text-secondary); line-height: 1.4;
-    }
-    .intro-steps .step-num {
-      display: block; font-family: var(--font-serif); font-size: 22px;
-      color: var(--text-primary); margin-bottom: 4px;
-    }
+    .cd-bk{transform:scale(.96) translateY(8px);opacity:.55;pointer-events:none;transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .4s}
+    .cd-bk2{transform:scale(.92) translateY(16px);opacity:.25;pointer-events:none}
 
-    .btn-primary {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      background: var(--text-primary); color: #fff; border: none; cursor: pointer;
-      font-family: var(--font-sans); font-size: 14px; font-weight: 600;
-      padding: 14px 32px; border-radius: 100px; letter-spacing: -0.01em;
-      transition: transform 0.15s, opacity 0.15s;
-      width: 100%; max-width: 280px;
-    }
-    .btn-primary:hover { opacity: 0.85; }
-    .btn-primary:active { transform: scale(0.97); }
-    .btn-primary svg { width: 16px; height: 16px; }
+    /* Swipe labels */
+    .sw{position:absolute;top:24px;padding:7px 16px;border-radius:6px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:0;pointer-events:none;z-index:5;transform:rotate(0deg);transition:opacity .08s}
+    .sw.f{right:20px;color:var(--g);border:2.5px solid var(--g);background:var(--gbg)}
+    .sw.c{left:20px;color:var(--r);border:2.5px solid var(--r);background:var(--rbg)}
+    /* Stamp effect on commit */
+    .sw.stamp{animation:stampIn .25s cubic-bezier(.16,1,.3,1) forwards}
 
-    .intro-note { font-size: 11px; color: var(--text-tertiary); margin-top: 16px; }
+    .cd-tag{display:inline-block;font-size:11px;font-weight:600;color:var(--t2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px}
+    .cd-t{font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.25;margin-bottom:12px}
+    @media(min-width:400px){.cd-t{font-size:25px}}
+    .cd-d{font-size:13px;line-height:1.6;color:var(--t2)}
+    .cd-f{border-top:1px solid var(--bl);padding-top:14px;font-size:11px;color:var(--t3);display:flex;align-items:center;justify-content:space-between}
+    .cd-f .hint{display:flex;align-items:center;gap:4px}
+    .cd-f .keys{display:none}
+    @media(hover:hover) and (pointer:fine){.cd-f .hint{display:none}.cd-f .keys{display:flex;align-items:center;gap:4px}}
 
-    /* --- Game screen --- */
-    .game { padding: 0 0 24px; flex: 1; }
-    .game-inner { display: flex; flex-direction: column; flex: 1; }
+    .key{display:inline-flex;align-items:center;justify-content:center;width:20px;height:18px;border:1px solid var(--b);border-radius:3px;font-size:9px;font-weight:600;color:var(--t3);background:var(--bg)}
 
-    /* Progress */
-    .progress-area { padding: 16px 20px 12px; }
-    .progress-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-    .progress-count { font-size: 12px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.02em; }
-    .progress-category {
-      font-size: 11px; font-weight: 500; color: var(--text-tertiary);
-      letter-spacing: 0.02em;
-    }
-    .progress-track { width: 100%; height: 3px; background: var(--border-light); border-radius: 2px; overflow: hidden; }
-    .progress-fill {
-      height: 100%; background: var(--text-primary); border-radius: 2px;
-      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    /* Actions */
+    .acts{padding:0 20px}
+    .acts-row{display:flex;gap:10px;max-width:400px;margin:0 auto}
+    .abtn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 8px;border-radius:10px;border:1.5px solid var(--b);background:var(--card);cursor:pointer;font-family:var(--sans);font-size:11px;font-weight:600;color:var(--t2);transition:border-color .12s,background .12s,color .12s,transform .08s}
+    .abtn:active{transform:scale(.94)}
+    .abtn .ic{font-size:20px;line-height:1}
+    .abtn.no:hover{border-color:var(--r);color:var(--r);background:var(--rbg)}
+    .abtn.ps:hover{border-color:var(--t3)}
+    .abtn.si:hover{border-color:var(--g);color:var(--g);background:var(--gbg)}
+    /* flash feedback */
+    .abtn.flash-r{border-color:var(--r);color:var(--r);background:var(--rbg)}
+    .abtn.flash-g{border-color:var(--g);color:var(--g);background:var(--gbg)}
+    .abtn.flash-n{border-color:var(--t3);background:#F5F4F2}
 
-    /* Card stack area */
-    .stack-area {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      padding: 8px 20px 16px; position: relative;
-      min-height: 340px;
-    }
+    /* ── Calculating screen ── */
+    .calc{justify-content:center;align-items:center;padding:40px 20px;text-align:center}
+    .calc-t{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--t2);margin-bottom:20px;animation:fu .3s cubic-bezier(.16,1,.3,1) forwards}
+    .calc-dots{display:flex;gap:6px;justify-content:center}
+    .calc-dots span{width:6px;height:6px;border-radius:50%;background:var(--t1);animation:dotBounce 1.2s ease-in-out infinite}
+    .calc-dots span:nth-child(2){animation-delay:.15s}
+    .calc-dots span:nth-child(3){animation-delay:.3s}
 
-    .card-stack { position: relative; width: 100%; max-width: 400px; aspect-ratio: 3 / 4; max-height: 420px; }
+    /* ── Result ── */
+    .res{padding:0 20px 40px}
+    .res-in{max-width:440px;margin:0 auto}
+    .res-hero{text-align:center;padding:32px 0 28px;opacity:0}
+    .res-hero.show{animation:fu .45s cubic-bezier(.16,1,.3,1) forwards}
+    .res-ey{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px}
+    .res-pct{font-size:72px;font-weight:800;line-height:1;letter-spacing:-.04em;margin-bottom:4px;font-variant-numeric:tabular-nums}
+    @media(min-width:400px){.res-pct{font-size:88px}}
+    .res-who{font-family:var(--serif);font-size:24px;line-height:1.3;margin-bottom:4px}
+    .res-sub{font-size:13px;color:var(--t2)}
 
-    /* Individual card */
-    .card {
-      position: absolute; inset: 0; background: var(--bg-card);
-      border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 28px 24px;
-      display: flex; flex-direction: column; justify-content: space-between;
-      cursor: grab; touch-action: none;
-      will-change: transform;
-      transition: box-shadow 0.2s;
-    }
-    .card:active { cursor: grabbing; }
-    .card.dragging { transition: none; }
-    .card.returning {
-      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-    }
-    .card.exiting {
-      transition: transform 0.4s cubic-bezier(0.4, 0, 1, 1), opacity 0.3s ease;
-      opacity: 0;
-    }
+    /* Bars */
+    .bars{margin:0 0 28px;opacity:0}.bars.show{animation:fu .4s .15s cubic-bezier(.16,1,.3,1) forwards}
+    .bar-r{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--bl)}
+    .bar-r:last-child{border:none}
+    .bar-nm{width:68px;font-size:13px;font-weight:600;flex-shrink:0}
+    .bar-trk{flex:1;height:6px;background:var(--bl);border-radius:3px;overflow:hidden}
+    .bar-fl{height:100%;border-radius:3px;width:0;transition:width .7s cubic-bezier(.16,1,.3,1)}
+    .bar-pc{width:44px;text-align:right;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+    .bar-r.win .bar-nm{font-weight:700}.bar-r.win .bar-pc{font-weight:800}
 
-    /* Card behind (stack depth) */
-    .card-behind {
-      transform: scale(0.96) translateY(8px);
-      opacity: 0.6;
-      pointer-events: none;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
-    }
-    .card-behind-2 {
-      transform: scale(0.92) translateY(16px);
-      opacity: 0.3;
-      pointer-events: none;
-    }
+    /* Insight */
+    .insight{padding:14px 16px;border:1px solid var(--bl);border-radius:10px;margin-bottom:24px;font-size:13px;line-height:1.5;color:var(--t2);opacity:0}
+    .insight.show{animation:fu .4s .4s cubic-bezier(.16,1,.3,1) forwards}
+    .insight strong{color:var(--t1);font-weight:600}
 
-    /* Swipe overlays */
-    .swipe-label {
-      position: absolute; top: 24px; padding: 8px 18px;
-      border-radius: 8px; font-size: 13px; font-weight: 700;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      opacity: 0; transition: opacity 0.1s;
-      pointer-events: none; z-index: 5;
-    }
-    .swipe-label.favor { right: 24px; color: var(--green); border: 2.5px solid var(--green); background: var(--green-bg); }
-    .swipe-label.contra { left: 24px; color: var(--red); border: 2.5px solid var(--red); background: var(--red-bg); }
+    /* Share image section */
+    .share-img-sec{margin-bottom:24px;opacity:0}.share-img-sec.show{animation:fu .4s .5s cubic-bezier(.16,1,.3,1) forwards}
+    .si-label{font-size:12px;font-weight:600;color:var(--t2);margin-bottom:10px}
+    .si-preview{border:1px solid var(--b);border-radius:10px;overflow:hidden;margin-bottom:10px;background:var(--bg)}
+    .si-preview canvas{display:block;width:100%;height:auto}
+    .si-actions{display:flex;gap:8px}
+    .btn-dl{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 16px;border-radius:10px;border:1.5px solid var(--t1);background:var(--t1);color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:600;transition:transform .1s,opacity .12s}
+    .btn-dl:active{transform:scale(.97)}.btn-dl:hover{opacity:.9}
+    .btn-dl svg{width:15px;height:15px}
 
-    /* Card content */
-    .card-tag {
-      display: inline-block; font-size: 11px; font-weight: 600;
-      color: var(--text-secondary); letter-spacing: 0.06em; text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-    .card-title {
-      font-family: var(--font-serif); font-weight: 400; font-size: 23px;
-      line-height: 1.25; color: var(--text-primary); margin-bottom: 14px;
-    }
-    .card-desc {
-      font-size: 13px; line-height: 1.6; color: var(--text-secondary);
-    }
-    .card-footer {
-      border-top: 1px solid var(--border-light); padding-top: 16px;
-      font-size: 11px; color: var(--text-tertiary); line-height: 1.4;
-    }
+    /* Text share */
+    .share-txt{margin-bottom:24px;opacity:0}.share-txt.show{animation:fu .4s .55s cubic-bezier(.16,1,.3,1) forwards}
+    .st-label{font-size:11px;font-weight:500;color:var(--t3);margin-bottom:8px}
+    .st-row{display:flex;gap:8px}
+    .btn-s{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;border-radius:8px;border:1px solid var(--b);background:var(--card);cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--t1);transition:transform .1s,border-color .12s}
+    .btn-s:active{transform:scale(.97)}.btn-s:hover{border-color:var(--t3)}
+    .btn-s svg{width:14px;height:14px}
 
-    /* Action buttons */
-    .actions { padding: 0 20px; }
-    .actions-row { display: flex; gap: 10px; max-width: 400px; margin: 0 auto; }
-    .btn-action {
-      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
-      padding: 14px 8px; border-radius: 10px;
-      border: 1.5px solid var(--border); background: var(--bg-card); cursor: pointer;
-      font-family: var(--font-sans); font-size: 11px; font-weight: 600; color: var(--text-secondary);
-      transition: border-color 0.15s, background 0.15s, transform 0.1s;
-    }
-    .btn-action:active { transform: scale(0.95); }
-    .btn-action .btn-icon { font-size: 22px; line-height: 1; }
-    .btn-action.contra:hover { border-color: var(--red); color: var(--red); background: var(--red-bg); }
-    .btn-action.neutral:hover { border-color: var(--text-tertiary); }
-    .btn-action.favor:hover { border-color: var(--green); color: var(--green); background: var(--green-bg); }
+    /* Ad */
+    .ad{display:flex;align-items:flex-start;gap:14px;padding:16px;background:#FAF6F0;border:1px solid #E8E0D4;border-radius:10px;margin-bottom:24px;text-decoration:none;color:inherit;transition:border-color .2s;opacity:0}
+    .ad.show{animation:fu .4s .6s cubic-bezier(.16,1,.3,1) forwards}
+    .ad:hover{border-color:#D4C8B8}
+    .ad-m{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#A09080;margin-bottom:3px}
+    .ad h4{font-size:13px;font-weight:600;line-height:1.35;margin-bottom:2px}.ad p{font-size:11px;color:var(--t2);line-height:1.5}
+    .ad-i{font-size:26px;flex-shrink:0;line-height:1;margin-top:1px}
 
-    /* --- Result screen --- */
-    .result { padding: 32px 20px 40px; }
-    .result-inner { max-width: 440px; margin: 0 auto; }
-    .result-eyebrow {
-      font-size: 11px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--text-tertiary); margin-bottom: 8px;
-    }
-    .result h2 {
-      font-family: var(--font-serif); font-weight: 400; font-size: 28px;
-      line-height: 1.2; margin-bottom: 6px;
-    }
-    .result h2 strong { font-weight: 400; }
-    .result-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 32px; }
+    /* Breakdown */
+    .bd-tog{display:flex;align-items:center;justify-content:space-between;width:100%;padding:13px 16px;background:var(--card);border:1px solid var(--b);border-radius:10px;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--t1);margin-bottom:10px;transition:background .12s;opacity:0}
+    .bd-tog.show{animation:fu .4s .65s cubic-bezier(.16,1,.3,1) forwards}
+    .bd-tog:hover{background:#F5F4F2}
+    .bd-tog .chv{transition:transform .2s;font-size:18px;color:var(--t3)}
+    .bd-tog.open .chv{transform:rotate(180deg)}
+    .bd-list{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+    .bd-list.vis{grid-template-rows:1fr}
+    .bd-list-in{overflow:hidden}
+    .bd-i{padding:13px 16px;border:1px solid var(--bl);border-radius:10px;margin-bottom:6px;background:var(--card)}
+    .bd-i .bn{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+    .bd-i .bt{font-size:13px;font-weight:600;line-height:1.4;margin:4px 0 6px}
+    .bd-i .bv{font-size:11px;font-weight:600;margin-bottom:6px}
+    .bv.vy{color:var(--g)}.bv.vn{color:var(--r)}.bv.vp{color:var(--t3)}
+    .bd-i .bp{font-size:11px;color:var(--t2);line-height:1.5;border-top:1px solid var(--bl);padding-top:6px}
+    .bd-i .bp strong{font-weight:600}
 
-    /* Party bars */
-    .party-list { margin-bottom: 32px; }
-    .party-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
-    .party-row:last-child { border-bottom: none; }
-    .party-name { width: 72px; font-size: 13px; font-weight: 600; color: var(--text-primary); flex-shrink: 0; }
-    .party-bar-track { flex: 1; height: 8px; background: var(--border-light); border-radius: 4px; overflow: hidden; }
-    .party-bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-    .party-pct { width: 40px; text-align: right; font-size: 14px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
-    .party-row.winner .party-name { font-weight: 700; }
-    .party-row.winner .party-pct { font-weight: 800; }
+    .btn-re{display:block;margin:16px auto 0;padding:8px 16px;background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:12px;color:var(--t3);text-decoration:underline;text-underline-offset:2px;opacity:0}
+    .btn-re.show{animation:fu .4s .7s cubic-bezier(.16,1,.3,1) forwards}
+    .btn-re:hover{color:var(--t2)}
 
-    /* Share buttons */
-    .share-section { margin-bottom: 28px; }
-    .share-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; }
-    .share-row { display: flex; gap: 8px; }
-    .btn-share {
-      flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
-      padding: 12px 16px; border-radius: 10px; border: none; cursor: pointer;
-      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
-      transition: transform 0.1s, opacity 0.15s;
-    }
-    .btn-share:active { transform: scale(0.97); }
-    .btn-share:hover { opacity: 0.9; }
-    .btn-share.x-btn { background: var(--text-primary); color: #fff; }
-    .btn-share.wa-btn { background: #25D366; color: #fff; }
-    .btn-share svg { width: 15px; height: 15px; }
+    /* Footer */
+    .ft{padding:20px;text-align:center;border-top:1px solid var(--bl);font-size:11px;color:var(--t3);line-height:1.5}
+    .ft a{color:var(--t2);text-decoration:none}.ft a:hover{text-decoration:underline}
 
-    /* Caffutio ad — editorial native style */
-    .ad-native {
-      display: flex; align-items: flex-start; gap: 14px;
-      padding: 18px; background: #FAF6F0; border: 1px solid #E8E0D4;
-      border-radius: 10px; margin-bottom: 28px; text-decoration: none; color: inherit;
-      transition: border-color 0.2s;
-    }
-    .ad-native:hover { border-color: #D4C8B8; }
-    .ad-mark {
-      font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
-      color: #A09080; margin-bottom: 4px;
-    }
-    .ad-native h4 { font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.35; margin-bottom: 2px; }
-    .ad-native p { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
-    .ad-icon { font-size: 28px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+    /* ── Keyframes ── */
+    @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes cardIn{from{opacity:0;transform:scale(.97) translateY(6px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    @keyframes stampIn{0%{opacity:0;transform:scale(2) rotate(-8deg)}50%{opacity:1;transform:scale(.92) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(-3deg)}}
+    @keyframes dotBounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-5px);opacity:1}}
 
-    /* Breakdown section */
-    .breakdown-toggle {
-      display: flex; align-items: center; justify-content: space-between; width: 100%;
-      padding: 14px 16px; background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 10px; cursor: pointer; font-family: var(--font-sans);
-      font-size: 13px; font-weight: 600; color: var(--text-primary);
-      margin-bottom: 12px; transition: background 0.15s;
-    }
-    .breakdown-toggle:hover { background: #F5F4F2; }
-    .breakdown-toggle .chevron {
-      transition: transform 0.25s; font-size: 18px; color: var(--text-tertiary);
-    }
-    .breakdown-toggle.open .chevron { transform: rotate(180deg); }
-
-    .breakdown-list { display: none; }
-    .breakdown-list.visible { display: block; }
-    .breakdown-item {
-      padding: 14px 16px; border: 1px solid var(--border-light);
-      border-radius: 10px; margin-bottom: 8px; background: var(--bg-card);
-    }
-    .breakdown-item .bi-num { font-size: 10px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; }
-    .breakdown-item .bi-title { font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.4; margin: 4px 0 8px; }
-    .breakdown-item .bi-vote { font-size: 11px; font-weight: 600; margin-bottom: 8px; }
-    .breakdown-item .bi-vote.voted-yes { color: var(--green); }
-    .breakdown-item .bi-vote.voted-no { color: var(--red); }
-    .breakdown-item .bi-vote.voted-pass { color: var(--text-tertiary); }
-    .breakdown-item .bi-parties { font-size: 11px; color: var(--text-secondary); line-height: 1.5; border-top: 1px solid var(--border-light); padding-top: 8px; }
-    .breakdown-item .bi-parties strong { font-weight: 600; }
-
-    .btn-restart {
-      display: block; margin: 12px auto 0; padding: 8px 16px;
-      background: none; border: none; cursor: pointer;
-      font-family: var(--font-sans); font-size: 12px; color: var(--text-tertiary);
-      text-decoration: underline; text-underline-offset: 2px;
-    }
-    .btn-restart:hover { color: var(--text-secondary); }
-
-    /* --- Footer --- */
-    .footer {
-      padding: 20px; text-align: center;
-      border-top: 1px solid var(--border-light);
-      font-size: 11px; color: var(--text-tertiary); line-height: 1.5;
-    }
-    .footer a { color: var(--text-secondary); text-decoration: none; }
-    .footer a:hover { text-decoration: underline; }
-
-    /* --- Responsive --- */
-    @media (min-width: 500px) {
-      .intro h1 { font-size: 38px; }
-      .card-title { font-size: 26px; }
-      .stack-area { min-height: 380px; }
-    }
-
-    /* Fade-in animation */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-up { animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    .fade-up-delay { animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards; opacity: 0; }
-    .fade-up-delay-2 { animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards; opacity: 0; }
+    @media(min-width:500px){.intro h1{font-size:38px}.cd-t{font-size:26px}}
   </style>
 </head>
-
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="container header-inner">
-      <div class="logo"><span>Voto</span> a Ciegas</div>
-      <span class="header-pill" id="header-pill">Elecciones 2026</span>
+<header class="hd">
+  <div class="hd-in">
+    <div class="logo"><i>Voto</i> a Ciegas</div>
+    <span class="pill" id="pill">Elecciones 2026</span>
+  </div>
+</header>
+
+<!-- ─── INTRO ─── -->
+<section id="S0" class="scr on intro">
+  <div class="intro-ey">Test electoral independiente</div>
+  <h1>¿Votas por siglas o por lo que <em>realmente</em> proponen?</h1>
+  <p class="intro-bd">10 medidas reales de los programas electorales, sin logos ni partidos. Solo tu criterio.</p>
+  <div class="intro-st">
+    <div><b>1.</b>Lee la<br>medida</div>
+    <div><b>2.</b>Desliza o<br>vota</div>
+    <div><b>3.</b>Descubre tu<br>resultado</div>
+  </div>
+  <button id="go" class="btn-go">Comenzar<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></button>
+  <p class="intro-n">Sin registro · Anónimo · 1 minuto</p>
+</section>
+
+<!-- ─── GAME ─── -->
+<section id="S1" class="scr game">
+  <div class="game-in">
+    <div class="prog">
+      <div class="prog-row">
+        <span class="prog-n" id="pn">1 / 10</span>
+        <span class="prog-cat" id="pc">—</span>
+      </div>
+      <div class="dots" id="dots"></div>
     </div>
-  </header>
-
-  <!-- ===================== INTRO SCREEN ===================== -->
-  <section id="screen-intro" class="screen active intro">
-    <div class="intro-eyebrow fade-up">Test electoral independiente</div>
-    <h1 class="fade-up">¿Votas por siglas o por lo que <em>realmente</em> proponen?</h1>
-    <p class="intro-body fade-up-delay">
-      10 medidas de los programas electorales, sin logos ni partidos. Solo tu criterio. Al final descubrirás tu afinidad real.
-    </p>
-
-    <div class="intro-steps fade-up-delay">
-      <div><span class="step-num">1.</span>Lee la<br>medida</div>
-      <div><span class="step-num">2.</span>Desliza o<br>vota</div>
-      <div><span class="step-num">3.</span>Descubre tu<br>resultado</div>
+    <div class="stack"><div class="deck" id="deck"></div></div>
+    <div class="acts">
+      <div class="acts-row">
+        <button class="abtn no" id="bno"><span class="ic">✕</span><span>En contra</span></button>
+        <button class="abtn ps" id="bps"><span class="ic">—</span><span>Paso</span></button>
+        <button class="abtn si" id="bsi"><span class="ic">✓</span><span>A favor</span></button>
+      </div>
     </div>
+  </div>
+</section>
 
-    <button id="btn-start" class="btn-primary fade-up-delay-2">
-      Comenzar
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
-    </button>
+<!-- ─── CALCULATING ─── -->
+<section id="S2" class="scr calc">
+  <p class="calc-t">Analizando tus respuestas</p>
+  <div class="calc-dots"><span></span><span></span><span></span></div>
+</section>
 
-    <p class="intro-note fade-up-delay-2">Sin registro · Anónimo · 1 minuto</p>
-  </section>
-
-  <!-- ===================== GAME SCREEN ===================== -->
-  <section id="screen-game" class="screen game">
-    <div class="game-inner">
-
-      <!-- Progress -->
-      <div class="progress-area">
-        <div class="progress-row">
-          <span class="progress-count" id="progress-count">1 / 10</span>
-          <span class="progress-category" id="progress-cat">—</span>
-        </div>
-        <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:10%"></div></div>
-      </div>
-
-      <!-- Swipeable card stack -->
-      <div class="stack-area">
-        <div class="card-stack" id="card-stack">
-          <!-- Cards rendered by JS -->
-        </div>
-      </div>
-
-      <!-- Fallback action buttons -->
-      <div class="actions">
-        <div class="actions-row">
-          <button class="btn-action contra" id="btn-no">
-            <span class="btn-icon">✕</span>
-            <span>En contra</span>
-          </button>
-          <button class="btn-action neutral" id="btn-pass">
-            <span class="btn-icon">—</span>
-            <span>Paso</span>
-          </button>
-          <button class="btn-action favor" id="btn-yes">
-            <span class="btn-icon">✓</span>
-            <span>A favor</span>
-          </button>
-        </div>
-      </div>
-
+<!-- ─── RESULT ─── -->
+<section id="S3" class="scr res">
+  <div class="res-in">
+    <div class="res-hero" id="rHero">
+      <div class="res-ey">Tu resultado</div>
+      <div class="res-pct" id="rPct">—</div>
+      <div class="res-who" id="rWho">—</div>
+      <p class="res-sub">de afinidad electoral</p>
     </div>
-  </section>
-
-  <!-- ===================== RESULT SCREEN ===================== -->
-  <section id="screen-result" class="screen result">
-    <div class="result-inner">
-
-      <div class="fade-up">
-        <div class="result-eyebrow">Tu resultado</div>
-        <h2 id="result-headline">Tu mayor afinidad es con <strong id="winner-name">—</strong></h2>
-        <p class="result-sub">Basado en tus respuestas a propuestas reales de los programas electorales.</p>
+    <div class="bars" id="rBars"></div>
+    <div class="insight" id="rInsight"></div>
+    <div class="share-img-sec" id="rImgSec">
+      <div class="si-label">Tu resultado para compartir</div>
+      <div class="si-preview" id="rPreview"></div>
+      <div class="si-actions">
+        <button class="btn-dl" id="btnImg"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg><span id="imgLabel">Descargar imagen</span></button>
       </div>
-
-      <div class="party-list fade-up-delay" id="party-bars">
-        <!-- Rendered by JS -->
-      </div>
-
-      <div class="share-section fade-up-delay">
-        <div class="share-label">Comparte tu resultado</div>
-        <div class="share-row">
-          <button class="btn-share x-btn" id="btn-share-x">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            Publicar en X
-          </button>
-          <button class="btn-share wa-btn" id="btn-share-wa">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            WhatsApp
-          </button>
-        </div>
-      </div>
-
-      <!-- Native ad: Caffutio -->
-      <a href="https://caffutio.com/?utm_source=votoaciegas&utm_medium=result_native&utm_campaign=elecciones" target="_blank" rel="noopener" class="ad-native fade-up-delay-2">
-        <span class="ad-icon">☕</span>
-        <div>
-          <div class="ad-mark">Patrocinado · caffutio.com</div>
-          <h4>¿Noche de resultados electorales? Necesitas buen café.</h4>
-          <p>Guías independientes de cafeteras espresso, superautomáticas y café de especialidad.</p>
-        </div>
-      </a>
-
-      <!-- Breakdown -->
-      <button class="breakdown-toggle" id="btn-breakdown">
-        <span>Ver desglose por medida</span>
-        <span class="chevron">⌄</span>
-      </button>
-      <div class="breakdown-list" id="breakdown-list"></div>
-
-      <button class="btn-restart" id="btn-restart">Repetir el test</button>
     </div>
-  </section>
+    <div class="share-txt" id="rTxtSec">
+      <div class="st-label">O comparte con texto</div>
+      <div class="st-row">
+        <button class="btn-s" id="shX"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</button>
+        <button class="btn-s" id="shW"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</button>
+      </div>
+    </div>
+    <a href="https://caffutio.com/?utm_source=votoaciegas&utm_medium=result&utm_campaign=elecciones" target="_blank" rel="noopener" class="ad" id="rAd">
+      <span class="ad-i">☕</span>
+      <div>
+        <div class="ad-m">Patrocinado · caffutio.com</div>
+        <h4>¿Noche de resultados electorales? Necesitas buen café.</h4>
+        <p>Guías independientes de cafeteras espresso, superautomáticas y café de especialidad.</p>
+      </div>
+    </a>
+    <button class="bd-tog" id="bdTog"><span>Ver desglose por medida</span><span class="chv">⌄</span></button>
+    <div class="bd-list" id="bdList"><div class="bd-list-in" id="bdIn"></div></div>
+    <button class="btn-re" id="btnRe">Repetir el test</button>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>Proyecto cívico y abierto · <a href="https://github.com/Pablorm-esp/radarx" target="_blank">GitHub</a></p>
-    <p>Propuestas extraídas de programas electorales oficiales. No recopilamos datos.</p>
-  </footer>
+<footer class="ft">
+  <p>Proyecto cívico y abierto · <a href="https://github.com/Pablorm-esp/radarx" target="_blank">GitHub</a></p>
+  <p>Propuestas de programas electorales oficiales. No recopilamos datos.</p>
+</footer>
 
-  <!-- ===================== JAVASCRIPT ===================== -->
-  <script>
-  (function() {
-    'use strict';
+<script>
+(function(){
+'use strict';
 
-    // ───── Data ─────
-    const PROPOSALS = [
-      { id:1, cat:"Vivienda", title:"Topar el precio de los alquileres por ley y limitar los pisos turísticos", desc:"Intervenir los precios en zonas tensionadas para frenar subidas abusivas y restringir las licencias de alquiler vacacional.", pro:"Sumar, Podemos y PSOE (parcial)", con:"PP y VOX", w:{Sumar:1,Podemos:1,PSOE:.5,PP:-1,VOX:-1} },
-      { id:2, cat:"Trabajo", title:"Reducir la jornada laboral a 37,5 horas semanales sin bajar el salario", desc:"Menos horas de trabajo obligatorio por ley para ganar tiempo de vida sin perder poder adquisitivo.", pro:"Sumar, PSOE y Podemos", con:"PP y VOX", w:{Sumar:1,PSOE:.9,Podemos:.9,PP:-.8,VOX:-1} },
-      { id:3, cat:"Impuestos", title:"Hacer permanente el impuesto a la banca, energéticas y grandes fortunas", desc:"Gravar de forma estructural a patrimonios de más de 3 millones y beneficios bancarios extraordinarios.", pro:"PSOE, Sumar y Podemos", con:"PP y VOX", w:{Podemos:1,Sumar:1,PSOE:.9,PP:-1,VOX:-1} },
-      { id:4, cat:"Inmigración", title:"Expulsión inmediata de irregulares y prioridad para españoles en las ayudas", desc:"Endurecer fronteras, repatriaciones exprés y reservar prestaciones sociales a nacionales.", pro:"VOX (sectores de PP)", con:"PSOE, Sumar y Podemos", w:{VOX:1,PP:.4,PSOE:-.8,Sumar:-1,Podemos:-1} },
-      { id:5, cat:"Energía", title:"Prolongar la vida de las centrales nucleares para abaratar la factura eléctrica", desc:"Frenar el cierre de reactores para asegurar suministro continuo y reducir la dependencia exterior.", pro:"PP y VOX", con:"PSOE, Sumar y Podemos", w:{PP:1,VOX:1,PSOE:-.8,Sumar:-1,Podemos:-1} },
-      { id:6, cat:"Sucesiones", title:"Bonificar al 99 % el Impuesto de Sucesiones entre padres e hijos", desc:"Eliminar en la práctica el tributo por heredar viviendas o ahorros familiares de progenitores.", pro:"PP y VOX", con:"PSOE, Sumar y Podemos", w:{PP:1,VOX:1,PSOE:-.8,Sumar:-1,Podemos:-1} },
-      { id:7, cat:"Seguridad", title:"Desalojo de viviendas ocupadas en menos de 24 horas y penas de cárcel", desc:"Autorizar a las fuerzas de seguridad a desalojar sin orden judicial previa en casos de usurpación.", pro:"PP y VOX", con:"Podemos y Sumar (PSOE intermedio)", w:{VOX:1,PP:.9,PSOE:-.3,Sumar:-1,Podemos:-1} },
-      { id:8, cat:"Sanidad", title:"Blindar la gestión 100 % pública y suprimir conciertos sanitarios", desc:"Eliminar derivaciones a clínicas privadas y que fondos públicos no financien la gestión privada.", pro:"Podemos y Sumar", con:"PP y VOX", w:{Podemos:1,Sumar:.9,PSOE:.2,PP:-1,VOX:-1} },
-      { id:9, cat:"Pensiones", title:"Revalorizar las pensiones siempre según el IPC real, sin excepciones", desc:"Garantizar por ley que ninguna pensión pierda poder de compra en ninguna circunstancia.", pro:"PSOE, Sumar y Podemos", con:"PP y VOX (piden vincular a sostenibilidad)", w:{PSOE:1,Sumar:1,Podemos:1,PP:.2,VOX:-.3} },
-      { id:10, cat:"Regularización", title:"Regularización extraordinaria de migrantes que ya viven y trabajan aquí", desc:"Conceder permisos de residencia y trabajo a personas arraigadas para que coticen y salgan de la economía sumergida.", pro:"Sumar, Podemos y PSOE", con:"PP y VOX", w:{Sumar:1,Podemos:1,PSOE:.8,PP:-.6,VOX:-1} }
-    ];
+/* ═══════ DATA ═══════ */
+const P=[
+{id:1,cat:"Vivienda",t:"Topar el precio de los alquileres por ley y limitar los pisos turísticos",d:"Intervenir los precios en zonas tensionadas para frenar subidas abusivas y restringir licencias de alquiler vacacional.",pro:"Sumar, Podemos y PSOE (parcial)",con:"PP y VOX",w:{Sumar:1,Podemos:1,PSOE:.5,PP:-1,VOX:-1}},
+{id:2,cat:"Trabajo",t:"Reducir la jornada laboral a 37,5 horas semanales sin bajar el salario",d:"Menos horas de trabajo obligatorio por ley para ganar tiempo de vida sin perder poder adquisitivo.",pro:"Sumar, PSOE y Podemos",con:"PP y VOX",w:{Sumar:1,PSOE:.9,Podemos:.9,PP:-.8,VOX:-1}},
+{id:3,cat:"Impuestos",t:"Hacer permanente el impuesto a la banca, energéticas y grandes fortunas",d:"Gravar de forma estructural a patrimonios de más de 3 millones y beneficios bancarios extraordinarios.",pro:"PSOE, Sumar y Podemos",con:"PP y VOX",w:{Podemos:1,Sumar:1,PSOE:.9,PP:-1,VOX:-1}},
+{id:4,cat:"Inmigración",t:"Expulsión inmediata de irregulares y prioridad para españoles en las ayudas",d:"Endurecer fronteras, repatriaciones exprés y reservar prestaciones sociales a nacionales.",pro:"VOX (sectores de PP)",con:"PSOE, Sumar y Podemos",w:{VOX:1,PP:.4,PSOE:-.8,Sumar:-1,Podemos:-1}},
+{id:5,cat:"Energía",t:"Prolongar la vida de las centrales nucleares para abaratar la factura eléctrica",d:"Frenar el cierre de reactores para asegurar suministro continuo y reducir la dependencia exterior.",pro:"PP y VOX",con:"PSOE, Sumar y Podemos",w:{PP:1,VOX:1,PSOE:-.8,Sumar:-1,Podemos:-1}},
+{id:6,cat:"Sucesiones",t:"Bonificar al 99 % el Impuesto de Sucesiones entre padres e hijos",d:"Eliminar en la práctica el tributo por heredar viviendas o ahorros familiares de progenitores.",pro:"PP y VOX",con:"PSOE, Sumar y Podemos",w:{PP:1,VOX:1,PSOE:-.8,Sumar:-1,Podemos:-1}},
+{id:7,cat:"Seguridad",t:"Desalojo de viviendas ocupadas en menos de 24 horas y penas de cárcel",d:"Autorizar a las fuerzas de seguridad a desalojar sin orden judicial previa en casos de usurpación.",pro:"PP y VOX",con:"Podemos y Sumar",w:{VOX:1,PP:.9,PSOE:-.3,Sumar:-1,Podemos:-1}},
+{id:8,cat:"Sanidad",t:"Blindar la gestión 100 % pública y suprimir conciertos sanitarios",d:"Eliminar derivaciones a clínicas privadas y que fondos públicos no financien gestión privada.",pro:"Podemos y Sumar",con:"PP y VOX",w:{Podemos:1,Sumar:.9,PSOE:.2,PP:-1,VOX:-1}},
+{id:9,cat:"Pensiones",t:"Revalorizar las pensiones siempre según el IPC real, sin excepciones",d:"Garantizar por ley que ninguna pensión pierda poder de compra en ninguna circunstancia.",pro:"PSOE, Sumar y Podemos",con:"PP y VOX (piden vincular a sostenibilidad)",w:{PSOE:1,Sumar:1,Podemos:1,PP:.2,VOX:-.3}},
+{id:10,cat:"Regularización",t:"Regularización extraordinaria de migrantes que ya viven y trabajan aquí",d:"Conceder permisos de residencia y trabajo a personas arraigadas para que coticen formalmente.",pro:"Sumar, Podemos y PSOE",con:"PP y VOX",w:{Sumar:1,Podemos:1,PSOE:.8,PP:-.6,VOX:-1}}
+];
 
-    const PARTIES = [
-      { name:'PSOE', color:'var(--psoe)' },
-      { name:'PP', color:'var(--pp)' },
-      { name:'VOX', color:'var(--vox)' },
-      { name:'Sumar', color:'var(--sumar)' },
-      { name:'Podemos', color:'var(--podemos)' }
-    ];
+const PARTIES=[
+{n:'PSOE',c:'#E30613'},{n:'PP',c:'#1C8ADB'},{n:'VOX',c:'#63BE21'},{n:'Sumar',c:'#E51C55'},{n:'Podemos',c:'#7B3F98'}
+];
 
-    // ───── State ─────
-    let idx = 0;
-    const answers = []; // { id, vote: 1|-1|0 }
+/* ═══════ STATE ═══════ */
+let ix=0;const ans=[];let busy=false;
 
-    // ───── DOM refs ─────
-    const $ = s => document.querySelector(s);
-    const introScreen = $('#screen-intro');
-    const gameScreen = $('#screen-game');
-    const resultScreen = $('#screen-result');
-    const cardStack = $('#card-stack');
-    const progressCount = $('#progress-count');
-    const progressCat = $('#progress-cat');
-    const progressFill = $('#progress-fill');
-    const headerPill = $('#header-pill');
+/* ═══════ DOM ═══════ */
+const $=s=>document.querySelector(s);
+const S=[...'0123'].map(i=>$('#S'+i));
+const deck=$('#deck'),dots=$('#dots'),pn=$('#pn'),pc=$('#pc'),pill=$('#pill');
 
-    // ───── Swipe physics config ─────
-    const SWIPE_THRESHOLD = 80;    // px to commit swipe
-    const ROTATION_FACTOR = 0.08;  // degrees per px
-    const EXIT_X = 600;            // px to fly off screen
+const TH=80,ROT=.08,EXIT=600;
 
-    // ───── Show screen ─────
-    function showScreen(screen) {
-      [introScreen, gameScreen, resultScreen].forEach(s => s.classList.remove('active'));
-      screen.classList.add('active');
+function show(i){S.forEach(s=>s.classList.remove('on'));S[i].classList.add('on');window.scrollTo(0,0)}
+
+/* ═══════ DOTS ═══════ */
+function initDots(){dots.innerHTML='';for(let i=0;i<P.length;i++){const d=document.createElement('div');d.className='dot'+(i===0?' cur':'');dots.appendChild(d)}}
+function updateDot(index,cls){const d=dots.children;if(d[index])d[index].className='dot '+cls}
+function setCurDot(index){[...dots.children].forEach((d,i)=>{if(!d.classList.contains('yes')&&!d.classList.contains('no')&&!d.classList.contains('skip'))d.classList.toggle('cur',i===index)})}
+
+/* ═══════ PROGRESS ═══════ */
+function upProg(){const n=ix+1,t=P.length;pn.textContent=n+' / '+t;if(ix<t){pc.textContent=P[ix].cat;pill.textContent=n+' de '+t}}
+
+/* ═══════ BUILD CARDS ═══════ */
+function buildCards(){
+  deck.innerHTML='';
+  const t=P.length,show=Math.min(3,t-ix);
+  for(let i=show-1;i>=0;i--){
+    const pi=ix+i;if(pi>=t)continue;
+    const p=P[pi],c=document.createElement('div');
+    c.className='cd'+(i===1?' cd-bk':i===2?' cd-bk2':'');
+    c.dataset.i=pi;
+    if(i===0){
+      c.classList.add('enter');
+      c.innerHTML=`<div class="sw f">A favor</div><div class="sw c">En contra</div><div><span class="cd-tag">${p.cat}</span><h2 class="cd-t">${p.t}</h2><p class="cd-d">${p.d}</p></div><div class="cd-f"><span class="hint">← Desliza →</span><span class="keys"><span class="key">←</span> contra · paso <span class="key">↓</span> · favor <span class="key">→</span></span></div>`;
+      initSwipe(c);
+    }else{
+      c.innerHTML=`<div><span class="cd-tag">${p.cat}</span><h2 class="cd-t">${p.t}</h2><p class="cd-d">${p.d}</p></div><div class="cd-f"></div>`;
     }
+    deck.appendChild(c);
+  }
+}
 
-    // ───── Build cards ─────
-    function buildCards() {
-      cardStack.innerHTML = '';
-      const total = PROPOSALS.length;
-      const showCount = Math.min(3, total - idx);
+/* ═══════ SWIPE ENGINE ═══════ */
+function initSwipe(card){
+  let sx=0,cx=0,drag=false,t0=0;
+  const lf=card.querySelector('.sw.f'),lc=card.querySelector('.sw.c');
+  const bk=()=>deck.querySelector('.cd-bk');
 
-      for (let i = showCount - 1; i >= 0; i--) {
-        const pIdx = idx + i;
-        if (pIdx >= total) continue;
-        const p = PROPOSALS[pIdx];
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.dataset.index = pIdx;
+  function start(e){
+    if(busy)return;
+    drag=true;t0=Date.now();
+    const pt=e.touches?e.touches[0]:e;sx=pt.clientX;cx=0;
+    card.classList.add('drag');card.classList.remove('ret','enter');
+  }
+  function move(e){
+    if(!drag)return;
+    const pt=e.touches?e.touches[0]:e;cx=pt.clientX-sx;
+    const rot=cx*ROT;
+    card.style.transform=`translateX(${cx}px) rotate(${rot}deg)`;
+    const pr=Math.min(Math.abs(cx)/TH,1);
+    lf.style.opacity=cx>0?pr:0;lc.style.opacity=cx<0?pr:0;
 
-        if (i === 0) {
-          card.innerHTML = `
-            <div class="swipe-label favor">A favor</div>
-            <div class="swipe-label contra">En contra</div>
-            <div>
-              <span class="card-tag">${p.cat}</span>
-              <h2 class="card-title">${p.title}</h2>
-              <p class="card-desc">${p.desc}</p>
-            </div>
-            <div class="card-footer">Desliza o pulsa los botones de abajo</div>
-          `;
-          initSwipe(card);
-        } else {
-          card.classList.add(i === 1 ? 'card-behind' : 'card-behind-2');
-          card.innerHTML = `
-            <div>
-              <span class="card-tag">${p.cat}</span>
-              <h2 class="card-title">${p.title}</h2>
-              <p class="card-desc">${p.desc}</p>
-            </div>
-            <div class="card-footer"></div>
-          `;
-        }
-        cardStack.appendChild(card);
-      }
+    // Card behind peeks up proportionally
+    const b=bk();
+    if(b){
+      const s=.96+.04*pr,ty=8-8*pr,op=.55+.45*pr;
+      b.style.transform=`scale(${s}) translateY(${ty}px)`;b.style.opacity=op;
     }
-
-    function updateProgress() {
-      const n = idx + 1;
-      const total = PROPOSALS.length;
-      progressCount.textContent = `${Math.min(n, total)} / ${total}`;
-      progressFill.style.width = `${(Math.min(n, total) / total) * 100}%`;
-      if (idx < total) {
-        progressCat.textContent = PROPOSALS[idx].cat;
-        headerPill.textContent = `${n} de ${total}`;
-      }
+  }
+  function end(){
+    if(!drag)return;drag=false;
+    card.classList.remove('drag');
+    const v=Math.abs(cx)/(Date.now()-t0);
+    if(Math.abs(cx)>TH||v>.55){commit(card,cx>0?1:-1,lf,lc);
+    }else{
+      card.classList.add('ret');card.style.transform='';card.style.boxShadow='';
+      lf.style.opacity=0;lc.style.opacity=0;
+      const b=bk();if(b){b.style.transform='';b.style.opacity=''}
     }
+  }
+  card.addEventListener('mousedown',start);
+  card.addEventListener('touchstart',start,{passive:true});
+  window.addEventListener('mousemove',move);
+  window.addEventListener('touchmove',move,{passive:true});
+  window.addEventListener('mouseup',end);
+  window.addEventListener('touchend',end);
+  card._off=()=>{window.removeEventListener('mousemove',move);window.removeEventListener('touchmove',move);window.removeEventListener('mouseup',end);window.removeEventListener('touchend',end)};
+}
 
-    // ───── Swipe engine ─────
-    function initSwipe(card) {
-      let startX = 0, startY = 0, currentX = 0, isDragging = false, startTime = 0;
-      const labelFavor = card.querySelector('.swipe-label.favor');
-      const labelContra = card.querySelector('.swipe-label.contra');
+function commit(card,dir,lf,lc){
+  busy=true;card._off&&card._off();
+  // Stamp label
+  const label=dir>0?lf:lc;
+  label.style.opacity=1;label.classList.add('stamp');
 
-      function onStart(e) {
-        isDragging = true;
-        startTime = Date.now();
-        const point = e.touches ? e.touches[0] : e;
-        startX = point.clientX;
-        startY = point.clientY;
-        currentX = 0;
-        card.classList.add('dragging');
-        card.classList.remove('returning');
-      }
+  card.classList.add('exit');
+  card.style.transform=`translateX(${dir*EXIT}px) rotate(${dir*22}deg)`;
 
-      function onMove(e) {
-        if (!isDragging) return;
-        const point = e.touches ? e.touches[0] : e;
-        currentX = point.clientX - startX;
-        const rotation = currentX * ROTATION_FACTOR;
-        card.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
+  const vote=dir;
+  setTimeout(()=>{registerVote(vote);busy=false},280);
+}
 
-        // Label feedback
-        const progress = Math.min(Math.abs(currentX) / SWIPE_THRESHOLD, 1);
-        if (currentX > 0) {
-          labelFavor.style.opacity = progress;
-          labelContra.style.opacity = 0;
-        } else {
-          labelContra.style.opacity = progress;
-          labelFavor.style.opacity = 0;
-        }
+function btnSwipe(dir){
+  if(busy)return;
+  const top=deck.querySelector('.cd:not(.cd-bk):not(.cd-bk2):not(.exit)');
+  if(!top)return;top._off&&top._off();busy=true;
+  const lf=top.querySelector('.sw.f'),lc=top.querySelector('.sw.c');
+  const label=dir>0?lf:lc;
+  if(label){label.style.opacity=1;label.classList.add('stamp')}
+  top.classList.add('exit');
+  top.style.transform=`translateX(${dir*EXIT}px) rotate(${dir*18}deg)`;
+  // Flash button
+  const btn=dir>0?$('#bsi'):$('#bno');
+  btn.classList.add(dir>0?'flash-g':'flash-r');
+  setTimeout(()=>btn.classList.remove('flash-g','flash-r'),250);
+  setTimeout(()=>{registerVote(dir);busy=false},280);
+}
 
-        // Subtle shadow change
-        const shadowSpread = Math.min(Math.abs(currentX) * 0.15, 20);
-        card.style.boxShadow = `0 ${4 + shadowSpread}px ${20 + shadowSpread * 2}px rgba(0,0,0,${0.04 + progress * 0.06})`;
-      }
+function btnPass(){
+  if(busy)return;
+  const top=deck.querySelector('.cd:not(.cd-bk):not(.cd-bk2):not(.exit)');
+  if(!top)return;top._off&&top._off();busy=true;
+  top.classList.add('exit');top.style.transform='translateY(-200px) scale(.92)';
+  const btn=$('#bps');btn.classList.add('flash-n');
+  setTimeout(()=>btn.classList.remove('flash-n'),250);
+  setTimeout(()=>{registerVote(0);busy=false},280);
+}
 
-      function onEnd() {
-        if (!isDragging) return;
-        isDragging = false;
-        card.classList.remove('dragging');
+/* ═══════ VOTE ═══════ */
+function registerVote(v){
+  const cls=v===1?'yes':v===-1?'no':'skip';
+  updateDot(ix,cls);
+  ans.push({id:P[ix].id,v});
+  ix++;
+  if(ix<P.length){setCurDot(ix);buildCards();upProg()}
+  else{showCalc()}
+}
 
-        const elapsed = Date.now() - startTime;
-        const velocity = Math.abs(currentX) / elapsed; // px/ms
+/* ═══════ CALCULATING ═══════ */
+function showCalc(){
+  show(2);pill.textContent='Analizando…';
+  setTimeout(showResults,1400);
+}
 
-        if (Math.abs(currentX) > SWIPE_THRESHOLD || velocity > 0.6) {
-          commitSwipe(card, currentX > 0 ? 1 : -1);
-        } else {
-          returnCard(card, labelFavor, labelContra);
-        }
-      }
+/* ═══════ RESULTS ═══════ */
+function showResults(){
+  show(3);pill.textContent='Resultado';
 
-      card.addEventListener('mousedown', onStart);
-      card.addEventListener('touchstart', onStart, { passive: true });
-      window.addEventListener('mousemove', onMove);
-      window.addEventListener('touchmove', onMove, { passive: true });
-      window.addEventListener('mouseup', onEnd);
-      window.addEventListener('touchend', onEnd);
+  const sc={},mx={};
+  PARTIES.forEach(p=>{sc[p.n]=0;mx[p.n]=0});
+  ans.forEach(a=>{
+    const pp=P.find(x=>x.id===a.id);
+    for(const[k,w] of Object.entries(pp.w)){mx[k]+=Math.abs(w);if(a.v===1)sc[k]+=w;else if(a.v===-1)sc[k]-=w}
+  });
 
-      // Store cleanup
-      card._cleanup = () => {
-        window.removeEventListener('mousemove', onMove);
-        window.removeEventListener('touchmove', onMove);
-        window.removeEventListener('mouseup', onEnd);
-        window.removeEventListener('touchend', onEnd);
-      };
+  const res=PARTIES.map(p=>{
+    const m=mx[p.n]||1;
+    return{n:p.n,c:p.c,pct:Math.max(5,Math.min(95,Math.round(((sc[p.n]+m)/(2*m))*100)))};
+  }).sort((a,b)=>b.pct-a.pct);
+
+  const win=res[0];
+
+  // Hero reveal
+  const hero=$('#rHero');hero.classList.add('show');
+  const pctEl=$('#rPct');pctEl.style.color=win.c;
+  countUp(pctEl,win.pct,700);
+  $('#rWho').textContent=win.n;
+
+  // Bars
+  const bars=$('#rBars');bars.innerHTML='';bars.classList.add('show');
+  res.forEach((r,i)=>{
+    const row=document.createElement('div');row.className='bar-r'+(i===0?' win':'');
+    const pcEl=document.createElement('span');pcEl.className='bar-pc';pcEl.textContent='0%';
+    row.innerHTML=`<span class="bar-nm">${r.n}</span><div class="bar-trk"><div class="bar-fl" style="background:${r.c}"></div></div>`;
+    row.appendChild(pcEl);bars.appendChild(row);
+    setTimeout(()=>{row.querySelector('.bar-fl').style.width=r.pct+'%';countUp(pcEl,r.pct,600)},200+i*80);
+  });
+
+  // Insight — find the most surprising vote
+  const insight=$('#rInsight');
+  const loser=res[res.length-1];
+  let surpriseText='';
+  for(const a of ans){
+    const pp=P.find(x=>x.id===a.id);
+    if(a.v===1&&pp.w[loser.n]&&pp.w[loser.n]>=.8){
+      surpriseText=`<strong>Dato curioso:</strong> Votaste a favor de una medida defendida por ${loser.n} sin saberlo — el partido con el que menos coincides.`;break;
     }
-
-    function commitSwipe(card, direction) {
-      const vote = direction; // 1 = favor, -1 = contra
-      card._cleanup && card._cleanup();
-      card.classList.add('exiting');
-      const exitX = direction * EXIT_X;
-      const rotation = direction * 25;
-      card.style.transform = `translateX(${exitX}px) rotate(${rotation}deg)`;
-
-      setTimeout(() => {
-        registerVote(vote);
-      }, 250);
+    if(a.v===-1&&pp.w[win.n]&&pp.w[win.n]>=.8){
+      surpriseText=`<strong>Dato curioso:</strong> Votaste en contra de una medida que defiende ${win.n} — tu mayor afinidad. Hasta dentro de tu partido favorito hay matices.`;break;
     }
+  }
+  if(surpriseText){insight.innerHTML=surpriseText;insight.classList.add('show')}
+  else insight.style.display='none';
 
-    function returnCard(card, labelFavor, labelContra) {
-      card.classList.add('returning');
-      card.style.transform = 'translateX(0) rotate(0)';
-      card.style.boxShadow = '';
-      labelFavor.style.opacity = 0;
-      labelContra.style.opacity = 0;
-    }
+  // Generate share image
+  generateImage(res,win);
 
-    function animateButtonSwipe(direction) {
-      const topCard = cardStack.querySelector('.card:not(.card-behind):not(.card-behind-2):not(.exiting)');
-      if (!topCard) return;
-      topCard._cleanup && topCard._cleanup();
-      topCard.classList.add('exiting');
-      const exitX = direction * EXIT_X;
-      topCard.style.transform = `translateX(${exitX}px) rotate(${direction * 20}deg)`;
+  // Show sections with stagger
+  $('#rImgSec').classList.add('show');
+  $('#rTxtSec').classList.add('show');
+  $('#rAd').classList.add('show');
+  $('#bdTog').classList.add('show');
+  $('#btnRe').classList.add('show');
 
-      const label = topCard.querySelector(direction > 0 ? '.swipe-label.favor' : '.swipe-label.contra');
-      if (label) label.style.opacity = 1;
+  // Text share
+  const url=location.href;
+  const txt=`He hecho el test de Voto a Ciegas 🗳️ y mi mayor afinidad es con ${win.n} (${win.pct}%).\n\n¿Votas por siglas o por medidas? Descúbrelo:`;
+  $('#shX').onclick=()=>window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(txt)}&url=${encodeURIComponent(url)}`,'_blank');
+  $('#shW').onclick=()=>window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(txt+' '+url)}`,'_blank');
 
-      setTimeout(() => {
-        registerVote(direction);
-      }, 250);
-    }
+  // Breakdown
+  const bdIn=$('#bdIn');bdIn.innerHTML='';
+  ans.forEach((a,i)=>{
+    const pp=P.find(x=>x.id===a.id);
+    const vl=a.v===1?'Votaste a favor':a.v===-1?'Votaste en contra':'Pasaste';
+    const vc=a.v===1?'vy':a.v===-1?'vn':'vp';
+    const el=document.createElement('div');el.className='bd-i';
+    el.innerHTML=`<div class="bn">Medida ${i+1} · ${pp.cat}</div><div class="bt">${pp.t}</div><div class="bv ${vc}">${vl}</div><div class="bp"><strong style="color:var(--g)">A favor:</strong> ${pp.pro}<br><strong style="color:var(--r)">En contra:</strong> ${pp.con}</div>`;
+    bdIn.appendChild(el);
+  });
+}
 
-    // ───── Vote logic ─────
-    function registerVote(vote) {
-      answers.push({ id: PROPOSALS[idx].id, vote });
-      idx++;
-      if (idx < PROPOSALS.length) {
-        buildCards();
-        updateProgress();
-      } else {
-        showResults();
-      }
-    }
+/* ═══════ COUNT-UP ═══════ */
+function countUp(el,target,dur){
+  const t0=performance.now();
+  (function tick(now){
+    const t=Math.min((now-t0)/dur,1);
+    const e=1-Math.pow(1-t,3);
+    el.textContent=Math.round(target*e)+'%';
+    if(t<1)requestAnimationFrame(tick);
+  })(t0);
+}
 
-    // ───── Results ─────
-    function showResults() {
-      showScreen(resultScreen);
-      headerPill.textContent = 'Resultado';
+/* ═══════ SHARE IMAGE (Canvas) ═══════ */
+async function generateImage(res,win){
+  await document.fonts.ready;
 
-      const scores = {};
-      const maxPoss = {};
-      PARTIES.forEach(p => { scores[p.name] = 0; maxPoss[p.name] = 0; });
+  const W=1080,H=1350,cv=document.createElement('canvas');
+  cv.width=W;cv.height=H;const cx=cv.getContext('2d');
 
-      answers.forEach(ans => {
-        const prop = PROPOSALS.find(p => p.id === ans.id);
-        for (const [party, weight] of Object.entries(prop.w)) {
-          maxPoss[party] += Math.abs(weight);
-          if (ans.vote === 1) scores[party] += weight;
-          else if (ans.vote === -1) scores[party] -= weight;
-        }
-      });
+  // Background
+  cx.fillStyle='#FAFAF8';cx.fillRect(0,0,W,H);
 
-      const results = PARTIES.map(p => {
-        const max = maxPoss[p.name] || 1;
-        const pct = Math.max(5, Math.min(95, Math.round(((scores[p.name] + max) / (2 * max)) * 100)));
-        return { name: p.name, color: p.color, pct };
-      }).sort((a, b) => b.pct - a.pct);
+  // Top brand
+  cx.textAlign='center';cx.textBaseline='top';
+  cx.font='italic 32px "Instrument Serif",Georgia,serif';cx.fillStyle='#1A1A1A';
+  cx.fillText('Voto',435,80);
+  cx.font='700 32px Inter,system-ui,sans-serif';
+  cx.fillText(' a Ciegas',615,80);
+  // Manual kerning: draw both parts
+  cx.clearRect(0,70,W,50);
+  const brand='Voto a Ciegas';
+  cx.font='700 28px Inter,system-ui,sans-serif';cx.fillStyle='#A0A0A0';
+  cx.fillText('TEST ELECTORAL · ESPAÑA 2026',W/2,130);
 
-      const winner = results[0];
-      const winnerEl = $('#winner-name');
-      winnerEl.textContent = `${winner.name} (${winner.pct} %)`;
-      winnerEl.style.color = winner.color;
+  // Re-draw brand properly
+  cx.fillStyle='#1A1A1A';
+  cx.font='italic 36px "Instrument Serif",Georgia,serif';
+  const vW=cx.measureText('Voto').width;
+  cx.font='700 36px Inter,system-ui,sans-serif';
+  const acW=cx.measureText(' a Ciegas').width;
+  const totalW=vW+acW;
+  const bx=(W-totalW)/2;
+  cx.font='italic 36px "Instrument Serif",Georgia,serif';
+  cx.textAlign='left';cx.fillText('Voto',bx,80);
+  cx.font='700 36px Inter,system-ui,sans-serif';
+  cx.fillText(' a Ciegas',bx+vW,80);
 
-      const barsEl = $('#party-bars');
-      barsEl.innerHTML = '';
-      results.forEach((r, i) => {
-        const row = document.createElement('div');
-        row.className = 'party-row' + (i === 0 ? ' winner' : '');
-        row.innerHTML = `
-          <span class="party-name">${r.name}</span>
-          <div class="party-bar-track">
-            <div class="party-bar-fill" style="width:0%;background:${r.color}"></div>
-          </div>
-          <span class="party-pct">${r.pct}%</span>
-        `;
-        barsEl.appendChild(row);
-        // Animate bars in
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            row.querySelector('.party-bar-fill').style.width = r.pct + '%';
-          }, 80 + i * 100);
-        });
-      });
+  // Subtitle
+  cx.textAlign='center';cx.font='500 18px Inter,system-ui,sans-serif';cx.fillStyle='#A0A0A0';
+  cx.fillText('Test Electoral · España 2026',W/2,130);
 
-      // Breakdown
-      const breakdownEl = $('#breakdown-list');
-      breakdownEl.innerHTML = '';
-      answers.forEach((ans, i) => {
-        const prop = PROPOSALS.find(p => p.id === ans.id);
-        const voteLabel = ans.vote === 1 ? 'Votaste a favor' : ans.vote === -1 ? 'Votaste en contra' : 'Pasaste';
-        const voteClass = ans.vote === 1 ? 'voted-yes' : ans.vote === -1 ? 'voted-no' : 'voted-pass';
-        const item = document.createElement('div');
-        item.className = 'breakdown-item';
-        item.innerHTML = `
-          <div class="bi-num">Medida ${i + 1} · ${prop.cat}</div>
-          <div class="bi-title">${prop.title}</div>
-          <div class="bi-vote ${voteClass}">${voteLabel}</div>
-          <div class="bi-parties">
-            <strong style="color:var(--green)">A favor:</strong> ${prop.pro}<br>
-            <strong style="color:var(--red)">En contra:</strong> ${prop.con}
-          </div>
-        `;
-        breakdownEl.appendChild(item);
-      });
+  // Line
+  cx.strokeStyle='#E8E6E1';cx.lineWidth=1;
+  cx.beginPath();cx.moveTo(340,175);cx.lineTo(740,175);cx.stroke();
 
-      // Share buttons
-      const url = window.location.href;
-      const txt = `He hecho el test de Voto a Ciegas para las Elecciones en España y mi mayor afinidad es con ${winner.name} (${winner.pct}%).\n\n¿Votas por siglas o por medidas? Descúbrelo:`;
+  // Big percentage
+  cx.font='800 180px Inter,system-ui,sans-serif';cx.fillStyle=win.c;cx.textAlign='center';
+  cx.fillText(win.pct+'%',W/2,440);
 
-      $('#btn-share-x').onclick = () => {
-        window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(txt)}&url=${encodeURIComponent(url)}`, '_blank');
-      };
-      $('#btn-share-wa').onclick = () => {
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(txt + ' ' + url)}`, '_blank');
-      };
-    }
+  // Party name
+  cx.font='400 40px "Instrument Serif",Georgia,serif';cx.fillStyle='#1A1A1A';
+  cx.fillText(win.n,W/2,510);
 
-    // ───── Event listeners ─────
-    $('#btn-start').addEventListener('click', () => {
-      idx = 0;
-      answers.length = 0;
-      showScreen(gameScreen);
-      buildCards();
-      updateProgress();
-    });
+  cx.font='400 20px Inter,system-ui,sans-serif';cx.fillStyle='#A0A0A0';
+  cx.fillText('de afinidad electoral',W/2,555);
 
-    $('#btn-no').addEventListener('click', () => animateButtonSwipe(-1));
-    $('#btn-yes').addEventListener('click', () => animateButtonSwipe(1));
-    $('#btn-pass').addEventListener('click', () => {
-      const topCard = cardStack.querySelector('.card:not(.card-behind):not(.card-behind-2):not(.exiting)');
-      if (!topCard) return;
-      topCard._cleanup && topCard._cleanup();
-      topCard.classList.add('exiting');
-      topCard.style.transform = 'translateY(-300px) scale(0.9)';
-      topCard.style.opacity = '0';
-      setTimeout(() => registerVote(0), 250);
-    });
+  // Bars
+  const bL=180,bW=540,bH=10,bG=54,bY0=640;
+  res.forEach((r,i)=>{
+    const y=bY0+i*bG;
+    cx.font='600 20px Inter,system-ui,sans-serif';cx.fillStyle='#1A1A1A';cx.textAlign='left';
+    cx.fillText(r.n,bL,y);
+    // Track
+    cx.fillStyle='#F0EEEA';rRect(cx,bL,y+14,bW,bH,5);
+    // Fill
+    cx.fillStyle=r.c;rRect(cx,bL,y+14,bW*(r.pct/100),bH,5);
+    // Pct
+    cx.font='700 20px Inter,system-ui,sans-serif';cx.fillStyle='#1A1A1A';cx.textAlign='right';
+    cx.fillText(r.pct+'%',bL+bW+70,y);
+  });
 
-    $('#btn-breakdown').addEventListener('click', function() {
-      this.classList.toggle('open');
-      $('#breakdown-list').classList.toggle('visible');
-    });
+  // Bottom line
+  cx.strokeStyle='#E8E6E1';cx.beginPath();cx.moveTo(200,1060);cx.lineTo(880,1060);cx.stroke();
 
-    $('#btn-restart').addEventListener('click', () => {
-      idx = 0;
-      answers.length = 0;
-      showScreen(introScreen);
-      headerPill.textContent = 'Elecciones 2026';
-    });
+  // CTA
+  cx.textAlign='center';
+  cx.font='italic 26px "Instrument Serif",Georgia,serif';cx.fillStyle='#6B6B6B';
+  cx.fillText('Haz el test tú también',W/2,1120);
 
-  })();
-  </script>
+  cx.font='500 16px Inter,system-ui,sans-serif';cx.fillStyle='#A0A0A0';
+  cx.fillText('pablorm-esp.github.io/radarx',W/2,1160);
+
+  // Caffutio subtle
+  cx.font='500 13px Inter,system-ui,sans-serif';cx.fillStyle='#C0B0A0';
+  cx.fillText('☕ caffutio.com',W/2,1300);
+
+  // Show preview
+  const preview=$('#rPreview');preview.innerHTML='';
+  const small=cv.cloneNode();small.getContext('2d').drawImage(cv,0,0);
+  preview.appendChild(small);
+
+  // Download / Share button
+  const btnI=$('#btnImg');
+  const canShare=navigator.share&&navigator.canShare;
+
+  if(canShare){
+    $('#imgLabel').textContent='Compartir imagen';
+    btnI.onclick=async()=>{
+      cv.toBlob(async blob=>{
+        const file=new File([blob],'voto-a-ciegas-resultado.png',{type:'image/png'});
+        try{await navigator.share({files:[file],title:'Mi resultado en Voto a Ciegas'})}catch(e){}
+      },'image/png');
+    };
+  }else{
+    btnI.onclick=()=>{
+      const link=document.createElement('a');link.download='voto-a-ciegas-resultado.png';
+      link.href=cv.toDataURL('image/png');link.click();
+    };
+  }
+}
+
+function rRect(cx,x,y,w,h,r){
+  if(w<=0)return;
+  cx.beginPath();cx.moveTo(x+r,y);cx.lineTo(x+w-r,y);cx.quadraticCurveTo(x+w,y,x+w,y+r);cx.lineTo(x+w,y+h-r);cx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);cx.lineTo(x+r,y+h);cx.quadraticCurveTo(x,y+h,x,y+h-r);cx.lineTo(x,y+r);cx.quadraticCurveTo(x,y,x+r,y);cx.closePath();cx.fill();
+}
+
+/* ═══════ EVENTS ═══════ */
+$('#go').addEventListener('click',()=>{ix=0;ans.length=0;show(1);initDots();buildCards();upProg()});
+$('#bno').addEventListener('click',()=>btnSwipe(-1));
+$('#bsi').addEventListener('click',()=>btnSwipe(1));
+$('#bps').addEventListener('click',btnPass);
+
+$('#bdTog').addEventListener('click',function(){this.classList.toggle('open');$('#bdList').classList.toggle('vis')});
+$('#btnRe').addEventListener('click',()=>{
+  ix=0;ans.length=0;pill.textContent='Elecciones 2026';
+  // Reset show classes
+  ['rHero','rBars','rInsight','rImgSec','rTxtSec','rAd','bdTog','btnRe'].forEach(id=>{
+    const el=$('#'+id);el.classList.remove('show');el.style.display=''});
+  $('#bdList').classList.remove('vis');$('#bdTog').classList.remove('open');
+  show(0);
+});
+
+/* Keyboard: ← → ↓ */
+document.addEventListener('keydown',e=>{
+  if(!S[1].classList.contains('on'))return;
+  if(e.key==='ArrowRight')btnSwipe(1);
+  else if(e.key==='ArrowLeft')btnSwipe(-1);
+  else if(e.key==='ArrowDown')btnPass();
+});
+
+})();
+</script>
 </body>
 </html>
