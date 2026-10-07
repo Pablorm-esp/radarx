@@ -3,621 +3,569 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>RadarX España 🇪🇸 | Monitor Electoral en X</title>
+  <title>Voto a Ciegas 🇪🇸 | ¿A qué partido apoyas realmente?</title>
   
   <!-- Meta tags SEO / Social share -->
-  <meta name="description" content="Monitor en tiempo real del engagement, impacto y repercusión de los políticos en X durante las Elecciones Generales en España.">
-  <meta property="og:title" content="RadarX España - Monitor Electoral en X">
-  <meta property="og:description" content="¿Quién gana la batalla del engagement en X hoy? Datos actualizados cada hora.">
+  <meta name="description" content="¿Votas por siglas o por medidas reales? Haz el test de 10 propuestas sin ver los partidos y descubre tu coincidencia electoral real.">
+  <meta property="og:title" content="Voto a Ciegas 🇪🇸 - ¿A qué partido apoyas realmente?">
+  <meta property="og:description" content="10 propuestas reales sin logos ni caras. El resultado te va a sorprender.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#090d16">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              coffee: '#cfb38a',
-              coffeeDark: '#1c0604',
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <!-- Canvas Confetti para el resultado -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
-    /* Estilos Mobile-First y toques táctiles */
     -webkit-tap-highlight-color: transparent;
-    
-    .glass-card {
-      background: rgba(18, 24, 38, 0.75);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+
+    .card-shadow {
+      box-shadow: 0 12px 36px -6px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
     }
 
-    .glass-card-accent {
-      background: rgba(28, 36, 56, 0.85);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(99, 102, 241, 0.25);
+    /* Animaciones suaves para pasar tarjeta */
+    @keyframes slideInNext {
+      0% { opacity: 0; transform: translateY(14px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* Ocultar barra de scroll en contenedores deslizables horizontales */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    /* Animación pulso sutil */
-    @keyframes pulse-dot {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.3); opacity: 0.6; }
-    }
-    .pulse-dot {
-      animation: pulse-dot 2s ease-in-out infinite;
+    .slide-in {
+      animation: slideInNext 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
   </style>
 </head>
 
-<body class="bg-[#090d16] text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white pb-20 sm:pb-12">
+<body class="bg-[#080c14] text-slate-100 min-h-screen flex flex-col justify-between font-sans antialiased selection:bg-indigo-500 selection:text-white">
 
-  <!-- ================= TOP BANNER PATROCINIO CAFFUTIO.COM ================= -->
-  <div class="bg-gradient-to-r from-[#1c0604] via-[#2a130f] to-[#1c0604] border-b border-[#cfb38a]/30 px-3 py-2 text-xs">
-    <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 overflow-hidden">
-        <span class="bg-[#cfb38a] text-[#1c0604] px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider shrink-0">
-          ☕ CAFFUTIO
-        </span>
-        <span class="text-amber-100/90 truncate text-[11px] sm:text-xs">
-          ¿Noches de debate y campaña? <strong>Sobrevive con café de verdad.</strong>
+  <!-- ================= TOP BAR DISCRETA ================= -->
+  <header class="border-b border-slate-800/80 bg-[#0c1220]/90 backdrop-blur-md px-4 py-3 sticky top-0 z-50">
+    <div class="max-w-md mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🗳️</span>
+        <span class="font-black text-sm tracking-tight text-white flex items-center gap-1.5">
+          Voto a Ciegas <span class="text-[10px] bg-rose-500/20 text-rose-300 font-bold px-1.5 py-0.2 rounded border border-rose-500/30">ESPAÑA 🇪🇸</span>
         </span>
       </div>
-      <a href="https://caffutio.com/?utm_source=radarx&utm_medium=top_bar&utm_campaign=elecciones" 
+      <a href="https://caffutio.com/?utm_source=votoaciegas&utm_medium=nav_pill&utm_campaign=elecciones" 
          target="_blank" 
-         rel="noopener" 
-         class="shrink-0 bg-[#cfb38a]/20 hover:bg-[#cfb38a]/30 text-[#cfb38a] font-bold px-2.5 py-1 rounded-full text-[11px] border border-[#cfb38a]/40 transition flex items-center gap-1">
-        <span>Ver cafeteras</span>
-        <i data-lucide="arrow-right" class="w-3 h-3"></i>
+         rel="noopener"
+         class="text-[11px] text-amber-300 hover:text-amber-200 font-semibold bg-amber-500/10 border border-amber-500/25 px-2.5 py-1 rounded-full flex items-center gap-1 transition">
+        <span>☕ Caffutio</span>
       </a>
-    </div>
-  </div>
-
-  <!-- ================= HEADER MOBILE-OPTIMIZED ================= -->
-  <header class="border-b border-slate-800/80 bg-[#0c1220]/90 sticky top-0 z-40 backdrop-blur-md px-4 py-3">
-    <div class="max-w-4xl mx-auto flex items-center justify-between gap-3">
-      
-      <!-- Marca y Título -->
-      <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 shrink-0">
-          <i data-lucide="flame" class="w-5 h-5 text-white"></i>
-        </div>
-        <div>
-          <div class="flex items-center gap-1.5">
-            <h1 class="text-base sm:text-lg font-black tracking-tight text-white leading-none">
-              RadarX
-            </h1>
-            <span class="text-[10px] font-bold bg-indigo-500/15 text-indigo-300 px-1.5 py-0.5 rounded border border-indigo-500/25">
-              España 🇪🇸
-            </span>
-          </div>
-          <p class="text-[10px] text-slate-400 mt-0.5 leading-none">Pulso y engagement en X cada hora</p>
-        </div>
-      </div>
-
-      <!-- Estado en vivo -->
-      <div class="flex items-center gap-1.5 bg-slate-900/90 px-2.5 py-1 rounded-full border border-slate-800 text-[11px]">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span>
-        <span class="text-slate-300 font-mono text-[10px]" id="live-time-pill">Actualizado</span>
-      </div>
-
     </div>
   </header>
 
-  <!-- ================= CONTENEDOR PRINCIPAL ================= -->
-  <main class="max-w-4xl mx-auto px-3.5 sm:px-6 py-5 space-y-6">
+  <!-- ================= CONTENEDOR CENTRAL ================= -->
+  <main class="max-w-md mx-auto w-full px-4 py-6 flex-1 flex flex-col justify-center">
 
-    <!-- KPI STRIP (SLIDER MÓVIL / GRID DESKTOP) -->
-    <section>
-      <div class="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
-        
-        <!-- KPI 1 -->
-        <div class="glass-card p-3.5 rounded-xl border border-slate-800">
-          <div class="flex items-center justify-between text-slate-400 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Impacto 24h</span>
-            <i data-lucide="activity" class="w-3.5 h-3.5 text-indigo-400"></i>
-          </div>
-          <div class="text-xl sm:text-2xl font-black text-white" id="kpi-interactions">-</div>
-          <div class="text-[10px] text-slate-400 truncate mt-0.5">Likes + RTs + Comentarios</div>
+    <!-- ================= 1. PANTALLA DE BIENVENIDA (INTRO) ================= -->
+    <div id="screen-intro" class="space-y-6 text-center">
+      <div class="space-y-3">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/15 text-indigo-300 text-xs font-semibold border border-indigo-500/30">
+          ✨ Test Electoral Independiente
         </div>
-
-        <!-- KPI 2 -->
-        <div class="glass-card p-3.5 rounded-xl border border-slate-800">
-          <div class="flex items-center justify-between text-slate-400 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Líder Hoy</span>
-            <i data-lucide="crown" class="w-3.5 h-3.5 text-yellow-400"></i>
-          </div>
-          <div class="text-base sm:text-lg font-black text-white truncate" id="kpi-top-candidate">-</div>
-          <div class="text-[10px] text-emerald-400 font-medium truncate mt-0.5">Nº 1 en engagement</div>
-        </div>
-
-        <!-- KPI 3 -->
-        <div class="glass-card p-3.5 rounded-xl border border-slate-800">
-          <div class="flex items-center justify-between text-slate-400 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Siglas Líder</span>
-            <i data-lucide="flag" class="w-3.5 h-3.5 text-blue-400"></i>
-          </div>
-          <div class="text-xl sm:text-2xl font-black text-white" id="kpi-top-party">-</div>
-          <div class="text-[10px] text-slate-400 truncate mt-0.5">Más repercusión</div>
-        </div>
-
-        <!-- KPI 4 -->
-        <div class="glass-card p-3.5 rounded-xl border border-slate-800">
-          <div class="flex items-center justify-between text-slate-400 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400">Más Eficiente</span>
-            <i data-lucide="zap" class="w-3.5 h-3.5 text-cyan-400"></i>
-          </div>
-          <div class="text-base sm:text-lg font-black text-white truncate" id="kpi-most-efficient">-</div>
-          <div class="text-[10px] text-cyan-400/90 truncate mt-0.5">Mayor media / tweet</div>
-        </div>
-
+        <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
+          ¿Votas por siglas o por lo que realmente proponen?
+        </h1>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          Te mostraremos <strong>10 medidas electorales reales</strong> sin logos, caras ni nombres de partidos. Decide qué apoyas y qué no.
+        </p>
       </div>
-    </section>
 
-    <!-- ================= BOTONES DE COMPARTIR VIRAL (WHATSAPP + X) ================= -->
-    <section class="bg-gradient-to-r from-slate-900 to-indigo-950/40 p-3 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="text-center sm:text-left">
-        <p class="text-xs font-bold text-white">¿Quién va ganando hoy el debate en redes?</p>
-        <p class="text-[11px] text-slate-400">Comparte los datos de hoy en tu grupo o seguidores</p>
+      <!-- Tarjeta de cómo funciona -->
+      <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-left space-y-2.5 text-xs text-slate-300">
+        <div class="flex items-start gap-2.5">
+          <span class="text-base">🙈</span>
+          <div><strong>100% Ciego:</strong> No sabrás qué partido propuso la medida hasta ver tu resultado final.</div>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="text-base">⏱️</span>
+          <div><strong>1 minuto de reloj:</strong> Solo pulsa <em>A favor</em>, <em>En contra</em> o <em>Paso</em>.</div>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="text-base">🤯</span>
+          <div><strong>El morbo:</strong> El 80% de las personas coinciden con partidos que no esperaban.</div>
+        </div>
       </div>
-      <div class="flex items-center gap-2 w-full sm:w-auto">
-        <!-- Compartir WhatsApp -->
-        <button id="btn-share-wa" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-bold px-3 py-2 rounded-lg text-xs transition">
-          <i data-lucide="message-circle" class="w-3.5 h-3.5 fill-slate-950"></i>
-          <span>WhatsApp</span>
-        </button>
-        <!-- Compartir X -->
-        <button id="btn-share-x" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 bg-white hover:bg-slate-100 text-slate-950 font-bold px-3 py-2 rounded-lg text-xs transition">
-          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          <span>Postear en X</span>
-        </button>
-      </div>
-    </section>
 
-    <!-- ================= PODIO MÓVIL DEL DÍA (TOP 3) ================= -->
-    <section class="space-y-3">
-      <div class="flex items-center justify-between">
+      <!-- Botón Comenzar -->
+      <button id="btn-start" class="w-full bg-gradient-to-r from-indigo-500 to-rose-500 hover:from-indigo-600 hover:to-rose-600 text-white font-extrabold py-4 px-6 rounded-2xl text-base shadow-lg shadow-indigo-500/25 transition active:scale-[0.98] flex items-center justify-center gap-2">
+        <span>Empezar el test a ciegas</span>
+        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+      </button>
+
+      <p class="text-[11px] text-slate-400">
+        Sin registro ni datos personales. Completamente anónimo y neutral.
+      </p>
+    </div>
+
+    <!-- ================= 2. PANTALLA DE JUEGO (PREGUNTAS) ================= -->
+    <div id="screen-game" class="hidden flex-col justify-between flex-1 py-2 space-y-5">
+      
+      <!-- Progreso superior -->
+      <div class="space-y-1.5">
+        <div class="flex justify-between items-center text-xs">
+          <span class="font-bold text-slate-400" id="progress-text">Propuesta 1 de 10</span>
+          <span class="text-indigo-400 font-mono text-[11px]" id="category-badge">Categoría</span>
+        </div>
+        <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
+          <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-rose-500 h-1.5 rounded-full transition-all duration-300" style="width: 10%;"></div>
+        </div>
+      </div>
+
+      <!-- Tarjeta de Propuesta (Tinder Style) -->
+      <div id="proposal-card" class="bg-gradient-to-b from-slate-900 to-[#101726] p-6 rounded-3xl border border-slate-700/80 card-shadow slide-in flex flex-col justify-between min-h-[300px] text-left">
         <div>
-          <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
-            <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
-            Podio de Candidatos
+          <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded-full border border-indigo-500/20 mb-3" id="prop-category">
+            🏠 Vivienda
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white leading-snug mb-3" id="prop-title">
+            Cargando propuesta...
           </h2>
-          <p class="text-[11px] text-slate-400">Top 3 con mayor volumen de engagement en la jornada</p>
+          <p class="text-xs text-slate-300 leading-relaxed" id="prop-desc">
+            Detalles contextuales de la medida electoral.
+          </p>
         </div>
-        <span class="text-[10px] bg-slate-800 text-slate-300 font-medium px-2 py-0.5 rounded-full border border-slate-700">
-          Últimas 24h
-        </span>
+
+        <div class="pt-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+          <span>¿Apoyarías esta medida si dependiera de ti?</span>
+          <span class="text-slate-400">#Electoral2026</span>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="podium-container">
+      <!-- Botones Táctiles Gigantes de Respuesta -->
+      <div class="grid grid-cols-3 gap-2.5 pt-2">
+        <!-- En contra -->
+        <button id="btn-no" class="flex flex-col items-center justify-center py-3.5 px-2 bg-rose-500/10 hover:bg-rose-500/20 active:bg-rose-500/30 text-rose-300 font-extrabold rounded-2xl border border-rose-500/30 transition active:scale-95">
+          <span class="text-2xl mb-1">👎</span>
+          <span class="text-xs">En contra</span>
+        </button>
+
+        <!-- Neutral / Paso -->
+        <button id="btn-pass" class="flex flex-col items-center justify-center py-3.5 px-2 bg-slate-800/60 hover:bg-slate-800 active:bg-slate-700 text-slate-300 font-bold rounded-2xl border border-slate-700 transition active:scale-95">
+          <span class="text-2xl mb-1">🤷</span>
+          <span class="text-xs">Paso / Duda</span>
+        </button>
+
+        <!-- A favor -->
+        <button id="btn-yes" class="flex flex-col items-center justify-center py-3.5 px-2 bg-emerald-500/10 hover:bg-emerald-500/20 active:bg-emerald-500/30 text-emerald-300 font-extrabold rounded-2xl border border-emerald-500/30 transition active:scale-95">
+          <span class="text-2xl mb-1">👍</span>
+          <span class="text-xs">A favor</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ================= 3. PANTALLA DE RESULTADOS (VIRAL) ================= -->
+    <div id="screen-result" class="hidden space-y-6 text-center slide-in">
+      
+      <!-- Cabecera de impacto -->
+      <div class="space-y-1">
+        <span class="text-3xl">🎉</span>
+        <h2 class="text-xs uppercase tracking-widest text-slate-400 font-bold">Tu Voto a Ciegas Revelado</h2>
+        <h3 class="text-2xl font-black text-white" id="result-top-message">
+          Tu mayor coincidencia es con <span id="winner-party-name" class="text-indigo-400">PP</span>
+        </h3>
+        <p class="text-xs text-slate-400">Basado en tus 10 respuestas a las propuestas reales de los programas</p>
+      </div>
+
+      <!-- Ranking de Afinidad por Partido -->
+      <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 text-left" id="party-bars-container">
         <!-- Renderizado dinámicamente -->
       </div>
-    </section>
 
-    <!-- ================= CARD PUBLICITARIA DESTACADA: CAFFUTIO.COM ================= -->
-    <section class="rounded-2xl border border-[#cfb38a]/40 bg-gradient-to-br from-[#1c0604] via-[#240e0b] to-[#120403] p-4 sm:p-5 shadow-xl relative overflow-hidden">
-      <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-[#cfb38a]/10 rounded-full blur-3xl pointer-events-none"></div>
-      
-      <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4">
-        <div class="flex items-start gap-3.5">
-          <div class="w-12 h-12 rounded-xl bg-[#cfb38a]/20 border border-[#cfb38a]/30 flex items-center justify-center shrink-0 text-2xl shadow-inner">
+      <!-- BOTONES VIRALES DE COMPARTIR (X + WHATSAPP) -->
+      <div class="space-y-2">
+        <div class="text-xs font-bold text-slate-300">¡Comparte tu resultado y reta a tus amigos!</div>
+        
+        <div class="grid grid-cols-2 gap-2">
+          <!-- Botón X -->
+          <button id="btn-share-result-x" class="flex items-center justify-center gap-1.5 bg-white hover:bg-slate-100 text-slate-950 font-black py-3 px-3 rounded-xl text-xs transition shadow active:scale-95">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <span>Postear en X</span>
+          </button>
+
+          <!-- Botón WhatsApp -->
+          <button id="btn-share-result-wa" class="flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-black py-3 px-3 rounded-xl text-xs transition shadow active:scale-95">
+            <i data-lucide="message-circle" class="w-4 h-4 fill-slate-950"></i>
+            <span>WhatsApp</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= MONETIZACIÓN CONTEXTUAL: CAFFUTIO.COM ================= -->
+      <div class="rounded-2xl border border-[#cfb38a]/40 bg-gradient-to-br from-[#1c0604] via-[#240e0b] to-[#120403] p-4 text-left shadow-xl relative overflow-hidden">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#cfb38a]/20 border border-[#cfb38a]/30 flex items-center justify-center shrink-0 text-xl">
             ☕
           </div>
           <div>
             <div class="flex items-center gap-2 mb-1">
-              <span class="text-[10px] font-black uppercase tracking-wider text-[#cfb38a] bg-[#cfb38a]/15 px-2 py-0.5 rounded border border-[#cfb38a]/30">
-                PROYECTO AMIGO
+              <span class="text-[9px] font-black uppercase text-[#cfb38a] bg-[#cfb38a]/15 px-1.5 py-0.2 rounded border border-[#cfb38a]/30">
+                PATROCINADOR
               </span>
-              <span class="text-[11px] text-amber-200/70 font-medium">Caffutio.com</span>
+              <span class="text-[11px] text-amber-200/80 font-bold">Caffutio.com</span>
             </div>
-            <h3 class="text-sm sm:text-base font-extrabold text-white leading-snug">
-              ¿Sobreviviendo a la campaña electoral? El café importa.
-            </h3>
-            <p class="text-xs text-amber-100/80 mt-1 leading-relaxed max-w-xl">
-              Para las noches electorales, debates tensos y tertulias sin fin: descubre análisis independientes de las mejores <strong>cafeteras superautomáticas, espresso y café de especialidad</strong> en Caffutio.
+            <h4 class="text-xs font-black text-white leading-snug">
+              ¿En shock con tu resultado? Tómate un buen café.
+            </h4>
+            <p class="text-[11px] text-amber-100/80 mt-1 leading-relaxed">
+              Si la política te quita el sueño o te toca aguantar debates hasta las tantas, descubre las mejores <strong>cafeteras de especialidad y espresso</strong> en Caffutio.
             </p>
+            <div class="mt-2.5">
+              <a href="https://caffutio.com/?utm_source=votoaciegas&utm_medium=result_box&utm_campaign=elecciones" 
+                 target="_blank" 
+                 rel="noopener"
+                 class="inline-flex items-center gap-1.5 bg-[#cfb38a] hover:bg-[#dfc49c] text-[#1c0604] font-black px-3 py-1.5 rounded-lg text-xs transition">
+                <span>Ver cafeteras en Caffutio</span>
+                <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </a>
+            </div>
           </div>
         </div>
-
-        <div class="w-full sm:w-auto shrink-0 flex flex-col items-center sm:items-end gap-2">
-          <a href="https://caffutio.com/?utm_source=radarx&utm_medium=featured_box&utm_campaign=elecciones" 
-             target="_blank" 
-             rel="noopener"
-             class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#cfb38a] hover:bg-[#dfc49c] text-[#1c0604] font-black px-4 py-2.5 rounded-xl text-xs transition shadow-md shadow-amber-950/40">
-            <span>Explorar Caffutio</span>
-            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-          </a>
-          <span class="text-[10px] text-amber-200/50">Guías y rankings de café premium</span>
-        </div>
       </div>
-    </section>
 
-    <!-- ================= GRÁFICOS MÓVILES (SLIDER O APILADOS) ================= -->
-    <section class="space-y-4">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
-            <i data-lucide="pie-chart" class="w-4 h-4 text-indigo-400"></i>
-            Gráficos del Pulso Electoral
-          </h2>
-          <p class="text-[11px] text-slate-400">Distribución de repercusión y evolución temporal</p>
+      <!-- Desglose de Propuestas (El Morbo de saber quién era quién) -->
+      <div class="space-y-2 text-left">
+        <button id="btn-toggle-breakdown" class="w-full flex items-center justify-between text-xs font-bold text-slate-300 bg-slate-900 p-3 rounded-xl border border-slate-800">
+          <span>🔍 Descubre qué partido propuso cada medida</span>
+          <i data-lucide="chevron-down" id="chevron-breakdown" class="w-4 h-4 transition-transform"></i>
+        </button>
+
+        <div id="breakdown-list" class="hidden space-y-2.5 pt-2">
+          <!-- Cargado con JS -->
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        
-        <!-- Gráfico 1: Reparto de Repercusión -->
-        <div class="glass-card p-4 rounded-xl border border-slate-800">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Cuota de Interacción por Partido</h3>
-            <span class="text-[10px] text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded">Partidos</span>
-          </div>
-          <div class="relative h-56 flex items-center justify-center">
-            <canvas id="chart-party-share"></canvas>
-          </div>
-          <p class="text-[10px] text-slate-500 text-center mt-2">Porcentaje de likes, RTs y respuestas recibidas hoy</p>
-        </div>
-
-        <!-- Gráfico 2: Evolución de los últimos 7 días -->
-        <div class="glass-card p-4 rounded-xl border border-slate-800">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Evolución Semanal (k interacciones)</h3>
-            <span class="text-[10px] text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded">Tendencia</span>
-          </div>
-          <div class="relative h-56">
-            <canvas id="chart-timeline"></canvas>
-          </div>
-          <p class="text-[10px] text-slate-500 text-center mt-2">Seguimiento día a día durante la campaña</p>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ================= LISTA DE CANDIDATOS (VISTA EN TARJETAS PARA MÓVIL) ================= -->
-    <section class="space-y-3">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
-            <i data-lucide="users" class="w-4 h-4 text-purple-400"></i>
-            Ranking de Todos los Candidatos
-          </h2>
-          <p class="text-[11px] text-slate-400">Métricas detalladas de actividad y rendimiento</p>
-        </div>
+      <!-- Botón Repetir -->
+      <div class="pt-2">
+        <button id="btn-restart" class="text-xs text-slate-400 hover:text-white underline font-medium">
+          Volver a hacer el test
+        </button>
       </div>
 
-      <!-- Contenedor de tarjetas (Optimizado para móvil en lugar de tabla horizontal) -->
-      <div class="space-y-2.5" id="candidates-list-container">
-        <!-- Renderizado dinámico -->
-      </div>
-    </section>
-
-    <!-- ================= TWEETS DE ORO (LOS MÁS VIRALES) ================= -->
-    <section class="space-y-3">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
-            <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
-            Tweets de Oro (Últimas 24h)
-          </h2>
-          <p class="text-[11px] text-slate-400">El mensaje con más impacto de cada formación política</p>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="top-tweets-container">
-        <!-- Renderizado dinámico -->
-      </div>
-    </section>
-
-    <!-- ================= CAJA DE APOYO / CAFÉ ================= -->
-    <section class="glass-card p-4 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
-          <i data-lucide="coffee" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <h4 class="text-xs font-bold text-white">Proyecto Cívico y Abierto</h4>
-          <p class="text-[11px] text-slate-400">Actualizado cada hora automáticamente sin subvenciones ni sesgo.</p>
-        </div>
-      </div>
-      <a href="https://caffutio.com/?utm_source=radarx&utm_medium=footer_cta&utm_campaign=elecciones" 
-         target="_blank" 
-         rel="noopener"
-         class="inline-flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-2 rounded-lg border border-slate-700 transition">
-        <span>Conoce Caffutio.com ☕</span>
-      </a>
-    </section>
+    </div>
 
   </main>
 
   <!-- ================= FOOTER ================= -->
-  <footer class="border-t border-slate-800/80 bg-[#070a12] py-6 px-4 text-center text-[11px] text-slate-500 space-y-2">
-    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p class="text-slate-400">
-        <strong>RadarX España</strong> — Creado por 
-        <a href="https://x.com/Pablorm_esp" target="_blank" class="text-indigo-400 hover:underline">@Pablorm_esp</a>
+  <footer class="border-t border-slate-900 bg-[#060910] py-4 px-4 text-center text-[11px] text-slate-400">
+    <div class="max-w-md mx-auto space-y-1">
+      <p>Voto a Ciegas 🇪🇸 — Proyecto Cívico y Abierto.</p>
+      <p class="text-[10px]">
+        Propuestas extraídas de los programas electorales oficiales. No recopilamos datos.
       </p>
-      <div class="flex items-center gap-4 text-slate-400">
-        <a href="https://github.com/Pablorm-esp/radarx" target="_blank" class="hover:text-white flex items-center gap-1">
-          <i data-lucide="github" class="w-3.5 h-3.5"></i> Código en GitHub
-        </a>
-        <span>•</span>
-        <a href="https://caffutio.com" target="_blank" class="hover:text-amber-300 flex items-center gap-1 text-amber-200/70">
-          ☕ Caffutio
-        </a>
-      </div>
     </div>
-    <p class="text-[10px] text-slate-600">
-      Datos obtenidos de perfiles públicos oficiales en X. No representa intención de voto electoral.
-    </p>
   </footer>
 
-  <!-- ================= LÓGICA JAVASCRIPT ================= -->
+  <!-- ================= LÓGICA DEL JUEGO ================= -->
   <script>
     // Inicializar iconos
     lucide.createIcons();
 
-    function formatNumber(num) {
-      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-      if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
-      return num.toLocaleString('es-ES');
+    // Propuestas Electorales (incrustadas para carga instantánea sin bloqueos de red)
+    const PROPOSALS = [
+      {
+        id: 1,
+        category: "🏠 Vivienda",
+        title: "Topar el precio de los alquileres por ley y limitar con dureza los pisos turísticos.",
+        description: "Intervenir los precios en zonas tensionadas para impedir subidas abusivas y restringir licencias de alquiler vacacional.",
+        proponents: "Sumar y Podemos (con apoyo parcial de PSOE)",
+        opponents: "PP y VOX",
+        partyWeights: { "Sumar": 1, "Podemos": 1, "PSOE": 0.5, "PP": -1, "VOX": -1 }
+      },
+      {
+        id: 2,
+        category: "💼 Trabajo",
+        title: "Reducir la jornada laboral a 37,5 horas semanales por ley sin bajar el salario.",
+        description: "Disminución legal del tiempo obligatorio de trabajo para ganar tiempo de vida sin perder poder adquisitivo.",
+        proponents: "Sumar, PSOE y Podemos",
+        opponents: "PP y VOX",
+        partyWeights: { "Sumar": 1, "PSOE": 0.9, "Podemos": 0.9, "PP": -0.8, "VOX": -1 }
+      },
+      {
+        id: 3,
+        category: "💶 Impuestos",
+        title: "Hacer permanente el impuesto a la banca, energéticas y a las grandes fortunas.",
+        description: "Gravar extraordinariamente a patrimonios de más de 3 millones y beneficios bancarios para blindar servicios públicos.",
+        proponents: "PSOE, Sumar y Podemos",
+        opponents: "PP y VOX",
+        partyWeights: { "Podemos": 1, "Sumar": 1, "PSOE": 0.9, "PP": -1, "VOX": -1 }
+      },
+      {
+        id: 4,
+        category: "🛂 Inmigración",
+        title: "Expulsión inmediata de extranjeros irregulares y prioridad para españoles en las ayudas sociales.",
+        description: "Endurecer el control fronterizo, repatriaciones exprés y reservar prestaciones a nacionales.",
+        proponents: "VOX (con matices de sectores del PP)",
+        opponents: "PSOE, Sumar y Podemos",
+        partyWeights: { "VOX": 1, "PP": 0.4, "PSOE": -0.8, "Sumar": -1, "Podemos": -1 }
+      },
+      {
+        id: 5,
+        category: "⚡ Energía",
+        title: "Prolongar la vida de las centrales nucleares para abaratar la factura eléctrica.",
+        description: "Frenar el calendario de cierre de reactores para asegurar suministro continuo y reducir dependencia exterior.",
+        proponents: "PP y VOX",
+        opponents: "PSOE, Sumar y Podemos",
+        partyWeights: { "PP": 1, "VOX": 1, "PSOE": -0.8, "Sumar": -1, "Podemos": -1 }
+      },
+      {
+        id: 6,
+        category: "💸 Sucesiones",
+        title: "Bonificar al 99% el Impuesto de Sucesiones y Donaciones entre padres e hijos en toda España.",
+        description: "Eliminar en la práctica el tributo por heredar viviendas o ahorros familiares acumulados de progenitores.",
+        proponents: "PP y VOX",
+        opponents: "PSOE, Sumar y Podemos",
+        partyWeights: { "PP": 1, "VOX": 1, "PSOE": -0.8, "Sumar": -1, "Podemos": -1 }
+      },
+      {
+        id: 7,
+        category: "🚪 Seguridad",
+        title: "Desalojo de viviendas ocupadas ilegalmente en menos de 24 horas y penas de cárcel.",
+        description: "Facultar a las fuerzas de seguridad para desalojar de inmediato sin requerir autorización judicial previa.",
+        proponents: "PP y VOX",
+        opponents: "Podemos y Sumar (PSOE con postura intermedia)",
+        partyWeights: { "VOX": 1, "PP": 0.9, "PSOE": -0.3, "Sumar": -1, "Podemos": -1 }
+      },
+      {
+        id: 8,
+        category: "🩺 Sanidad",
+        title: "Blindar la gestión 100% pública y suprimir los conciertos y externalizaciones sanitarias.",
+        description: "Eliminar derivaciones a clínicas privadas y evitar que fondos públicos financien la gestión privada en sanidad.",
+        proponents: "Podemos y Sumar",
+        opponents: "PP y VOX (libertad de elección público-privada)",
+        partyWeights: { "Podemos": 1, "Sumar": 0.9, "PSOE": 0.2, "PP": -1, "VOX": -1 }
+      },
+      {
+        id: 9,
+        category: "👴 Pensiones",
+        title: "Revalorizar las pensiones por ley siempre según el IPC real, sin excepciones.",
+        description: "Garantizar que ninguna pensión pierda poder de compra independientemente de la coyuntura del momento.",
+        proponents: "PSOE, Sumar y Podemos",
+        opponents: "PP y VOX (piden vincular a sostenibilidad y ahorro privado)",
+        partyWeights: { "PSOE": 1, "Sumar": 1, "Podemos": 1, "PP": 0.2, "VOX": -0.3 }
+      },
+      {
+        id: 10,
+        category: "🌍 Personas",
+        title: "Regularización extraordinaria de extranjeros que ya residen y trabajan en España.",
+        description: "Conceder permisos de residencia y trabajo a personas arraigadas para aflorar empleo y cotizaciones.",
+        proponents: "Sumar, Podemos y PSOE",
+        opponents: "PP y VOX",
+        partyWeights: { "Sumar": 1, "Podemos": 1, "PSOE": 0.8, "PP": -0.6, "VOX": -1 }
+      }
+    ];
+
+    const PARTIES = [
+      { name: "PSOE", color: "#E30613" },
+      { name: "PP", color: "#0bb2ff" },
+      { name: "VOX", color: "#63BE21" },
+      { name: "Sumar", color: "#E51C55" },
+      { name: "Podemos", color: "#7B3F98" }
+    ];
+
+    let currentIndex = 0;
+    let userAnswers = []; // { propId, vote: 1 | -1 | 0 }
+
+    // Elementos DOM
+    const screenIntro = document.getElementById('screen-intro');
+    const screenGame = document.getElementById('screen-game');
+    const screenResult = document.getElementById('screen-result');
+
+    const btnStart = document.getElementById('btn-start');
+    const btnYes = document.getElementById('btn-yes');
+    const btnNo = document.getElementById('btn-no');
+    const btnPass = document.getElementById('btn-pass');
+    const btnRestart = document.getElementById('btn-restart');
+
+    const progressText = document.getElementById('progress-text');
+    const progressBar = document.getElementById('progress-bar');
+    const categoryBadge = document.getElementById('category-badge');
+    const propCategory = document.getElementById('prop-category');
+    const propTitle = document.getElementById('prop-title');
+    const propDesc = document.getElementById('prop-desc');
+    const proposalCard = document.getElementById('proposal-card');
+
+    // Iniciar test
+    btnStart.addEventListener('click', () => {
+      screenIntro.classList.add('hidden');
+      screenGame.classList.remove('hidden');
+      screenGame.classList.add('flex');
+      currentIndex = 0;
+      userAnswers = [];
+      renderQuestion();
+    });
+
+    // Renderizar pregunta actual
+    function renderQuestion() {
+      const p = PROPOSALS[currentIndex];
+      progressText.innerText = `Propuesta ${currentIndex + 1} de ${PROPOSALS.length}`;
+      progressBar.style.width = `${((currentIndex + 1) / PROPOSALS.length) * 100}%`;
+      categoryBadge.innerText = p.category;
+      propCategory.innerText = p.category;
+      propTitle.innerText = `"${p.title}"`;
+      propDesc.innerText = p.description;
+
+      // Animación de tarjeta
+      proposalCard.classList.remove('slide-in');
+      void proposalCard.offsetWidth;
+      proposalCard.classList.add('slide-in');
     }
 
-    async function loadData() {
-      try {
-        const response = await fetch('data/data.json');
-        if (!response.ok) throw new Error('No se pudo cargar data.json');
-        const data = await response.json();
-        renderDashboard(data);
-      } catch (err) {
-        console.error("Error al cargar datos:", err);
+    // Gestionar voto
+    function handleVote(value) {
+      userAnswers.push({
+        propId: PROPOSALS[currentIndex].id,
+        vote: value
+      });
+
+      currentIndex++;
+      if (currentIndex < PROPOSALS.length) {
+        renderQuestion();
+      } else {
+        showResults();
       }
     }
 
-    function renderDashboard(data) {
-      // 1. Textos e indicadores
-      document.getElementById('live-time-pill').innerText = 'Act: ' + (data.last_updated_human.split(',')[1] || data.last_updated_human);
-      document.getElementById('kpi-interactions').innerText = formatNumber(data.summary.total_interactions_24h);
-      document.getElementById('kpi-top-candidate').innerText = data.summary.top_candidate;
-      document.getElementById('kpi-top-party').innerText = data.summary.top_party_interactions;
-      document.getElementById('kpi-most-efficient').innerText = data.summary.most_efficient;
+    btnYes.addEventListener('click', () => handleVote(1));
+    btnNo.addEventListener('click', () => handleVote(-1));
+    btnPass.addEventListener('click', () => handleVote(0));
 
-      // 2. Podio (Top 3)
-      const podium = document.getElementById('podium-container');
-      podium.innerHTML = '';
-      const top3 = data.candidates.slice(0, 3);
-      const medals = ['🥇 1º Oro', '🥈 2º Plata', '🥉 3º Bronce'];
-      const borderColors = ['border-yellow-500/40', 'border-slate-400/30', 'border-amber-700/40'];
-      const badgeStyles = [
-        'bg-yellow-500/20 text-yellow-300 border border-yellow-500/40',
-        'bg-slate-300/20 text-slate-200 border border-slate-400/40',
-        'bg-amber-600/20 text-amber-300 border border-amber-600/40'
-      ];
+    // Calcular y mostrar resultados
+    function showResults() {
+      screenGame.classList.add('hidden');
+      screenGame.classList.remove('flex');
+      screenResult.classList.remove('hidden');
 
-      top3.forEach((cand, idx) => {
-        const card = document.createElement('div');
-        card.className = `glass-card p-4 rounded-xl border ${borderColors[idx]} flex flex-col justify-between`;
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-2.5">
-              <span class="text-[11px] font-bold px-2 py-0.5 rounded-md ${badgeStyles[idx]}">${medals[idx]}</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded" style="background-color: ${cand.party_color}22; color: ${cand.party_color}; border: 1px solid ${cand.party_color}44">
-                ${cand.party}
-              </span>
-            </div>
-            <div class="flex items-center gap-3 mb-3">
-              <img src="${cand.avatar}" alt="${cand.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cand.name)}&background=random'" class="w-11 h-11 rounded-full border border-slate-700 object-cover shrink-0">
-              <div class="min-w-0">
-                <h4 class="font-bold text-white text-sm truncate">${cand.name}</h4>
-                <a href="https://x.com/${cand.handle.replace('@','')}" target="_blank" class="text-xs text-slate-400 hover:text-indigo-400 transition block truncate">${cand.handle}</a>
-              </div>
-            </div>
-          </div>
-          <div class="grid grid-cols-2 gap-2 pt-2.5 border-t border-slate-800/80 text-xs">
-            <div>
-              <span class="text-slate-400 block text-[9px] uppercase font-bold">Engagement</span>
-              <span class="font-black text-white text-sm sm:text-base">${formatNumber(cand.engagement_total)}</span>
-            </div>
-            <div>
-              <span class="text-slate-400 block text-[9px] uppercase font-bold">Eficiencia</span>
-              <span class="font-bold text-emerald-400 text-sm sm:text-base">${formatNumber(cand.efficiency)} <span class="text-[10px] font-normal text-slate-400">/tw</span></span>
-            </div>
-          </div>
-        `;
-        podium.appendChild(card);
-      });
+      // Calcular puntuación por partido
+      const scores = { "PSOE": 0, "PP": 0, "VOX": 0, "Sumar": 0, "Podemos": 0 };
+      const maxPossible = { "PSOE": 0, "PP": 0, "VOX": 0, "Sumar": 0, "Podemos": 0 };
 
-      // 3. Tarjetas completas de Candidatos (Mobile First)
-      const listContainer = document.getElementById('candidates-list-container');
-      listContainer.innerHTML = '';
-      
-      const maxEngagement = Math.max(...data.candidates.map(c => c.engagement_total));
-
-      data.candidates.forEach((cand, rank) => {
-        const item = document.createElement('div');
-        const pct = Math.round((cand.engagement_total / maxEngagement) * 100);
-        item.className = 'glass-card p-3.5 rounded-xl border border-slate-800 space-y-2.5';
-        item.innerHTML = `
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <span class="text-xs font-black text-slate-400 w-4 text-center shrink-0">${rank + 1}</span>
-              <img src="${cand.avatar}" alt="${cand.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(cand.name)}&background=random'" class="w-9 h-9 rounded-full border border-slate-700 shrink-0">
-              <div class="min-w-0">
-                <div class="font-bold text-white text-xs sm:text-sm truncate flex items-center gap-1.5">
-                  <span>${cand.name}</span>
-                  <span class="text-[10px] font-semibold px-1.5 py-0.2 rounded" style="background-color: ${cand.party_color}22; color: ${cand.party_color}">
-                    ${cand.party}
-                  </span>
-                </div>
-                <div class="text-[11px] text-slate-400">${cand.handle} • <span class="text-slate-300 font-mono">${cand.tweets_24h} tws</span></div>
-              </div>
-            </div>
-
-            <div class="text-right shrink-0">
-              <div class="text-xs sm:text-sm font-black text-white font-mono">${formatNumber(cand.engagement_total)}</div>
-              <div class="text-[10px] text-cyan-400 font-semibold">${formatNumber(cand.efficiency)} /tw</div>
-            </div>
-          </div>
-
-          <!-- Barra de progreso visual del engagement -->
-          <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
-            <div class="h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%; background-color: ${cand.party_color}"></div>
-          </div>
-
-          <!-- Mini desglose: Likes / RTs / Respuestas -->
-          <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1">
-            <span>❤️ ${formatNumber(cand.likes_24h)} likes</span>
-            <span>🔁 ${formatNumber(cand.retweets_24h)} RTs</span>
-            <span>💬 ${formatNumber(cand.replies_24h)} resp.</span>
-            <span class="font-semibold ${cand.trend === 'up' ? 'text-emerald-400' : 'text-rose-400'}">${cand.trend_pct}</span>
-          </div>
-        `;
-        listContainer.appendChild(item);
-      });
-
-      // 4. Tweets de Oro
-      const tweetsContainer = document.getElementById('top-tweets-container');
-      tweetsContainer.innerHTML = '';
-      data.top_tweets.forEach(tw => {
-        const twCard = document.createElement('div');
-        twCard.className = 'glass-card p-3.5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-3';
-        twCard.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded" style="background-color: ${tw.party_color}22; color: ${tw.party_color}; border: 1px solid ${tw.party_color}44">
-                ${tw.party}
-              </span>
-              <span class="text-[10px] text-slate-400 font-mono">${tw.time_ago}</span>
-            </div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <span class="font-bold text-white text-xs">${tw.author}</span>
-              <span class="text-[11px] text-slate-400">${tw.handle}</span>
-            </div>
-            <p class="text-xs text-slate-200 line-clamp-3 leading-relaxed">"${tw.text}"</p>
-          </div>
-
-          <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
-            <div class="flex items-center gap-3 text-[11px] text-slate-400">
-              <span class="flex items-center gap-1 text-rose-400 font-mono">
-                <i data-lucide="heart" class="w-3 h-3"></i> ${formatNumber(tw.likes)}
-              </span>
-              <span class="flex items-center gap-1 text-emerald-400 font-mono">
-                <i data-lucide="repeat" class="w-3 h-3"></i> ${formatNumber(tw.retweets)}
-              </span>
-            </div>
-            <a href="${tw.url}" target="_blank" rel="noopener" class="text-indigo-400 hover:text-indigo-300 font-bold text-[11px] flex items-center gap-1">
-              Ver en X <i data-lucide="external-link" class="w-3 h-3"></i>
-            </a>
-          </div>
-        `;
-        tweetsContainer.appendChild(twCard);
-      });
-
-      lucide.createIcons();
-
-      // 5. Gráfico Dona
-      const ctxShare = document.getElementById('chart-party-share').getContext('2d');
-      new Chart(ctxShare, {
-        type: 'doughnut',
-        data: {
-          labels: data.parties.map(p => p.short),
-          datasets: [{
-            data: data.parties.map(p => p.engagement_total),
-            backgroundColor: data.parties.map(p => p.color),
-            borderColor: '#090d16',
-            borderWidth: 3
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: { color: '#94a3b8', font: { size: 10 }, boxWidth: 12 }
-            }
-          },
-          cutout: '72%'
-        }
-      });
-
-      // 6. Gráfico Líneas
-      const ctxTimeline = document.getElementById('chart-timeline').getContext('2d');
-      new Chart(ctxTimeline, {
-        type: 'line',
-        data: {
-          labels: data.history_7d.labels,
-          datasets: data.history_7d.datasets.map(d => ({
-            label: d.party,
-            data: d.data,
-            borderColor: d.color,
-            backgroundColor: d.color + '15',
-            tension: 0.3,
-            borderWidth: 2,
-            pointRadius: 2.5,
-            pointHoverRadius: 5
-          }))
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'top',
-              labels: { color: '#94a3b8', font: { size: 9 }, boxWidth: 10 }
-            }
-          },
-          scales: {
-            x: {
-              grid: { color: '#131b2e' },
-              ticks: { color: '#64748b', font: { size: 9 } }
-            },
-            y: {
-              grid: { color: '#131b2e' },
-              ticks: { color: '#64748b', font: { size: 9 } }
-            }
+      userAnswers.forEach(ans => {
+        const prop = PROPOSALS.find(p => p.id === ans.propId);
+        for (const [party, weight] of Object.entries(prop.partyWeights)) {
+          maxPossible[party] += Math.abs(weight);
+          if (ans.vote === 1) {
+            scores[party] += weight;
+          } else if (ans.vote === -1) {
+            scores[party] -= weight;
           }
         }
       });
 
-      // 7. Botones de Compartir (WhatsApp + X)
-      const currentUrl = window.location.href;
-      const shareMessage = `📊 RadarX: Así va la batalla digital en X para las Elecciones Generales en España:\n\n🥇 Líder: ${data.summary.top_candidate}\n⚡ Más Eficiente: ${data.summary.most_efficient}\n\nDatos actualizados cada hora: ${currentUrl}`;
-
-      document.getElementById('btn-share-x').addEventListener('click', () => {
-        const text = encodeURIComponent(`📊 Así va hoy la batalla en X para las Elecciones Generales en España 🇪🇸:\n\n🥇 Líder: ${data.summary.top_candidate}\n⚡ Más Eficiente: ${data.summary.most_efficient}\n\nDatos en directo:`);
-        const url = encodeURIComponent(currentUrl);
-        window.open(`https://x.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+      // Normalizar a porcentaje (0% - 100%)
+      const percentages = PARTIES.map(p => {
+        const max = maxPossible[p.name] || 1;
+        const raw = scores[p.name];
+        // Escalar de [-max, +max] a [0, 100]
+        const pct = Math.max(5, Math.min(95, Math.round(((raw + max) / (2 * max)) * 100)));
+        return {
+          name: p.name,
+          color: p.color,
+          pct: pct
+        };
       });
 
-      document.getElementById('btn-share-wa').addEventListener('click', () => {
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareMessage)}`, '_blank');
+      percentages.sort((a, b) => b.pct - a.pct);
+      const winner = percentages[0];
+
+      // Actualizar titulares
+      document.getElementById('winner-party-name').innerText = winner.name;
+      document.getElementById('winner-party-name').style.color = winner.color;
+      document.getElementById('result-top-message').innerHTML = `Tu mayor afinidad es con <span style="color: ${winner.color}; font-weight: 900">${winner.name} (${winner.pct}%)</span>`;
+
+      // Renderizar barras
+      const container = document.getElementById('party-bars-container');
+      container.innerHTML = '';
+      percentages.forEach((p, idx) => {
+        const row = document.createElement('div');
+        row.className = 'space-y-1';
+        row.innerHTML = `
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-bold flex items-center gap-1.5" style="color: ${p.color}">
+              ${idx === 0 ? '👑 ' : ''}${p.name}
+            </span>
+            <span class="font-black text-white font-mono">${p.pct}%</span>
+          </div>
+          <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800">
+            <div class="h-2 rounded-full transition-all duration-700" style="width: ${p.pct}%; background-color: ${p.color}"></div>
+          </div>
+        `;
+        container.appendChild(row);
       });
+
+      // Rellenar desglose de medidas
+      const breakdownList = document.getElementById('breakdown-list');
+      breakdownList.innerHTML = '';
+      userAnswers.forEach((ans, i) => {
+        const prop = PROPOSALS.find(p => p.id === ans.propId);
+        const iconVote = ans.vote === 1 ? '👍 Votaste a favor' : (ans.vote === -1 ? '👎 Votaste en contra' : '🤷 Dudoso/Paso');
+        const colorVote = ans.vote === 1 ? 'text-emerald-400' : (ans.vote === -1 ? 'text-rose-400' : 'text-slate-400');
+        
+        const item = document.createElement('div');
+        item.className = 'bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs space-y-1.5';
+        item.innerHTML = `
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="text-slate-400 font-mono">Medida #${i+1}</span>
+            <span class="font-bold ${colorVote}">${iconVote}</span>
+          </div>
+          <p class="font-bold text-white text-xs">${prop.title}</p>
+          <div class="text-[10px] text-slate-400 pt-1 border-t border-slate-900 space-y-0.5">
+            <div><strong class="text-emerald-400">A favor:</strong> ${prop.proponents}</div>
+            <div><strong class="text-rose-400">En contra:</strong> ${prop.opponents}</div>
+          </div>
+        `;
+        breakdownList.appendChild(item);
+      });
+
+      // Confeti de celebración
+      if (window.confetti) {
+        confetti({
+          particleCount: 50,
+          spread: 60,
+          origin: { y: 0.7 }
+        });
+      }
+
+      // Preparar botones de compartir
+      const shareUrl = window.location.href;
+      const shareText = `🗳️ Acabo de hacer el test de Voto a Ciegas para las Elecciones Generales en España y resulta que coincido un ${winner.pct}% con ${winner.name} 🤯\n\n¿Votas por siglas o por medidas reales? Haz la prueba tú también:`;
+
+      document.getElementById('btn-share-result-x').onclick = () => {
+        window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
+      };
+
+      document.getElementById('btn-share-result-wa').onclick = () => {
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`, '_blank');
+      };
     }
 
-    document.addEventListener('DOMContentLoaded', loadData);
+    // Toggle desglose de propuestas
+    const btnToggleBreakdown = document.getElementById('btn-toggle-breakdown');
+    const breakdownList = document.getElementById('breakdown-list');
+    const chevronBreakdown = document.getElementById('chevron-breakdown');
+
+    btnToggleBreakdown.addEventListener('click', () => {
+      const isHidden = breakdownList.classList.contains('hidden');
+      if (isHidden) {
+        breakdownList.classList.remove('hidden');
+        chevronBreakdown.classList.add('rotate-180');
+      } else {
+        breakdownList.classList.add('hidden');
+        chevronBreakdown.classList.remove('rotate-180');
+      }
+    });
+
+    // Reiniciar
+    btnRestart.addEventListener('click', () => {
+      screenResult.classList.add('hidden');
+      screenIntro.classList.remove('hidden');
+    });
   </script>
 </body>
 </html>

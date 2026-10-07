@@ -1,0 +1,172 @@
+[
+  {
+    "id": 1,
+    "category": "🏠 Vivienda",
+    "title": "Topar el precio de los alquileres por ley y limitar con dureza los pisos turísticos.",
+    "description": "Intervenir los precios en zonas tensionadas para impedir subidas abusivas y restringir licencias de alquiler vacacional.",
+    "parties": {
+      "Podemos": 1,
+      "Sumar": 1,
+      "PSOE": 0.5,
+      "PP": -1,
+      "VOX": -1
+    },
+    "explained": {
+      "A favor": "Sumar y Podemos defienden la regulación de precios estricta. El PSOE apoya topar en zonas tensionadas.",
+      "En contra": "PP y VOX rechazan topar precios y defienden la libertad de mercado y avales a la compra."
+    }
+  },
+  {
+    "id": 2,
+    "category": "💼 Trabajo y Salarios",
+    "title": "Reducir la jornada laboral a 37,5 horas semanales por ley sin bajar el salario.",
+    "description": "Disminución legal del tiempo de trabajo obligatorio para ganar conciliación y calidad de vida sin merma de sueldo.",
+    "parties": {
+      "Sumar": 1,
+      "Podemos": 1,
+      "PSOE": 0.8,
+      "PP": -0.8,
+      "VOX": -1
+    },
+    "explained": {
+      "A favor": "Sumar y PSOE impulsan la reducción de jornada legal como medida prioritaria.",
+      "En contra": "PP y VOX abogan por la negociación bilateral empresa-empleado sin imposición gubernamental."
+    }
+  },
+  {
+    "id": 3,
+    "category": "💶 Impuestos",
+    "title": "Hacer permanente el impuesto a la banca, energéticas y a las grandes fortunas.",
+    "description": "Gravar extraordinariamente a patrimonios superiores a 3 millones y beneficios récord para blindar servicios públicos.",
+    "parties": {
+      "Podemos": 1,
+      "Sumar": 1,
+      "PSOE": 0.9,
+      "PP": -1,
+      "VOX": -1
+    },
+    "explained": {
+      "A favor": "PSOE, Sumar y Podemos defienden la redistribución y mayor esfuerzo a grandes patrimonios.",
+      "En contra": "PP y VOX piden su eliminación inmediata por considerarlo confiscatorio y freno a la inversión."
+    }
+  },
+  {
+    "id": 4,
+    "category": "🛂 Inmigración",
+    "title": "Expulsión inmediata de extranjeros irregulares y prioridad para españoles en las ayudas.",
+    "description": "Endurecer el control fronterizo, repatriaciones exprés y supeditar ayudas asistenciales a la nacionalidad española.",
+    "parties": {
+      "VOX": 1,
+      "PP": 0.4,
+      "PSOE": -0.8,
+      "Sumar": -1,
+      "Podemos": -1
+    },
+    "explained": {
+      "A favor": "VOX sitúa esta medida en el centro de su programa. El PP pide más control fronterizo pero con matices.",
+      "En contra": "PSOE, Sumar y Podemos defienden los derechos humanos, vías seguras y regularizaciones."
+    }
+  },
+  {
+    "id": 5,
+    "category": "⚡ Energía",
+    "title": "Prolongar la vida de las centrales nucleares e incentivar la inversión energética tradicional.",
+    "description": "Frenar el calendario de cierre nuclear para asegurar independencia energética y abaratar costes a familias e industrias.",
+    "parties": {
+      "PP": 1,
+      "VOX": 1,
+      "PSOE": -0.9,
+      "Sumar": -1,
+      "Podemos": -1
+    },
+    "explained": {
+      "A favor": "PP y VOX defienden la energía nuclear como base libre de emisiones y barata.",
+      "En contra": "PSOE, Sumar y Podemos apuestan por el cierre ordenado y transición 100% renovable."
+    }
+  },
+  {
+    "id": 6,
+    "category": "💸 Impuesto de Sucesiones",
+    "title": "Bonificar al 99% el Impuesto de Sucesiones y Donaciones entre padres e hijos en toda España.",
+    "description": "Eliminar de facto el tributo por heredar viviendas o ahorros familiares de progenitores a descendientes.",
+    "parties": {
+      "PP": 1,
+      "VOX": 1,
+      "PSOE": -0.8,
+      "Sumar": -1,
+      "Podemos": -1
+    },
+    "explained": {
+      "A favor": "PP y VOX han aplicado esta bonificación en sus autonomías y quieren extenderla.",
+      "En contra": "Izquierdas lo consideran un agujero fiscal que beneficia a las familias con más patrimonio."
+    }
+  },
+  {
+    "id": 7,
+    "category": "🚪 Ocupación y Seguridad",
+    "title": "Desalojo de viviendas ocupadas ilegalmente en menos de 24 horas y penas de cárcel.",
+    "description": "Dar poder a la policía para expulsar sin orden judicial previa a quienes ocupen inmuebles sin contrato ni permiso.",
+    "parties": {
+      "VOX": 1,
+      "PP": 0.9,
+      "PSOE": -0.4,
+      "Sumar": -1,
+      "Podemos": -1
+    },
+    "explained": {
+      "A favor": "PP y VOX exigen desalojo exprés inmediato y tipificación penal agravada.",
+      "En contra": "Podemos y Sumar exigen diferenciar usurpación mafiosa de vulnerabilidad sin alternativa habitacional."
+    }
+  },
+  {
+    "id": 8,
+    "category": "🩺 Sanidad y Educación",
+    "title": "Blindar la gestión 100% pública y suprimir los conciertos privados con fondos de todos.",
+    "description": "Eliminar derivaciones sanitarias a clínicas privadas y retirar la financiación pública a colegios concertados.",
+    "parties": {
+      "Podemos": 1,
+      "Sumar": 0.9,
+      "PSOE": 0.2,
+      "PP": -1,
+      "VOX": -1
+    },
+    "explained": {
+      "A favor": "Podemos y Sumar exigen poner fin a los conciertos y externalizaciones.",
+      "En contra": "PP y VOX defienden la libertad de elección de centro médico o colegio y la colaboración público-privada."
+    }
+  },
+  {
+    "id": 9,
+    "category": "👴 Pensiones",
+    "title": "Revalorizar las pensiones por ley siempre según el IPC, blindado sin excepciones.",
+    "description": "Garantizar que ningún pensionista pierda poder adquisitivo independientemente de la coyuntura económica.",
+    "parties": {
+      "PSOE": 1,
+      "Sumar": 1,
+      "Podemos": 1,
+      "PP": 0.2,
+      "VOX": -0.3
+    },
+    "explained": {
+      "A favor": "PSOE, Sumar y Podemos defienden el blindaje incondicional al IPC en la Constitución.",
+      "En contra/Cautela": "PP y VOX alertan de la sostenibilidad futura si no se combinan con incentivos al ahorro."
+    }
+  },
+  {
+    "id": 10,
+    "category": "🌍 Regularización de Personas",
+    "title": "Aprobar una regularización extraordinaria para personas migrantes que ya viven y trabajan aquí.",
+    "description": "Dar permisos de trabajo y residencia a extranjeros arraigados para que coticen y salgan de la economía sumergida.",
+    "parties": {
+      "Sumar": 1,
+      "Podemos": 1,
+      "PSOE": 0.8,
+      "PP": -0.6,
+      "VOX": -1
+    },
+    "explained": {
+      "A favor": "Sumar, Podemos y la ILP ciudadana respaldada por PSOE abogan por la integración formal.",
+      "En contra": "VOX y sectores del PP rechazan regularizaciones masivas alegando un supuesto 'efecto llamada'."
+    }
+  }
+]
