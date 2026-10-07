@@ -851,21 +851,16 @@ async function generateImage(res,win,aiDiag){
   cx.textBaseline='middle';
   cx.font='italic 32px "Instrument Serif", Georgia, serif';
   cx.fillStyle='#2C2C2C';
-  cx.fillText('Descubre tu afinidad electoral en 1 minuto',540,1095);
+  cx.fillText('Descubre tu afinidad electoral en 1 minuto',540,1110);
 
   // Link Pill
-  const pillW=520,pillH=54;
+  const pillW=520,pillH=56;
   cx.fillStyle='#1A1A1A';
-  rRect(cx,540-pillW/2,1140,pillW,pillH,27,true,false);
+  rRect(cx,540-pillW/2,1170,pillW,pillH,28,true,false);
 
   cx.font='700 22px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
   cx.fillStyle='#FFFFFF';
-  cx.fillText('👉 pablorm-esp.github.io/radarx',540,1140+pillH/2);
-
-  // Sponsor / Note
-  cx.font='600 20px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
-  cx.fillStyle='#9E9285';
-  cx.fillText('☕ caffutio.com · Proyecto cívico independiente',540,1245);
+  cx.fillText('👉 pablorm-esp.github.io/radarx',540,1170+pillH/2);
 
   // Show preview
   const preview=$('#rPreview');
