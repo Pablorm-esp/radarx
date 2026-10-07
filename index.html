@@ -270,8 +270,15 @@
     <div class="share-img-sec" id="rImgSec">
       <div class="si-label">Tu resultado para compartir</div>
       <div class="si-preview" id="rPreview"></div>
-      <div class="si-actions">
-        <button class="btn-dl" id="btnImg"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg><span id="imgLabel">Descargar imagen</span></button>
+      <div class="si-actions" style="display:flex;gap:8px;">
+        <button class="btn-dl" id="btnDownload" style="flex:1;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          <span>Descargar</span>
+        </button>
+        <button class="btn-dl" id="btnShareNative" style="flex:1;background:var(--card);color:var(--t1);border:1.5px solid var(--b);">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"/></svg>
+          <span>Compartir</span>
+        </button>
       </div>
     </div>
     <div class="share-txt" id="rTxtSec">
@@ -553,118 +560,194 @@ function countUp(el,target,dur){
   })(t0);
 }
 
-/* ═══════ SHARE IMAGE (Canvas) ═══════ */
+/* ═══════ SHARE IMAGE (Canvas 1080x1350) ═══════ */
 async function generateImage(res,win){
-  await document.fonts.ready;
+  try { await document.fonts.ready; } catch(e){}
 
   const W=1080,H=1350,cv=document.createElement('canvas');
   cv.width=W;cv.height=H;const cx=cv.getContext('2d');
 
   // Background
-  cx.fillStyle='#FAFAF8';cx.fillRect(0,0,W,H);
+  cx.fillStyle='#FAFAF8';
+  cx.fillRect(0,0,W,H);
 
-  // Top brand
-  cx.textAlign='center';cx.textBaseline='top';
-  cx.font='italic 32px "Instrument Serif",Georgia,serif';cx.fillStyle='#1A1A1A';
-  cx.fillText('Voto',435,80);
-  cx.font='700 32px Inter,system-ui,sans-serif';
-  cx.fillText(' a Ciegas',615,80);
-  // Manual kerning: draw both parts
-  cx.clearRect(0,70,W,50);
-  const brand='Voto a Ciegas';
-  cx.font='700 28px Inter,system-ui,sans-serif';cx.fillStyle='#A0A0A0';
-  cx.fillText('TEST ELECTORAL · ESPAÑA 2026',W/2,130);
+  // Subtle Outer Card Border
+  cx.strokeStyle='#E6E3DC';
+  cx.lineWidth=3;
+  rRect(cx,35,35,W-70,H-70,28,false,true);
 
-  // Re-draw brand properly
+  // ── 1. HEADER (Y: 90 - 240) ──
+  // Top category badge
+  cx.textAlign='center';
+  cx.textBaseline='middle';
+  cx.fillStyle='#EFECE6';
+  rRect(cx,360,95,360,40,20,true,false);
+
+  cx.font='700 18px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  cx.fillStyle='#737373';
+  cx.fillText('TEST ELECTORAL · ESPAÑA 2026',540,115);
+
+  // Logo Brand
+  cx.font='700 46px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
   cx.fillStyle='#1A1A1A';
-  cx.font='italic 36px "Instrument Serif",Georgia,serif';
-  const vW=cx.measureText('Voto').width;
-  cx.font='700 36px Inter,system-ui,sans-serif';
-  const acW=cx.measureText(' a Ciegas').width;
-  const totalW=vW+acW;
-  const bx=(W-totalW)/2;
-  cx.font='italic 36px "Instrument Serif",Georgia,serif';
-  cx.textAlign='left';cx.fillText('Voto',bx,80);
-  cx.font='700 36px Inter,system-ui,sans-serif';
-  cx.fillText(' a Ciegas',bx+vW,80);
+  cx.fillText('Voto a Ciegas',540,175);
+
+  // Tagline
+  cx.font='500 22px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  cx.fillStyle='#8E8E8E';
+  cx.fillText('¿Votas por siglas o por medidas reales?',540,225);
+
+  // Divider
+  cx.strokeStyle='#E8E6E1';
+  cx.lineWidth=1.5;
+  cx.beginPath();
+  cx.moveTo(90,265);
+  cx.lineTo(990,265);
+  cx.stroke();
+
+  // ── 2. HERO WINNER (Y: 290 - 580) ──
+  cx.font='700 22px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  cx.fillStyle='#737373';
+  cx.fillText('TU MAYOR COINCIDENCIA',540,310);
+
+  // Percentage (Big Hero)
+  cx.font='800 155px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  cx.fillStyle=win.c;
+  cx.fillText(win.pct+'%',540,415);
+
+  // Winner Party Name
+  cx.font='800 46px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  cx.fillStyle='#1A1A1A';
+  cx.fillText(win.n,540,515);
 
   // Subtitle
-  cx.textAlign='center';cx.font='500 18px Inter,system-ui,sans-serif';cx.fillStyle='#A0A0A0';
-  cx.fillText('Test Electoral · España 2026',W/2,130);
+  cx.font='500 22px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  cx.fillStyle='#8E8E8E';
+  cx.fillText('Afinidad calculada sobre 10 propuestas sin siglas',540,565);
 
-  // Line
-  cx.strokeStyle='#E8E6E1';cx.lineWidth=1;
-  cx.beginPath();cx.moveTo(340,175);cx.lineTo(740,175);cx.stroke();
+  // Divider
+  cx.beginPath();
+  cx.moveTo(90,610);
+  cx.lineTo(990,610);
+  cx.stroke();
 
-  // Big percentage
-  cx.font='800 180px Inter,system-ui,sans-serif';cx.fillStyle=win.c;cx.textAlign='center';
-  cx.fillText(win.pct+'%',W/2,440);
+  // ── 3. BARS SECTION (Y: 660 - 1000) ──
+  const y0=675,stepY=72;
+  const barX=280,barW=570,barH=20;
 
-  // Party name
-  cx.font='400 40px "Instrument Serif",Georgia,serif';cx.fillStyle='#1A1A1A';
-  cx.fillText(win.n,W/2,510);
-
-  cx.font='400 20px Inter,system-ui,sans-serif';cx.fillStyle='#A0A0A0';
-  cx.fillText('de afinidad electoral',W/2,555);
-
-  // Bars
-  const bL=180,bW=540,bH=10,bG=54,bY0=640;
   res.forEach((r,i)=>{
-    const y=bY0+i*bG;
-    cx.font='600 20px Inter,system-ui,sans-serif';cx.fillStyle='#1A1A1A';cx.textAlign='left';
-    cx.fillText(r.n,bL,y);
+    const y=y0+i*stepY;
+
+    // Party Name (Left aligned, completely separate from bar)
+    cx.textAlign='left';
+    cx.textBaseline='middle';
+    cx.font=i===0?'800 32px Inter, -apple-system, BlinkMacSystemFont, sans-serif':'600 30px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+    cx.fillStyle='#1A1A1A';
+    cx.fillText(r.n,95,y);
+
     // Track
-    cx.fillStyle='#F0EEEA';rRect(cx,bL,y+14,bW,bH,5);
+    cx.fillStyle='#EFECE6';
+    rRect(cx,barX,y-barH/2,barW,barH,10,true,false);
+
     // Fill
-    cx.fillStyle=r.c;rRect(cx,bL,y+14,bW*(r.pct/100),bH,5);
-    // Pct
-    cx.font='700 20px Inter,system-ui,sans-serif';cx.fillStyle='#1A1A1A';cx.textAlign='right';
-    cx.fillText(r.pct+'%',bL+bW+70,y);
+    cx.fillStyle=r.c;
+    const fillW=Math.max(barH,barW*(r.pct/100));
+    rRect(cx,barX,y-barH/2,fillW,barH,10,true,false);
+
+    // Percentage (Right aligned, completely separate from bar)
+    cx.textAlign='right';
+    cx.textBaseline='middle';
+    cx.font=i===0?'800 32px Inter, -apple-system, BlinkMacSystemFont, sans-serif':'700 30px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+    cx.fillStyle=i===0?r.c:'#1A1A1A';
+    cx.fillText(r.pct+'%',985,y);
   });
 
-  // Bottom line
-  cx.strokeStyle='#E8E6E1';cx.beginPath();cx.moveTo(200,1060);cx.lineTo(880,1060);cx.stroke();
+  // Divider
+  cx.beginPath();
+  cx.moveTo(90,1045);
+  cx.lineTo(990,1045);
+  cx.stroke();
 
-  // CTA
+  // ── 4. FOOTER & CTA (Y: 1070 - 1280) ──
   cx.textAlign='center';
-  cx.font='italic 26px "Instrument Serif",Georgia,serif';cx.fillStyle='#6B6B6B';
-  cx.fillText('Haz el test tú también',W/2,1120);
+  cx.textBaseline='middle';
+  cx.font='italic 32px "Instrument Serif", Georgia, serif';
+  cx.fillStyle='#2C2C2C';
+  cx.fillText('Descubre tu afinidad electoral en 1 minuto',540,1095);
 
-  cx.font='500 16px Inter,system-ui,sans-serif';cx.fillStyle='#A0A0A0';
-  cx.fillText('pablorm-esp.github.io/radarx',W/2,1160);
+  // Link Pill
+  const pillW=520,pillH=54;
+  cx.fillStyle='#1A1A1A';
+  rRect(cx,540-pillW/2,1140,pillW,pillH,27,true,false);
 
-  // Caffutio subtle
-  cx.font='500 13px Inter,system-ui,sans-serif';cx.fillStyle='#C0B0A0';
-  cx.fillText('☕ caffutio.com',W/2,1300);
+  cx.font='700 22px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  cx.fillStyle='#FFFFFF';
+  cx.fillText('👉 pablorm-esp.github.io/radarx',540,1140+pillH/2);
+
+  // Sponsor / Note
+  cx.font='600 20px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  cx.fillStyle='#9E9285';
+  cx.fillText('☕ caffutio.com · Proyecto cívico independiente',540,1245);
 
   // Show preview
-  const preview=$('#rPreview');preview.innerHTML='';
-  const small=cv.cloneNode();small.getContext('2d').drawImage(cv,0,0);
-  preview.appendChild(small);
+  const preview=$('#rPreview');
+  preview.innerHTML='';
+  cv.style.width='100%';
+  cv.style.height='auto';
+  cv.style.display='block';
+  preview.appendChild(cv);
 
-  // Download / Share button
-  const btnI=$('#btnImg');
-  const canShare=navigator.share&&navigator.canShare;
+  // Setup Download and Share buttons
+  const btnDl=$('#btnDownload');
+  const btnSh=$('#btnShareNative');
 
-  if(canShare){
-    $('#imgLabel').textContent='Compartir imagen';
-    btnI.onclick=async()=>{
-      cv.toBlob(async blob=>{
-        const file=new File([blob],'voto-a-ciegas-resultado.png',{type:'image/png'});
-        try{await navigator.share({files:[file],title:'Mi resultado en Voto a Ciegas'})}catch(e){}
-      },'image/png');
+  if(btnDl){
+    btnDl.onclick=()=>{
+      const link=document.createElement('a');
+      link.download='voto-a-ciegas-resultado.png';
+      link.href=cv.toDataURL('image/png');
+      link.click();
     };
-  }else{
-    btnI.onclick=()=>{
-      const link=document.createElement('a');link.download='voto-a-ciegas-resultado.png';
-      link.href=cv.toDataURL('image/png');link.click();
+  }
+
+  if(btnSh){
+    btnSh.onclick=async()=>{
+      if(navigator.share && navigator.canShare){
+        try{
+          cv.toBlob(async blob=>{
+            const file=new File([blob],'voto-a-ciegas-resultado.png',{type:'image/png'});
+            if(navigator.canShare({files:[file]})){
+              await navigator.share({files:[file],title:'Mi resultado en Voto a Ciegas'});
+            }else{
+              await navigator.share({title:'Voto a Ciegas',url:location.href});
+            }
+          },'image/png');
+        }catch(e){
+          // Fallback a descarga directa
+          btnDl.click();
+        }
+      }else{
+        btnDl.click();
+      }
     };
   }
 }
 
-function rRect(cx,x,y,w,h,r){
+function rRect(cx,x,y,w,h,r,fill=true,stroke=false){
   if(w<=0)return;
-  cx.beginPath();cx.moveTo(x+r,y);cx.lineTo(x+w-r,y);cx.quadraticCurveTo(x+w,y,x+w,y+r);cx.lineTo(x+w,y+h-r);cx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);cx.lineTo(x+r,y+h);cx.quadraticCurveTo(x,y+h,x,y+h-r);cx.lineTo(x,y+r);cx.quadraticCurveTo(x,y,x+r,y);cx.closePath();cx.fill();
+  cx.beginPath();
+  cx.moveTo(x+r,y);
+  cx.lineTo(x+w-r,y);
+  cx.quadraticCurveTo(x+w,y,x+w,y+r);
+  cx.lineTo(x+w,y+h-r);
+  cx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  cx.lineTo(x+r,y+h);
+  cx.quadraticCurveTo(x,y+h,x,y+h-r);
+  cx.lineTo(x,y+r);
+  cx.quadraticCurveTo(x,y,x+r,y);
+  cx.closePath();
+  if(fill) cx.fill();
+  if(stroke) cx.stroke();
 }
 
 /* ═══════ EVENTS ═══════ */
