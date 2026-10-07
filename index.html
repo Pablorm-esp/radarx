@@ -141,10 +141,32 @@
     .bar-pc{width:44px;text-align:right;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
     .bar-r.win .bar-nm{font-weight:700}.bar-r.win .bar-pc{font-weight:800}
 
-    /* Insight */
-    .insight{padding:14px 16px;border:1px solid var(--bl);border-radius:10px;margin-bottom:24px;font-size:13px;line-height:1.5;color:var(--t2);opacity:0}
-    .insight.show{animation:fu .4s .4s cubic-bezier(.16,1,.3,1) forwards}
-    .insight strong{color:var(--t1);font-weight:600}
+    /* AI Diagnosis Card */
+    .ai-card{padding:16px 18px;background:#FAF8F5;border:1px solid #EAE6DF;border-radius:12px;margin-bottom:24px;text-align:left;opacity:0}
+    .ai-card.show{animation:fu .4s .3s cubic-bezier(.16,1,.3,1) forwards}
+    .ai-header{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+    .ai-sparkle{font-size:13px;line-height:1}
+    .ai-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8F8274}
+    .ai-archetype{font-family:var(--serif);font-size:22px;line-height:1.25;color:var(--t1);margin-bottom:6px}
+    .ai-desc{font-size:13px;line-height:1.55;color:var(--t2)}
+
+    /* Interactive Insight Box */
+    .insight-box{padding:14px 16px;border:1px solid var(--bl);border-radius:12px;margin-bottom:24px;font-size:13px;line-height:1.5;color:var(--t2);background:var(--card);cursor:pointer;transition:background .15s,border-color .15s;opacity:0;text-align:left}
+    .insight-box.show{animation:fu .4s .45s cubic-bezier(.16,1,.3,1) forwards}
+    .insight-box:hover{background:#FAF9F6;border-color:var(--b)}
+    .insight-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .insight-header strong{color:var(--t1);font-weight:600}
+    .insight-chv{font-size:15px;color:var(--t3);transition:transform .25s;flex-shrink:0;margin-top:2px}
+    .insight-box.open .insight-chv{transform:rotate(180deg)}
+    .insight-drawer{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.16,1,.3,1)}
+    .insight-box.open .insight-drawer{grid-template-rows:1fr}
+    .insight-drawer-in{overflow:hidden}
+    .id-body{border-top:1px solid var(--bl);margin-top:12px;padding-top:12px}
+    .id-tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:4px}
+    .id-title{font-size:13px;font-weight:700;color:var(--t1);line-height:1.4;margin-bottom:6px}
+    .id-vote{font-size:11px;font-weight:700;margin-bottom:8px}
+    .id-vote.yes{color:var(--g)}.id-vote.no{color:var(--r)}
+    .id-ctx{font-size:11px;color:var(--t2);line-height:1.5;background:#F8F7F4;padding:8px 10px;border-radius:6px}
 
     /* Share image section */
     .share-img-sec{margin-bottom:24px;opacity:0}.share-img-sec.show{animation:fu .4s .5s cubic-bezier(.16,1,.3,1) forwards}
@@ -265,8 +287,30 @@
       <div class="res-who" id="rWho">—</div>
       <p class="res-sub">de afinidad electoral</p>
     </div>
+    <!-- Diagnóstico Político IA -->
+    <div class="ai-card" id="rAiCard">
+      <div class="ai-header">
+        <span class="ai-sparkle">✨</span>
+        <span class="ai-tag">DIAGNÓSTICO POLÍTICO IA</span>
+      </div>
+      <h3 class="ai-archetype" id="rAiArchetype">—</h3>
+      <p class="ai-desc" id="rAiDesc">—</p>
+    </div>
+
     <div class="bars" id="rBars"></div>
-    <div class="insight" id="rInsight"></div>
+
+    <!-- Dato Curioso Interactivo Clicable -->
+    <div class="insight-box" id="rInsightBox">
+      <div class="insight-header">
+        <div id="rInsightText"></div>
+        <span class="insight-chv">⌄</span>
+      </div>
+      <div class="insight-drawer">
+        <div class="insight-drawer-in">
+          <div class="id-body" id="rInsightDetail"></div>
+        </div>
+      </div>
+    </div>
     <div class="share-img-sec" id="rImgSec">
       <div class="si-label">Tu resultado para compartir</div>
       <div class="si-preview" id="rPreview"></div>
@@ -495,6 +539,13 @@ function showResults(){
   countUp(pctEl,win.pct,700);
   $('#rWho').textContent=win.n;
 
+  // AI Diagnosis Engine
+  const aiDiag = generateAiDiagnosis(ans, res);
+  const aiCard = $('#rAiCard');
+  $('#rAiArchetype').textContent = aiDiag.archetype;
+  $('#rAiDesc').textContent = aiDiag.phrase;
+  aiCard.classList.add('show');
+
   // Bars
   const bars=$('#rBars');bars.innerHTML='';bars.classList.add('show');
   res.forEach((r,i)=>{
@@ -505,24 +556,64 @@ function showResults(){
     setTimeout(()=>{row.querySelector('.bar-fl').style.width=r.pct+'%';countUp(pcEl,r.pct,600)},200+i*80);
   });
 
-  // Insight — find the most surprising vote
-  const insight=$('#rInsight');
+  // Interactive Insight — find the most curious vote
+  const insightBox=$('#rInsightBox');
+  const insightText=$('#rInsightText');
+  const insightDetail=$('#rInsightDetail');
   const loser=res[res.length-1];
-  let surpriseText='';
+  let curiousProp=null;
+  let curiousVote=0;
+  let curiousHeader='';
+
+  // 1. Buscamos coincidencia inesperada con el partido opuesto
   for(const a of ans){
     const pp=P.find(x=>x.id===a.id);
-    if(a.v===1&&pp.w[loser.n]&&pp.w[loser.n]>=.8){
-      surpriseText=`<strong>Dato curioso:</strong> Votaste a favor de una medida defendida por ${loser.n} sin saberlo — el partido con el que menos coincides.`;break;
-    }
-    if(a.v===-1&&pp.w[win.n]&&pp.w[win.n]>=.8){
-      surpriseText=`<strong>Dato curioso:</strong> Votaste en contra de una medida que defiende ${win.n} — tu mayor afinidad. Hasta dentro de tu partido favorito hay matices.`;break;
+    if(a.v===1 && pp.w[loser.n] && pp.w[loser.n]>=0.7){
+      curiousHeader=`<strong>Dato curioso:</strong> Votaste a favor de una medida defendida por ${loser.n} sin saberlo — el partido con el que menos coincides. <span style="font-size:11px;color:var(--t3);display:block;margin-top:2px;">Toca para ver qué medida era ▾</span>`;
+      curiousProp=pp; curiousVote=1; break;
     }
   }
-  if(surpriseText){insight.innerHTML=surpriseText;insight.classList.add('show')}
-  else insight.style.display='none';
 
-  // Generate share image
-  generateImage(res,win);
+  // 2. Si no, discrepancia con su propio partido ganador
+  if(!curiousProp){
+    for(const a of ans){
+      const pp=P.find(x=>x.id===a.id);
+      if(a.v===-1 && pp.w[win.n] && pp.w[win.n]>=0.7){
+        curiousHeader=`<strong>Dato curioso:</strong> Votaste en contra de una medida prioritaria de ${win.n} — tu mayor afinidad. Hay matices en tu postura. <span style="font-size:11px;color:var(--t3);display:block;margin-top:2px;">Toca para ver qué medida era ▾</span>`;
+        curiousProp=pp; curiousVote=-1; break;
+      }
+    }
+  }
+
+  // 3. Fallback con cualquier voto relevante
+  if(!curiousProp && ans.length>0){
+    const pp=P.find(x=>x.id===ans[0].id);
+    curiousHeader=`<strong>Dato curioso:</strong> Tienes criterio propio en ${pp.cat}. <span style="font-size:11px;color:var(--t3);display:block;margin-top:2px;">Toca para ver el detalle de la medida ▾</span>`;
+    curiousProp=pp; curiousVote=ans[0].v;
+  }
+
+  if(curiousProp){
+    insightText.innerHTML=curiousHeader;
+    const vText = curiousVote===1 ? 'Votaste a favor 👍' : curiousVote===-1 ? 'Votaste en contra 👎' : 'Elegiste pasar / Duda 🤷';
+    const vClass = curiousVote===1 ? 'yes' : curiousVote===-1 ? 'no' : '';
+    insightDetail.innerHTML = `
+      <span class="id-tag">${curiousProp.cat}</span>
+      <div class="id-title">«${curiousProp.t}»</div>
+      <div class="id-vote ${vClass}">${vText}</div>
+      <div class="id-ctx">
+        <strong>Posición de los partidos:</strong><br>
+        • A favor: ${curiousProp.pro}<br>
+        • En contra: ${curiousProp.con}
+      </div>
+    `;
+    insightBox.onclick = () => insightBox.classList.toggle('open');
+    insightBox.classList.add('show');
+  }else{
+    insightBox.style.display='none';
+  }
+
+  // Generate share image (with AI Archetype included)
+  generateImage(res,win,aiDiag);
 
   // Show sections with stagger
   $('#rImgSec').classList.add('show');
@@ -560,8 +651,88 @@ function countUp(el,target,dur){
   })(t0);
 }
 
+/* ═══════ AI DIAGNOSIS ENGINE ═══════ */
+function generateAiDiagnosis(ans, res){
+  const win = res[0];
+  const runnerUp = res[1] || res[0];
+
+  const getVote = (id) => {
+    const a = ans.find(x => x.id === id);
+    return a ? a.v : 0;
+  };
+
+  const vAlquiler   = getVote(1); // Topar alquileres
+  const vJornada    = getVote(2); // 37.5h
+  const vImpuestos  = getVote(3); // Impuesto fortunas/banca
+  const vInmigrac   = getVote(4); // Expulsión irregulares
+  const vNucleares  = getVote(5); // Nucleares
+  const vSucesiones = getVote(6); // Bonificar sucesiones 99%
+  const vOkupas     = getVote(7); // Desalojo exprés
+  const vSanidad    = getVote(8); // Sanidad 100% pública
+  const vPensiones  = getVote(9); // Pensiones IPC
+  const vRegul      = getVote(10);// Regularización
+
+  let archetype = "";
+  let phrase = "";
+
+  const isRight = (win.n === 'PP' || win.n === 'VOX');
+  const isLeft  = (win.n === 'PSOE' || win.n === 'Sumar' || win.n === 'Podemos');
+
+  if (isRight) {
+    if (win.n === 'VOX') {
+      if (vSanidad === 1 || vPensiones === 1) {
+        archetype = "Conservador de arraigo social";
+        phrase = "Priorizas la firmeza en fronteras, la seguridad y la rebaja tributaria, pero mantienes una demanda nítida de protección pública en pensiones y sanidad.";
+      } else {
+        archetype = "Derecha liberal e identitaria";
+        phrase = "Defiendes con contundencia la propiedad privada, el control fronterizo riguroso y una reducción frontal del peso fiscal del Estado.";
+      }
+    } else { // PP
+      if (vJornada === 1 || vImpuestos === 1) {
+        archetype = "Liberal moderado con sensibilidad social";
+        phrase = "Tu marco de referencia es el centroderecha y la certidumbre económica, pero con apertura a reformas que alivien la carga de los asalariados.";
+      } else if (vOkupas === 1 && vSucesiones === 1) {
+        archetype = "Liberal-conservador de orden";
+        phrase = "Sitúas la seguridad jurídica, la supresión de trabas fiscales a las familias y la protección de la propiedad en el centro de tus prioridades.";
+      } else {
+        archetype = "Liberal institucional pragmático";
+        phrase = "Valoras la estabilidad económica, la bajada de impuestos y la gestión eficiente sin radicalismos ideológicos.";
+      }
+    }
+  } else if (isLeft) {
+    if (win.n === 'Podemos' || win.n === 'Sumar') {
+      if (vOkupas === 1 || vNucleares === 1) {
+        archetype = "Progresista de transformación pragmática";
+        phrase = "Coincides plenamente en redistribuir riqueza y regular la vivienda, pero mantienes una mirada más pragmática en materia de seguridad e industria energética.";
+      } else {
+        archetype = "Progresista transformador";
+        phrase = "Sitúas los derechos laborales, la intervención en el mercado de la vivienda y la justicia fiscal redistributiva en el centro absoluto de tu visión de país.";
+      }
+    } else { // PSOE
+      if (runnerUp.n === 'PP') {
+        archetype = "Socialdemócrata centrista e institucional";
+        phrase = "Valoras el equilibrio entre crecimiento económico y cohesión social, huyendo de posturas maximalistas y priorizando los consensos amplios.";
+      } else {
+        archetype = "Socialdemócrata de bienestar";
+        phrase = "Defiendes que el progreso colectivo se sostiene blindando el poder adquisitivo de pensionistas y trabajadores, fortaleciendo los servicios públicos.";
+      }
+    }
+  } else {
+    archetype = "Votante transversal e independiente";
+    phrase = "Tu patrón de respuesta demuestra que evalúas cada medida por su fondo práctico, sin encasillarte en la disciplina de ningún bloque tradicional.";
+  }
+
+  // Detección de empate o frontera ideológica
+  if (Math.abs(win.pct - runnerUp.pct) <= 3) {
+    archetype = "Votante bisagra y moderado";
+    phrase = `Tu posición ideológica se sitúa justo en la frontera entre ${win.n} y ${runnerUp.n}: compartes aspectos clave de ambos proyectos y tu decisión dependerá de prioridades puntuales.`;
+  }
+
+  return { archetype, phrase };
+}
+
 /* ═══════ SHARE IMAGE (Canvas 1080x1350) ═══════ */
-async function generateImage(res,win){
+async function generateImage(res,win,aiDiag){
   try { await document.fonts.ready; } catch(e){}
 
   const W=1080,H=1350,cv=document.createElement('canvas');
@@ -608,27 +779,34 @@ async function generateImage(res,win){
   // ── 2. HERO WINNER (Y: 290 - 580) ──
   cx.font='700 22px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
   cx.fillStyle='#737373';
-  cx.fillText('TU MAYOR COINCIDENCIA',540,310);
+  cx.fillText('TU MAYOR COINCIDENCIA',540,305);
 
   // Percentage (Big Hero)
-  cx.font='800 155px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  cx.font='800 150px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
   cx.fillStyle=win.c;
-  cx.fillText(win.pct+'%',540,415);
+  cx.fillText(win.pct+'%',540,410);
 
   // Winner Party Name
   cx.font='800 46px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
   cx.fillStyle='#1A1A1A';
-  cx.fillText(win.n,540,515);
+  cx.fillText(win.n,540,510);
+
+  // AI Archetype badge in image
+  if(aiDiag && aiDiag.archetype){
+    cx.font='italic 26px "Instrument Serif", Georgia, serif';
+    cx.fillStyle='#4A4238';
+    cx.fillText('«' + aiDiag.archetype + '»',540,555);
+  }
 
   // Subtitle
-  cx.font='500 22px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  cx.font='500 20px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
   cx.fillStyle='#8E8E8E';
-  cx.fillText('Afinidad calculada sobre 10 propuestas sin siglas',540,565);
+  cx.fillText('Afinidad calculada sobre 10 propuestas sin siglas',540,592);
 
   // Divider
   cx.beginPath();
-  cx.moveTo(90,610);
-  cx.lineTo(990,610);
+  cx.moveTo(90,625);
+  cx.lineTo(990,625);
   cx.stroke();
 
   // ── 3. BARS SECTION (Y: 660 - 1000) ──
@@ -760,8 +938,9 @@ $('#bdTog').addEventListener('click',function(){this.classList.toggle('open');$(
 $('#btnRe').addEventListener('click',()=>{
   ix=0;ans.length=0;pill.textContent='Elecciones 2026';
   // Reset show classes
-  ['rHero','rBars','rInsight','rImgSec','rTxtSec','rAd','bdTog','btnRe'].forEach(id=>{
-    const el=$('#'+id);el.classList.remove('show');el.style.display=''});
+  ['rHero','rAiCard','rBars','rInsightBox','rImgSec','rTxtSec','rAd','bdTog','btnRe'].forEach(id=>{
+    const el=$('#'+id);if(el){el.classList.remove('show','open');el.style.display='';}
+  });
   $('#bdList').classList.remove('vis');$('#bdTog').classList.remove('open');
   show(0);
 });
